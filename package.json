@@ -1,0 +1,33 @@
+{
+  "name": "api.da-mi",
+  "version": "1.0.0",
+  "description": "Back End",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "pg": "^3.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.12.2",
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lv-237-NodeJS/api.da-mi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lv-237-NodeJS/api.da-mi/issues"
+  },
+  "homepage": "https://github.com/Lv-237-NodeJS/api.da-mi#readme"
+}
