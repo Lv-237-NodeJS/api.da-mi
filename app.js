@@ -20,8 +20,8 @@ const sequelize = new Sequelize(env.DATABASE_NAME, env.DATABASE_USERNAME, env.DA
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.users = require('./server/models/users.js')(sequelize, Sequelize);
-db.profiles = require('./server/models/profiles.js')(sequelize, Sequelize);
+db.users = require('./server/models/user.model.js')(sequelize, Sequelize);
+db.profiles = require('./server/models/profile.model.js')(sequelize, Sequelize);
 
 module.exports = db;
    
