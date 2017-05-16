@@ -1,9 +1,17 @@
 {
-	"development": {
-	"username": "ivan",
-	"password": "123",
-	"database": "dami",
-	"host": "0.0.0.0",
-	"dialect": "postgres"
-	}
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./db.development.sqlite"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ":memory:"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "dami",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
 }
