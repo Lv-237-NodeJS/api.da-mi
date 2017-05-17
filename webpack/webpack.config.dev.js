@@ -3,19 +3,18 @@ const webpack = require('webpack');
 const NodemonBrowsersyncPlugin = require('nodemon-browsersync-webpack-plugin');
 
 module.exports = {
-  entry: './app.js',
+  entry: './server/app.js',
 
   output: {
     path: path.resolve('build'),
     filename: "bundle.js",
   },
-  config: {
-    path: path.resolve('config', 'database.json')
-  },
-  migrations_path: {
-    path: path.resolve('./server/migrations', 'migrate')
-  }
-
+node: {
+      net: 'empty',
+      tls: 'empty',
+      dns: 'empty',
+      fs:  'empty', 
+    },
   module: {
     rules: [
       {
@@ -25,14 +24,15 @@ module.exports = {
       }
     ],
   	loaders: [
-  	{ test: /\.json$/, loader: "json"}
+  	{ test: /\.json$/, loader: "json"},
+    { test: /\.jsx?$/, loader: "babel-loader"}
   	]
   },
 
   plugins: [
   new webpack.DefinePlugin({
-        'process.VERSION': require('./package.json').version
-      })
+        'process.VERSION': require('package.json').version
+      }),
   new webpack.HotModuleReplacementPlugin(),
   new NodemonBrowsersyncPlugin({
       script: 'server.js',
@@ -42,9 +42,9 @@ module.exports = {
       ],
       ext: 'js json',
       verbose: true
-    }, {
-      proxy: '127.0.0.1:8000'
-    })
+    }/*, {
+      proxy: 'localhost:8000'
+    }*/)
   ],
 
   devtool: 'source-map',
