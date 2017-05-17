@@ -1,17 +1,18 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "./db.development.sqlite"
-  },
-  "test": {
-    "dialect": "sqlite",
-    "storage": ":memory:"
+    "username": "postgres",
+    "password": "donttry123",
+    "database": "dami-dev",
+    "host": "0.0.0.0",
+    "port": 5432,
+    "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
+    "username": "postgres",
+    "password": "donttry123",
     "database": "dami",
-    "host": "127.0.0.1",
+    "host": "0.0.0.0",
+    "port": 5432,
     "dialect": "postgres"
   }
 }
