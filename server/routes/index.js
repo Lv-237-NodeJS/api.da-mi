@@ -12,4 +12,3 @@ module.exports = (app) => {
   app.delete('dami/users/:userId', usersController.destroy);
   
 };
-
