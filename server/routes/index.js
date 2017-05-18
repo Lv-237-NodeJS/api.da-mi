@@ -1,4 +1,5 @@
-const usersController = require('../controllers').users;
+const usersController = require('../controllers').user;
+const profileController = require('../controllers').profile;
 
 module.exports = (app) => {
   app.get('/dami', (req, res) => res.status(200).send({
@@ -10,5 +11,7 @@ module.exports = (app) => {
   app.get('/dami/users/:userId', usersController.retrieve);
   app.put('/dami/users/:userId', usersController.update);
   app.delete('dami/users/:userId', usersController.destroy);
+
+  app.put('/dami/users/:userId', profileController.update);
   
 };
