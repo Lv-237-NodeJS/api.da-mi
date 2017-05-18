@@ -1,4 +1,4 @@
-const usersController = require('../controllers').todos;
+const usersController = require('../controllers').users;
 
 module.exports = (app) => {
   app.get('/dami', (req, res) => res.status(200).send({
