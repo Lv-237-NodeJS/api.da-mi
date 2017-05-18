@@ -7,7 +7,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//require('./router')(app);
+require('./router')(app);
 
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to Da-Mi.',

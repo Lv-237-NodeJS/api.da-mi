@@ -14,5 +14,13 @@
     "host": "0.0.0.0",
     "port": 5432,
     "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "donttry123",
+    "database": "dami-test",
+    "host": "0.0.0.0",
+    "port": 5432,
+    "dialect": "postgres"
   }
 }
