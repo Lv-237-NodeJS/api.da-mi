@@ -30,7 +30,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config ./webpack/webpack.config.prod.js -p",
     "dev": "webpack --config ./webpack/webpack.config.dev.js",
-    "start": "webpack-dev-server --hot --inline --config ./webpack/webpack.config.dev.js"
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",
