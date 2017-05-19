@@ -1,50 +1,43 @@
 const path = require('path');
 const webpack = require('webpack');
-const NodemonBrowsersyncPlugin = require('nodemon-browsersync-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
+
 
 module.exports = {
   entry: './server/app.js',
 
   output: {
     path: path.resolve('build'),
-    filename: "bundle.js",
+    filename: "bundle.js"
   },
-node: {
-      net: 'empty',
-      tls: 'empty',
-      dns: 'empty',
-      fs:  'empty', 
-    },
+ 
+  target: 'node',
+  externals: [nodeExternals()],
+
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        query: {
+          presets: ['es2015']
+        }
+      },
+      { 
+        test: /\.json$/, 
+        loader: "json-loader"
       }
-    ],
-  	loaders: [
-  	{ test: /\.json$/, loader: "json"},
-    { test: /\.jsx?$/, loader: "babel-loader"}
-  	]
+    ]
   },
 
   plugins: [
   new webpack.DefinePlugin({
-        'process.VERSION': require('package.json').version
+        'process.VERSION': require('package.json').version,
+        'process.browser': true
       }),
   new webpack.HotModuleReplacementPlugin(),
-  new NodemonBrowsersyncPlugin({
-      script: 'server.js',
-      ignore: [
-          "src/*", 
-          "public/*"
-      ],
-      ext: 'js json',
-      verbose: true
-    }/*, {
-      proxy: 'localhost:8000'
-    }*/)
+  new webpack.NoEmitOnErrorsPlugin(),
   ],
 
   devtool: 'source-map',
