@@ -1,0 +1,29 @@
+{
+  "name": "dami-back-end",
+  "version": "1.0.0",
+  "description": "Back End",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lv-237-NodeJS/api.da-mi.git"
+  },
+  "author": "Lv-237 Web Ui/NodeJS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lv-237-NodeJS/api.da-mi/issues"
+  },
+  "homepage": "https://github.com/Lv-237-NodeJS/api.da-mi#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1",
+    "pg": "^6.2.2",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.4",
+    "sequelize-cli": "^2.7.0"
+  }
+}
