@@ -1,10 +1,8 @@
 'use strict';
-
 const bcrypt = require('bcrypt');
-
-module.exports = (sequelize,DataTypes) => {
-    const User = sequelize.define('user',{
-        ID: { 
+module.exports = (sequelize, DataTypes) => {
+    const User = sequelize.define('user', {
+        id: { 
           type: DataTypes.INTEGER, 
           primaryKey: true,
           autoIncrement: true 
@@ -26,18 +24,17 @@ module.exports = (sequelize,DataTypes) => {
         profile_id: { 
           type: DataTypes.INTEGER
         }, 
-        is_activate:{ 
+        is_activate: { 
           type: DataTypes.BOOLEAN, 
           allowNull: false 
         }, 
         status_user_state: { 
             type: DataTypes.STRING 
         } 
-        },{ 
+        }, { 
             timestamps: false,
             paranoid: true,
             underscored: true 
         });
-    
     return User;
 };

@@ -1,12 +1,12 @@
 'use strict';
 
-const express = require('express'),
-  bodyParser = require('body-parser'),
-  morgan = require('morgan'),
-  env = require('./server/config/env.js'),
-  router = require('./server/router/index'),
-  Sequelize = require('sequelize'),
-  db = {};
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const env = require('./server/config/env.js');
+const router = require('./server/router/index');
+const Sequelize = require('sequelize');
+const db = {};
 
 const app = express();
 const PORT = env.PORT;
