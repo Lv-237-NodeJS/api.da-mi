@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "buid:prod": "webpack --config ./webpack/webpack.config.prod.js -p",
+    "dev": "webpack --config ./webpack/webpack.config.dev.js",
+    "start": "npm run dev"
   },
   "repository": {
     "type": "git",
@@ -22,10 +25,24 @@
   "homepage": "https://github.com/Lv-237-NodeJS/api.da-mi#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "clean-webpack-plugin": "^0.1.16",
     "express": "^4.15.3",
     "morgan": "^1.8.1",
     "pg": "^6.2.2",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "strip-loader": "^0.1.2",
+    "webpack": "^2.5.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "nodemon": "^1.11.0"
   }
 }
