@@ -10,4 +10,4 @@ const env = {
   DATABASE_DIALECT: process.env.DATABASE_DIALECT || 'postgres',
   NODE_ENV: process.env.NODE_ENV || 'development'
 };
-module.exports = env;
+module.exports = env; 

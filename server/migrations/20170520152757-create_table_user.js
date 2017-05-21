@@ -18,7 +18,7 @@ module.exports = {
            type: Sequelize.TEXT, 
            allowNull: false,
            validate: {
-             len: [8,15]
+             len: [8,30]
            }
          }, 
          profile_id: { 
@@ -36,4 +36,4 @@ module.exports = {
   down: function (queryInterface, Sequelize) {
     return queryInterface.dropTable('users');
   }
-};
+}; 
