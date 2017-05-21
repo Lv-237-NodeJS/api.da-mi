@@ -39,4 +39,4 @@ jspm_packages
 # Also
 .sequelizerc
 node_modules
-config.json
+config/config.json
