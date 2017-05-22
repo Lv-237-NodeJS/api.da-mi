@@ -7,9 +7,8 @@ module.exports = {
 
   output: {
     path: path.resolve('build'),
-    filename: "bundle.js"
+    filename: 'bundle.js',
   },
- 
   target: 'node',
   externals: [nodeExternals()],
 
@@ -18,24 +17,24 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: 'babel-loader',
       },
-      { 
-        test: /\.json$/, 
-        loader: "json-loader"
-      }
-    ]
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+    ],
   },
 
   plugins: [
   new webpack.DefinePlugin({
         'process.VERSION': require('package.json').version,
-        'process.browser': true
+        'process.browser': true,
       }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
   ],
 
-  devtool: 'source-map'
-  
-}
+  devtool: 'source-map',
+
+};
