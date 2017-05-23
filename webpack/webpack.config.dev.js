@@ -16,21 +16,16 @@ module.exports = {
     rules: [
       {
         test: /\.js?$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
       },
       {
         test: /\.json$/,
-        loader: 'json-loader',
+        use: 'json-loader',
       },
     ],
   },
 
   plugins: [
-  new webpack.DefinePlugin({
-        'process.VERSION': require('package.json').version,
-        'process.browser': true,
-      }),
-  new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
   ],
 

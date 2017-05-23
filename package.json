@@ -2,26 +2,10 @@
   "name": "api.da-mi",
   "version": "1.0.0",
   "description": "Back End",
-  "main": "app.js",
+  "main": ".eslintrc.js",
   "directories": {
     "test": "test"
   },
-  "scripts": {
-    "build:prod": "NODE_ENV=production webpack -p --config ./webpack/webpack.config.prod.js",
-    "start:dev": "webpack --config ./webpack/webpack.config.dev.js",
-    "start:prod": "npm run build:prod && node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Lv-237-NodeJS/api.da-mi.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Lv-237-NodeJS/api.da-mi/issues"
-  },
-  "homepage": "https://github.com/Lv-237-NodeJS/api.da-mi#readme",
   "dependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
@@ -35,11 +19,28 @@
     "pg": "^6.2.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.4",
-    "strip-loader": "^0.1.2",
+    "sequelize-cli": "^2.7.0",
     "webpack": "^2.6.0",
+    "webpack-dev-server": "^2.4.5",
     "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
-  }
+  },
+  "scripts": {
+    "build:prod": "NODE_ENV=production webpack -p --config ./webpack/webpack.config.prod.js",
+    "start:dev": "webpack-dev-server --hot --inline --config ./webpack/webpack.config.dev.js",
+    "start:prod": "npm run build:prod && node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lv-237-NodeJS/api.da-mi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lv-237-NodeJS/api.da-mi/issues"
+  },
+  "homepage": "https://github.com/Lv-237-NodeJS/api.da-mi#readme"
 }
