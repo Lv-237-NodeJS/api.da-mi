@@ -4,22 +4,13 @@ module.exports = function(sequelize, DataTypes) {
   const Profile = sequelize.define('Profile', {
     first_name: {
       type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        max: 250
-      }
+      allowNull: false
     },
     last_name: {
-      type: Sequelize.STRING,
-      validate: {
-        max: 256
-      }
+      type: Sequelize.STRING
     },
     avatar: {
-      type: Sequelize.BLOB,
-      validate: {
-        max: 16777215
-      }
+      type: Sequelize.BLOB
     }
   }, {
     timestamps: false,
