@@ -2,7 +2,7 @@
   "name": "api.da-mi",
   "version": "1.0.0",
   "description": "Back End",
-  "main": ".eslintrc.js",
+  "main": "app.js",
   "directories": {
     "test": "test"
   },
