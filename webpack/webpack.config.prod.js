@@ -1,6 +1,6 @@
 
-const WebpackStripLoader = require('strip-loader');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpackStripLoader = require('strip-loader');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 const rootPath = __dirname + '/';
 const buildPath = __dirname + '/build';
 let devConfig = require('./webpack.config.dev.js');
@@ -15,7 +15,7 @@ devConfig.module.rules.push(stripLoader);
 
 module.exports = {
   plugins: [
-    new CleanWebpackPlugin([buildPath], {
+    new cleanWebpackPlugin([buildPath], {
       root: rootPath,
       verbose: true,
       dry: false,
