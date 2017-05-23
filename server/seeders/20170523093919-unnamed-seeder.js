@@ -18,4 +18,3 @@ module.exports = {
     return queryInterface.bulkDelete('Profiles', null, {});
   }
 };
- 
