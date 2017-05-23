@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false
       },
       password: {
-        type: Sequelize.TEXT,
+        type: Sequelize.VIRTUAL,
         allowNull: false
       },
       profile_id: {

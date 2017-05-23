@@ -1,5 +1,6 @@
 {
   "preset": "google",
-  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties",
-  "maximumLineLength": 100
+  "requireCamelCaseOrUpperCaseIdentifiers": {"ignoreProperties": true },
+  "maximumLineLength": 100,
+  "validateIndentation": 2
 }
