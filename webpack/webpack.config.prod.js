@@ -1,26 +1,17 @@
-
-const webpackStripLoader = require('strip-loader');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
-const rootPath = __dirname + '/';
-const buildPath = __dirname + '/build';
+const path = require('path');
+const rootPath = path.resolve('./');
+const buildPath = path.resolve('build');
 let devConfig = require('./webpack.config.dev.js');
 
-const stripLoader = {
-  test: [/\.js$/],
-  exclude: /node_modules/,
-  use: 'strip-loader',
-};
+devConfig.output.path = path.resolve('./build');
 
-devConfig.module.rules.push(stripLoader);
+let cleanWebPlugin = new cleanWebpackPlugin([buildPath], {
+  root: rootPath,
+  verbose: true,
+  dry: false
+});
 
-module.exports = {
-  plugins: [
-    new cleanWebpackPlugin([buildPath], {
-      root: rootPath,
-      verbose: true,
-      dry: false,
-    }),
-  ],
-};
+devConfig.plugins.push(cleanWebPlugin);
 
 module.exports = devConfig;
