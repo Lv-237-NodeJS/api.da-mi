@@ -1,4 +1,4 @@
-const profileController = require('../controllers/profile');
+const profileController = require('../controllers').profiles;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({

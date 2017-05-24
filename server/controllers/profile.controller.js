@@ -1,10 +1,10 @@
 'use strict';
 
-const Profile = require('../models/profile');
+const profile = require('../models').profile;
 
 module.exports = {
   create(req, res) { // POST single profile
-    return Profile
+    return profile
     .create({
       first_name: req.body.first_name,
       last_name: req.body.last_name,
@@ -14,17 +14,17 @@ module.exports = {
   },
   
   list(req, res) { // Display list of all profiles
-    return Profiles
+    return profile
     .all()
-    .then(profile => res.status(201).send(profile))
+    .then(profiles => res.status(201).send(profiles))
     .catch(error => res.status(400).send(error));
   },
   
   retrieve(req, res) {  // GET one profile by id
-    return Profile
+    return profile
     .findById(req.params.id, {
       include: [{
-        model: Profile,
+        model: profile,
         as: 'profiles',
       }]
     })
@@ -40,10 +40,10 @@ module.exports = {
   },
   
   update(req, res) {
-    return Profile
+    return profile
     .findById(req.params.id, {
       include: [{
-        model: Profile,
+        model: profile,
         as: 'profiles',
       }],
     })
@@ -65,7 +65,7 @@ module.exports = {
   },
   
   destroy(req, res){  // DELETE single profile
-    return Profile
+    return profile
     .findById(req.params.id)
     .then(profile => {
       if (!profile) {
