@@ -27,6 +27,7 @@ module.exports = {
 
   plugins: [
   new webpack.NoEmitOnErrorsPlugin(),
+  new webpack.EnvironmentPlugin({'NODE_ENV': 'development'}),
   ],
 
   devtool: 'source-map',
