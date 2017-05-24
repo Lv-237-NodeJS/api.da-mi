@@ -15,6 +15,23 @@ module.exports = function(sequelize, DataTypes) {
     avatar: {
       type: DataTypes.BLOB,
       max: 65000
+    },
+    bith_date: {
+      type: DataTypes.DATE
+    },
+    address: {
+      type: DataTypes.STRING,
+      validate: {
+        max: 200
+      } 
+    },
+    city: {
+      type: DataTypes.STRING,
+      max: 200
+    },
+    country: {
+      type: DataTypes.STRING,
+      max: 200
     }
   }, {
     timestamps: false,

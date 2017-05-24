@@ -22,6 +22,21 @@ module.exports = {
       avatar: {
         type: Sequelize.BLOB,
         max: 65000
+      },
+      birth_date: {
+        type: Sequelize.DATE
+      },
+      address: {
+        type: DataTypes.STRING,
+        max: 200
+      },
+      city: {
+        type: DataTypes.STRING,
+        max: 200
+      },
+      country: {
+        type: DataTypes.STRING,
+        max: 200
       }
     });
   },
