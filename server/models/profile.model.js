@@ -1,12 +1,12 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  const Profile = sequelize.define('Profile', {
+  var Profile = sequelize.define('Profile', {
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,
       max: 50
-    },
+      },
     last_name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -21,29 +21,24 @@ module.exports = function(sequelize, DataTypes) {
     },
     address: {
       type: DataTypes.STRING,
-      validate: {
-        max: 200
-      } 
+      max: 250
     },
     city: {
       type: DataTypes.STRING,
-      max: 200
+      max: 100
     },
     country: {
       type: DataTypes.STRING,
-      max: 200
-    }
+      max: 100
+    },
   }, {
-    timestamps: false,
-    createdAt: false,
-    updatedAt: false,
     classMethods: {
-      associate: (models) => {
-        Profile.belongsTo(models.User, {
-          foreignKey: 'profile_id',
-          onDelete: 'CASCADE',
-        });
-      },
+      // associate: function(models) {
+      //   Profile.belongsTo(models.Users, {
+      //     foreignKey: 'id',
+      //     onDelete: 'CASCADE',
+      //   });
+      // },
     },
   });
   return Profile;

@@ -1,5 +1,5 @@
-const Profile = require('./profile.controller');
+const profile = require('./profile.controller');
 
 module.exports = {
-  Profile,
+  profiles,
 };
