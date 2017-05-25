@@ -40,3 +40,4 @@ jspm_packages
 .sequelizerc
 node_modules
 config/config.json
+build
