@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(sequelize, DataTypes) {
-  const profile = sequelize.define('profile', {
+  const Profile = sequelize.define('Profile', {
     first_name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BLOB,
       max: 65000
     },
-    bith_date: {
+    birth_date: {
       type: DataTypes.DATE
     },
     address: {
@@ -39,12 +39,12 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: false,
     classMethods: {
       associate: (models) => {
-        Profiles.belongsTo(models.users, {
+        Profile.belongsTo(models.User, {
           foreignKey: 'profile_id',
           onDelete: 'CASCADE',
         });
       },
     },
   });
-  return profile;
+  return Profile;
 };
