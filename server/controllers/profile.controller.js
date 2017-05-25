@@ -1,18 +1,18 @@
 'use strict';
 
-const profile = require('../models').profile;
+const Profile = require('../models/profile.model');
 
 module.exports = {
   retrieve(req, res) {
-    return profile
+    return profiles
     .findById(req.params.id, {
       include: [{
-        model: profile,
+        model: Profile,
         as: 'profiles',
-      }]
+      }],
     })
-    .then(profile => {
-      if (!profile) {
+    .then(Profile => {
+      if (!Profile) {
         return res.status(404).send({
           message: 'Profile Not Found',
         });
@@ -23,20 +23,20 @@ module.exports = {
   },
   
   update(req, res) {
-    return profile
+    return Profile
     .findById(req.params.id, {
       include: [{
-        model: profile,
+        model: Profile,
         as: 'profiles',
       }],
     })
-    .then(profile => {
-      if (!profile) {
+    .then(Profile => {
+      if (!Profile) {
         return res.status(404).send({
           message: 'Profile Not Found',
         });
       }
-      return profile
+      return Profile
       .update({
         first_name: req.body.first_name || profiles.first_name,
         last_name: req.body.last_name || profiles.last_name,
