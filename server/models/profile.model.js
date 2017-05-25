@@ -33,12 +33,9 @@ module.exports = function(sequelize, DataTypes) {
     },
   }, {
     classMethods: {
-      // associate: function(models) {
-      //   Profile.belongsTo(models.Users, {
-      //     foreignKey: 'id',
-      //     onDelete: 'CASCADE',
-      //   });
-      // },
+      associate: function(models) {
+       
+      },
     },
   });
   return Profile;
