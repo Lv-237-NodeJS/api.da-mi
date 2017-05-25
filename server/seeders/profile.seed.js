@@ -6,12 +6,16 @@ module.exports = {
       {
         first_name: "John",
         last_name: "Doe",
+        birth_date: "",
+        city: "Chicago",
         country: "US"
       },
       {
         first_name: "Tom",
         last_name: "Smith",
-        country: "UK"
+        birth_date: "",
+        city: "London",
+        country: "UK",
       }
     ], {});
   },
