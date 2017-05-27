@@ -10,8 +10,7 @@ module.exports = {
         email: req.body.email,
         password: req.body.password,
         profile_id: req.body.profile_id,
-        is_activate: req.body.is_activate,
-        status_state: req.body.status_state
+        is_activate: req.body.is_activate
       })
       .then((user) => res.status(201).send(user))
       .catch((error) => res.status(400).send(error));
@@ -24,14 +23,14 @@ module.exports = {
           ['created_at', 'ASC']
         ],
       })
-      .then((users) => res.status(200).send(users))
-      .catch((error) => res.status(400).send(error));
+      .then(users => res.status(200).send(users))
+      .catch(error => res.status(400).send(error));
   },
 
   retrieve(req, res) {
     return User
-      .findById(req.params.id, {})
-      .then((user) => {
+      .findById(req.params.id)
+      .then(user => {
         if (!user) {
           return res.status(404).send({
             message: 'User Not Found',
