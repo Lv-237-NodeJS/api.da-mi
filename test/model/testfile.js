@@ -9,13 +9,6 @@ module.exports  = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    password: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      /*validate: {
-        len: [6,20]
-      }*/
-    },
     profile_id: {
       type: DataTypes.INTEGER,
       allowNull: false
