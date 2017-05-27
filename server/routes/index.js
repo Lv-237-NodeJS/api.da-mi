@@ -5,6 +5,6 @@ module.exports = (app) => {
     message: 'Welcome to the DAMI API!',
   }));
 
-  app.get('/api/profiles/:id', profileController.retrieve);
-  app.put('/api/profiles/:id', profileController.update);
+  app.get('/api/profile/:id', profileController.retrieve);
+  app.put('/api/profile/:id', profileController.update);
 };

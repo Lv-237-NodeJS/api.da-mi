@@ -31,12 +31,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       max: 100
     },
-  }, {
-    classMethods: {
-      associate: function(models) {
-       
-      },
-    },
   });
   return Profile;
 };
