@@ -13,20 +13,17 @@ module.exports  = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        len: [6,20]
-      }
+          is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/i,
+          min: 6
+        }
     },
     profile_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     is_activate: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
-    status_state: {
-      type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     }
   }, {
     paranoid: false,
