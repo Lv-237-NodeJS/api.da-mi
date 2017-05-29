@@ -2,18 +2,16 @@
 
 const User = require('../../config/db').Users;
 const Profile = require('../../config/db').Profiles;
+const bcrypt = require('bcrypt');
 
 module.exports = {
   create(req, res) {
+    let assignUser = Object.assign({}, req.body);
+    Profile.create();
     return User
-      .create({
-        email: req.body.email,
-        password: req.body.password,
-        profile_id: req.body.profile_id,
-        is_activate: req.body.is_activate
-      })
-      .then((user) => res.status(201).send(user))
-      .catch((error) => res.status(400).send(error));
+      .create(assignUser)
+      .then(user => res.status(201).send(user))
+      .catch(error => res.status(400).send(error));
   },
 
   list(req, res) {
@@ -33,35 +31,30 @@ module.exports = {
       .then(user => {
         if (!user) {
           return res.status(404).send({
-            message: 'User Not Found',
+            message: 'User has not found. Please ty again!'
           });
         }
         return res.status(200).send(user);
       })
-      .catch((error) => res.status(400).send(error));
+      .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {
     return User
-      .findById(req.params.id, {})
+      .findById(req.params.id)
       .then(user => {
         if (!user) {
           return res.status(404).send({
-            message: 'User Not Found',
+            message: 'User has not found. Please ty again!'
           });
         }
+        let assignUser = Object.assign({}, req.body);
         return user
-          .update({
-            email: req.body.email || user.email,
-            password: req.body.password || user.password,
-            profile_id: req.body.profile_id || user.profile_id,
-            is_activate: req.body.is_activate || user.is_activate,
-            status_state: req.body.status_state || user.status_state,
-          })
-          .then(() => res.status(200).send(user))
-          .catch((error) => res.status(400).send(error));
+          .update(assignUser || user)
+          .then(user => res.status(200).send(user))
+          .catch(error => res.status(400).send(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch(error => res.status(400).send(error));
   },
 
   destroy(req, res) {
@@ -69,15 +62,15 @@ module.exports = {
       .findById(req.params.id)
       .then(user => {
         if (!user) {
-          return res.status(400).send({
-            message: 'User has not found. Please try again!',
+          return res.status(404).send({
+            message: 'User has not found. Please try again!'
           });
         }
         return user
           .destroy()
-          .then(() => res.status(204).send())
-          .catch((error) => res.status(400).send(error));
+          .then(user => res.status(204).send(user))
+          .catch(error => res.status(404).send(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch(error => res.status(404).send(error));
   }
 };
