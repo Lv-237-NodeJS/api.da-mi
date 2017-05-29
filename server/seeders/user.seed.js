@@ -19,7 +19,7 @@ module.exports = {
         created_at: '2017-05-25 15:53:13.815+03',
         updated_at: '2017-05-25 15:53:13.815+03'
       }
-    ], {}),
+    ]),
   down: (queryInterface, Sequelize) =>
     queryInterface.bulkDelete('Users', null)
 };
