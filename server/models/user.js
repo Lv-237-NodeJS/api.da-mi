@@ -29,7 +29,7 @@ module.exports  = (sequelize, DataTypes) => {
     paranoid: false,
     underscored: true,
     classMethods: {
-      associate: (models) => {
+      associate: models => {
         User.hasOne(models.Profiles, {
           foreignKey: 'profile_id'
         });
