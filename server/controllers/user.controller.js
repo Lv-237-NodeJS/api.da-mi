@@ -10,7 +10,7 @@ module.exports = {
     Profile.create();
     return User
       .create(assignUser)
-      .then(user => res.status(201).send(user))
+      .then((user) => res.status(201).send(user))
       .catch(error => res.status(400).send(error));
   },
 
