@@ -10,43 +10,37 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       first_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        max: 50
+        type: Sequelize.STRING(50),
+        allowNull: false
       },
       last_name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        max: 50
+        type: Sequelize.STRING(50),
+        allowNull: false
       },
       avatar: {
-        type: Sequelize.BLOB,
-        max: 65000
+        type: Sequelize.BLOB
       },
       birth_date: {
         type: Sequelize.DATE
       },
       address: {
-        type: Sequelize.STRING,
-        max: 250
+        type: Sequelize.STRING(255)
       },
       city: {
-        type: Sequelize.STRING,
-        max: 100
+        type: Sequelize.STRING(100)
       },
       country: {
-        type: Sequelize.STRING,
-        max: 100
+        type: Sequelize.STRING(100)
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        // defaultValue: Sequelize.fn('now')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        // defaultValue: Sequelize.fn('now')
       }
     });
   },

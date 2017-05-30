@@ -3,34 +3,34 @@
 module.exports = function(sequelize, DataTypes) {
   var Profile = sequelize.define('Profile', {
     first_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      max: 50
+      type: DataTypes.STRING(50),
+      allowNull: false
     },
     last_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      max: 50
+      type: DataTypes.STRING(50),
+      allowNull: false
     },
     avatar: {
       type: DataTypes.BLOB,
-      max: 65000
+      validate: {
+        max: 65000
+      }
     },
     birth_date: {
       type: DataTypes.DATE
     },
     address: {
-      type: DataTypes.STRING,
-      max: 250
+      type: DataTypes.STRING(255)
     },
     city: {
-      type: DataTypes.STRING,
-      max: 100
+      type: DataTypes.STRING(100)
     },
     country: {
-      type: DataTypes.STRING,
-      max: 100
-    },
+      type: DataTypes.STRING(100)
+    }
+  },{
+    paranoid: false,
+    timestamps: true
   });
   return Profile;
 };
