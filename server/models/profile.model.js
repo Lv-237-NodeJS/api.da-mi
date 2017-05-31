@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
     country: {
       type: DataTypes.STRING(100)
     }
-  },{
+  }, {
     paranoid: false,
     timestamps: true
   });
