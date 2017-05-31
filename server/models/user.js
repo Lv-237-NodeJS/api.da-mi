@@ -14,7 +14,7 @@ module.exports  = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
           is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/i,
-          min: 6
+          len: [6, 20]
         }
     },
     profile_id: {
@@ -27,7 +27,6 @@ module.exports  = (sequelize, DataTypes) => {
     }
   }, {
     paranoid: false,
-    underscored: true,
     classMethods: {
       associate: models => {
         User.hasOne(models.Profiles, {
