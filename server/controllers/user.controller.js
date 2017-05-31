@@ -20,7 +20,7 @@ module.exports = {
     });
 
     User.hook('afterValidate', (user, options) => {
-      assignUser.password = bcrypt.hashSync(assignUser.password, rounds);
+      user.password = bcrypt.hashSync(user.password, rounds);
     });
   }
 };
