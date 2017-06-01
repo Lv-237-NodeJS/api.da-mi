@@ -7,9 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const secret = require(path.resolve('./config', 'secretkey.json'));
-
 let	readHTMLTemplate = function(_name, callback) {	
-
     fs.readFile(path.join('./server/templates/mailer/' + _name + '.html'), {encoding: 'utf-8'}, 
     	function (err, html) {
 	        if (err) {
@@ -18,7 +16,7 @@ let	readHTMLTemplate = function(_name, callback) {
 	        callback(null, html);
 	    }
     );
-};
+}
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: 'smtp.gmail.com',
@@ -32,13 +30,9 @@ let transport = nodemailer.createTransport(smtpTransport({
 
 module.exports = {
 	_send(_data, _template) {
-
-		readHTMLTemplate(_template, function(err, html) {
-			
-			let signupUrl = 'http://'+ _data.host + _data.route +_data.token;
-		
+		readHTMLTemplate(_template, function(err, html) {			
+			let signupUrl = 'http://'+ _data.host + _data.route +_data.token;		
 			let template = handlebars.compile(html);
-
 			let replacements = {
 				firstname: _data.firstname,
 			    lastname: _data.lastname,
@@ -61,8 +55,7 @@ module.exports = {
 		    	path: ('./server/templates/mailer/img/' + _data.img),
 		    	cid: 'bonsai@kreata.ee'
 			    }]
-		     };
-		    
+		     };		    
 		    transport.sendMail(mailOptions, function (error, response) {
 		        if (error) {
 		         	callback(error);
