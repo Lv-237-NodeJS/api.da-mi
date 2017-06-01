@@ -7,7 +7,7 @@ module.exports = {
     queryInterface.bulkInsert('Users', [
       {
         email: 'ivan.yarymovych@gmail.com',
-        password: passwordHash.generate('password'),
+        password: passwordHash.generate('P!assword!1'),
         is_activate: true,
         profile_id: 1,
         createdAt: '2017-06-01 20:32:03.52+03',
@@ -15,7 +15,7 @@ module.exports = {
       },
       {
         email: 'roma@gmail.com',
-        password: passwordHash.generate('13452'),
+        password: passwordHash.generate('13DDss@'),
         is_activate: true,
         profile_id: 2,
         createdAt: '2017-06-01 20:32:03.52+03',
