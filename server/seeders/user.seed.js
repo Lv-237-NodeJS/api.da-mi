@@ -1,14 +1,13 @@
 'use strict';
 
-const bcrypt = require('bcrypt');
-const rounds = 8;
+const passwordHash = require('password-hash');
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.bulkInsert('Users', [
       {
         email: 'ivan.yarymovych@gmail.com',
-        password: bcrypt.hashSync('YaRymov!11', rounds),
+        password: passwordHash.generate('YaRymov!11'),
         is_activate: true,
         profile_id: 1,
         createdAt: '2017-05-25 15:53:13.815+03',
@@ -16,7 +15,7 @@ module.exports = {
       },
       {
         email: 'roma@gmail.com',
-        password: bcrypt.hashSync('112345Qwerty%', rounds),
+        password: passwordHash.generate('112345Qwerty%'),
         is_activate: true,
         profile_id: 2,
         createdAt: '2017-05-25 15:53:13.815+03',
