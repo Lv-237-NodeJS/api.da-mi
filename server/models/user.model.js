@@ -15,7 +15,7 @@ module.exports  = (sequelize, DataTypes) => {
       validate: {
           is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/i,
           len: [6,20]
-      }
+        }
     },
     profile_id: {
       type: DataTypes.INTEGER,

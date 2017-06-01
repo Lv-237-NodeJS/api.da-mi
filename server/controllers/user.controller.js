@@ -8,7 +8,7 @@ module.exports = {
     let assignUser = Object.assign({}, req.body);
 
     User.hook('afterValidate', (user, options) => {
-       user.password = passwordHash.generate(user.password);
+      user.password = passwordHash.generate(user.password);
     });
 
     User.create(assignUser)
