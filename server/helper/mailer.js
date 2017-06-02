@@ -10,15 +10,15 @@ const secret = require(path.resolve('./config', 'secretkey.json'));
 let readHTMLTemplate = function(_name, callback) {
     fs.readFile(path.join('./server/templates/mailer/' + _name + '.html'), {
             encoding: 'utf-8'
-        },
-        function(err, html) {
+          },
+          function(err, html) {
             if (err) {
-                throw err;
+              throw err;
             }
             callback(null, html);
-        }
-    );
-};
+          }
+      );
+  };
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: 'smtp.gmail.com',
@@ -27,12 +27,12 @@ let transport = nodemailer.createTransport(smtpTransport({
     auth: {
         user: secret.gmail.user,
         pass: secret.gmail.pass
-    }
-}));
+      }
+  }));
 
 module.exports = {
     _send(_data, _template) {
-        readHTMLTemplate(_template, function(err, html) {
+      readHTMLTemplate(_template, function(err, html) {
             let signupUrl = 'http://' + _data.host + _data.route + _data.token;
             let template = handlebars.compile(html);
             let replacements = {
@@ -43,7 +43,7 @@ module.exports = {
                 eventName: _data.eventName,
                 date: _data.date,
                 eventDescription: _data.eventDescription
-            };
+              };
 
             let htmlToSend = template(replacements);
 
@@ -56,13 +56,13 @@ module.exports = {
                     filename: _data.img,
                     path: ('./server/templates/mailer/img/' + _data.img),
                     cid: 'bonsai@kreata.ee'
-                }]
-            };
+                  }]
+              };
             transport.sendMail(mailOptions, function(error, response) {
                 if (error) {
-                    callback(error);
+                  callback(error);
                 }
-            });
-        });
+              });
+          });
     }
-};
+  };
