@@ -1,32 +1,29 @@
 'use strict';
 
 module.exports = {
-  up: function(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Profiles', [
+  up: (queryInterface, Sequelize) =>
+    queryInterface.bulkInsert('Profiles', [
       {
-        first_name: 'John',
-        last_name: 'Doe',
-        birth_date: '2000-06-01 20:32:03.52+03',
-        address: 'Street 1',
-        city: 'Chicago',
-        country: 'US',
-        createdAt: '2017-05-30T19:34:26.150Z',
-        updatedAt: '2017-05-30T19:34:26.150Z'
+        first_name: 'Ivan',
+        last_name: 'Yarymovych',
+        birth_date: '1994-07-02',
+        address: 'Sheptyckogo street, 46',
+        city: 'Lviv',
+        country: 'Ukraine',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
       },
       {
-        first_name: 'Tom',
-        last_name: 'Smith',
-        birth_date: '2000-06-01 20:32:03.52+03',
-        address: 'Street 2',
-        city: 'London',
-        country: 'UK',
-        createdAt: '2017-05-30T19:34:26.150Z',
-        updatedAt: '2017-05-30T19:34:26.150Z'
+        first_name: 'Roman',
+        last_name: 'Kulyk',
+        birth_date: '1996-06-17',
+        address: 'Nova street, 2',
+        city: 'Novyi Rozdil',
+        country: 'Ukraine',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
       }
-    ]);
-  },
-
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('Profiles', null);
-  }
+    ]),
+  down: (queryInterface, Sequelize) =>
+    queryInterface.bulkDelete('Profiles', null)
 };
