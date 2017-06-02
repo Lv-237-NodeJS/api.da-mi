@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
-  var Profile = sequelize.define('Profile', {
+module.exports = (sequelize, DataTypes) => {
+  const Profile = sequelize.define('Profile', {
     first_name: {
       type: DataTypes.STRING(50),
       allowNull: false
