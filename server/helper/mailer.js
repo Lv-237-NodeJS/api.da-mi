@@ -33,13 +33,13 @@ let transport = nodemailer.createTransport(smtpTransport({
 module.exports = {
     _send(_data, _template) {
       readHTMLTemplate(_template, function(err, html) {
-            let signupUrl = 'http://' + _data.host + _data.route + _data.token;
+            let url = 'http://' + _data.host + _data.route + _data.token;
             let template = handlebars.compile(html);
             let replacements = {
                 firstname: _data.firstname,
                 lastname: _data.lastname,
                 to: _data.email,
-                signupUrl: signupUrl,
+                url: url,
                 eventName: _data.eventName,
                 date: _data.date,
                 eventDescription: _data.eventDescription
