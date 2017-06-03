@@ -3,22 +3,10 @@
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 const handlebars = require('handlebars');
-const fs = require('fs');
+const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
 
 const secret = require(path.resolve('./config', 'secretkey.json'));
-let readHTMLTemplate = function(_name, callback) {
-    fs.readFile(path.join('./server/templates/mailer/' + _name + '.html'), {
-            encoding: 'utf-8'
-          },
-          function(err, html) {
-            if (err) {
-              throw err;
-            }
-            callback(null, html);
-          }
-      );
-  };
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: 'smtp.gmail.com',
@@ -29,40 +17,46 @@ let transport = nodemailer.createTransport(smtpTransport({
         pass: secret.gmail.pass
       }
   }));
+let templatesDir = ('./server/views/emails');
 
 module.exports = {
-    _send(_data, _template) {
-      readHTMLTemplate(_template, function(err, html) {
-            let url = 'http://' + _data.host + _data.route + _data.token;
-            let template = handlebars.compile(html);
-            let replacements = {
-                firstname: _data.firstname,
-                lastname: _data.lastname,
-                to: _data.email,
-                url: url,
-                eventName: _data.eventName,
-                date: _data.date,
-                eventDescription: _data.eventDescription
-              };
+  _send(_data, _template) {
+    let url = 'http://' + _data.host + _data.route + _data.token;
+    let template = new EmailTemplate(path.join(templatesDir, _template));
+    let locals = {
+        firstname: _data.firstname,
+        lastname: _data.lastname,
+        to: _data.email,
+        url: url,
+        eventName: _data.eventName,
+        date: _data.date,
+        eventDescription: _data.eventDescription
+      };
 
-            let htmlToSend = template(replacements);
+    template.render(locals, (err, sendMail) => {
 
-            let mailOptions = {
-                from: '"Da-Mi" <no-reply@da-mi.com>',
-                to: _data.email,
-                subject: _data.subject,
-                html: htmlToSend,
-                attachments: [{
-                    filename: _data.img,
-                    path: ('./server/templates/mailer/img/' + _data.img),
-                    cid: 'bonsai@kreata.ee'
-                  }]
-              };
-            transport.sendMail(mailOptions, function(error, response) {
-                if (error) {
-                  callback(error);
-                }
-              });
-          });
-    }
-  };
+      if (err) {
+        return console.error(err);
+      }
+
+      let mailOptions = {
+        from: '"Da-Mi" <no-reply@da-mi.com>',
+        to: _data.email,
+        subject: _data.subject,
+        html: sendMail.html,
+        text: sendMail.text,
+        attachments: [{
+          filename: _data.img,
+          path: ('./server/views/emails/img/' + _data.img),
+          cid: 'bonsai@kreata.ee'
+        }]
+      };
+
+      transport.sendMail(mailOptions, (error, response) => {
+        if (error) {
+          callback(error);
+        }
+      });
+    });
+  }
+};
