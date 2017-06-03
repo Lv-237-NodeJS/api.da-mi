@@ -65,6 +65,6 @@ module.exports = {
         user.update({is_activate: true});
         return res.status(200).send(user);
       }
-    })
+    });
   }
 };
