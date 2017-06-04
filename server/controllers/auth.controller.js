@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 
 module.exports = {
-
   login (req, res) {
     User.findOne({ where: {email: req.body.email} }).then(user => {
       if (!user || !passwordHash.verify(req.body.password, user.password)) {
@@ -21,5 +20,4 @@ module.exports = {
     })
     .catch(error => res.status(401).send(error));
   }
-
 };
