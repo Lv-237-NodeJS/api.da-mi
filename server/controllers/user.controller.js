@@ -57,16 +57,16 @@ module.exports = {
     .catch(error => res.status(404).send(error));
   },
   activation(req, res) {
-      User.findAll({
+    User.findAll({
         where: {
           password: req.params.token
-      }
-    })
+        }
+      })
     .then(user => {
       if (!user) {
         return res.status(404).send({message: 'User Not Found'});
       } else {
-          User.update({
+        User.update({
           is_activate: true
         }, {
           where: {
@@ -77,4 +77,4 @@ module.exports = {
       }
     });
   }
-}
+};
