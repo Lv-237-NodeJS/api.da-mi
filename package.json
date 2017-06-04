@@ -18,6 +18,7 @@
     "express-session": "^1.15.3",
     "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.1",
+    "password-hash": "^1.2.2",
     "pg": "^6.2.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.4",
