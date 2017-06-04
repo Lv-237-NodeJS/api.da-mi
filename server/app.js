@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const secret = require('./../config/jwt.secretkey.json');
 const app = express();
 
 app.use(logger('dev'));
@@ -14,7 +15,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(session({
-  secret: 'supersecret',
+  secret: secret.key,
   resave: false,
   saveUninitialized: false
 }));
