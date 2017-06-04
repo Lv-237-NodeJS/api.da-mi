@@ -5,5 +5,5 @@ module.exports = app => {
     message: 'Welcome to the Da - Mi project !!!'
   }));
 
-  app.post('/api/auth/login', authController.auth);
+  app.post('/api/auth/login', authController.login);
 };

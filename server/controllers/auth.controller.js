@@ -1,42 +1,22 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const user = true;
+const secret = require('./../../config/jwt.secretkey.json')
+const user = {};
+user.email = 'test@test.com';
+user.password = 111;
+user.id = 1;
 
 module.exports = {
-  auth(req, res) { 
 
-    const token = jwt.sign({
+  login (req, res) {
+    if (req.body.email == user.email && req.body.password == user.password ) {
+      const token = req.session.token = jwt.sign({
         email: req.body.email,
-        password: req.body.password
-        }, 'secret');
-      
-    return res.json({'token': token});
+        id: user.id
+        }, secret.key);
+      res.json({'token': token});
+    } else {
+      res.status('401').send('Email or password is not valid.');
+    }
   }
 };
-
-
-
-
-// app.post('*', (req, res) => {
-//   if (req.body.email == 'hello@test.com') {
-//       res.status(200)
-//           .json({token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRlc3QgVXNlciJ9.J6n4-v0I85zk9MkxBHroZ9ZPZEES-IKeul9ozxYnoZ8'});
-//   } else {
-//       res.sendStatus(403);
-//   }
-// });
-
-// app.get('/', (req, res) => {
-//     let token = req.headers['authorization'];
-//     if (!token) {
-//         res.sendStatus(401);
-//     } else {
-//         try {
-//             let decoded = jwt.verify(token.replace('Bearer ', ''), 'secret-key');
-//             res.status(200)
-//                 .json({data: 'Valid JWT found! This protected data was fetched from the server.'});
-//         } catch (e) {
-//             res.sendStatus(401);
-//         }
-//     }
-// })

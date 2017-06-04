@@ -15,6 +15,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "eslint": "^3.19.0",
     "express": "^4.15.3",
+    "express-session": "^1.15.3",
     "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.1",
     "pg": "^6.2.2",
@@ -31,7 +32,7 @@
   "scripts": {
     "build:prod": "NODE_ENV=production webpack -p --config ./webpack/webpack.config.prod.js",
     "start:dev": "webpack-dev-server --hot --inline --config ./webpack/webpack.config.dev.js",
-    "start:prod": "npm run build:prod && node server.js"
+    "start:prod": "npm run build:prod && nodemon server.js"
   },
   "repository": {
     "type": "git",
