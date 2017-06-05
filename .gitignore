@@ -41,4 +41,5 @@ jspm_packages
 node_modules
 config/config.json
 config/mailerConfig.json
+config/jwt.secretkey.json
 build

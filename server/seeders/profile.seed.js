@@ -6,7 +6,7 @@ module.exports = {
       {
         first_name: 'John',
         last_name: 'Doe',
-        birth_date: '',
+        birth_date: '2000-06-01 20:32:03.52+03',
         address: 'Street 1',
         city: 'Chicago',
         country: 'US',
@@ -16,7 +16,7 @@ module.exports = {
       {
         first_name: 'Tom',
         last_name: 'Smith',
-        birth_date: '',
+        birth_date: '2000-06-01 20:32:03.52+03',
         address: 'Street 2',
         city: 'London',
         country: 'UK',
