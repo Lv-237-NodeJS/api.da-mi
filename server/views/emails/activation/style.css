@@ -1,39 +1,47 @@
-*{
+* {
   box-sizing: border-box;
 }
-.container{
+
+.container {
   border: 1px solid #e5e3d8;
   padding: 20px;
   border-radius: 5px;
 }
+
 h2,
-p{
+p {
   font-family: sans-serif;
   line-height: 1.5em;
 }
-h2{
+
+h2 {
   font-size: 20px;
   color:  #fff;
   padding: 10px;
   background: linear-gradient(to bottom, #6F60A9 10%, #cfcfcf 100%);
 }
-p{
+
+p {
   color: #808284;
   font-size: 15px;
 }
-blockquote{
+
+blockquote {
   background: #f9f9f9;
   border-left: 10px solid #ccc;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
 }
+
 a {
   text-decoration: none;
   color: red;
   }
-.center{
+
+.center {
   text-align: center;
 }
-.small{
+
+.small {
   font-size: 10px;
 }
