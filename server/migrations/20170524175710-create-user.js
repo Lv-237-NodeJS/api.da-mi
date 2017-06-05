@@ -30,12 +30,10 @@ module.exports = {
         allowNull: false
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       }
     }),
   down: (queryInterface, Sequelize) =>
