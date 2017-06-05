@@ -24,14 +24,24 @@ module.exports  = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     paranoid: false,
+    timestamps: false,
     classMethods: {
       associate: models => {
         User.hasOne(models.Profile, {
-          foreignKey: 'profile_id',
-          onDelete: 'cascade'
+          foreignKey: 'id',
+          onDelete: 'CASCADE',
+          hooks: true
         });
       }
     }
