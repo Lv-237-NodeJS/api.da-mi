@@ -40,5 +40,6 @@ jspm_packages
 .sequelizerc
 node_modules
 config/config.json
+config/mailerConfig.json
 config/jwt.secretkey.json
 build
