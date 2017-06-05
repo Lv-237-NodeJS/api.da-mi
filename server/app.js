@@ -14,7 +14,6 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/?!auth', function(req, res, next) {
-  
   let token = req.body.token || req.query.token || req.headers['x-access-token'];
 
   if (token) {
@@ -23,7 +22,7 @@ app.use('/api/?!auth', function(req, res, next) {
         return res.json({
           success: false,
           message: 'Failed to authenticate token.'
-        });    
+        });
       } else {
         req.decoded = decoded;
         next();
