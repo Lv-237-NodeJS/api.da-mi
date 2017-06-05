@@ -40,7 +40,7 @@ module.exports = {
       }
 
       let mailOptions = {
-        from: '"Da-Mi" <no-reply@da-mi.com>',
+        from: '"Da-Mi" <dami.serv@gmail.com>',
         to: _data.email,
         subject: _data.subject,
         html: sendMail.html,
