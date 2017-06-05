@@ -6,11 +6,11 @@ const handlebars = require('handlebars');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
 
-const secret = require(path.resolve('./config', 'secretkey.json'));
+const secret = require(path.resolve('./config', 'mailerConfig.json'));
 
 let transport = nodemailer.createTransport(smtpTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
+    host: secret.config.host,
+    port: secret.config.port,
     secure: false,
     auth: {
         user: secret.gmail.user,
@@ -20,7 +20,7 @@ let transport = nodemailer.createTransport(smtpTransport({
 let templatesDir = ('./server/views/emails');
 
 module.exports = {
-  _send(_data, _template) {
+  send(_data, _template) {
     let url = 'http://' + _data.host + _data.route + _data.token;
     let template = new EmailTemplate(path.join(templatesDir, _template));
     let locals = {
@@ -36,11 +36,11 @@ module.exports = {
     template.render(locals, (err, sendMail) => {
 
       if (err) {
-        return console.error(err);
+        return err;
       }
 
       let mailOptions = {
-        from: '"Da-Mi" <dami.serv@gmail.com>',
+        from: '"Da-Mi"' + secret.gmail.user,
         to: _data.email,
         subject: _data.subject,
         html: sendMail.html,
@@ -48,7 +48,7 @@ module.exports = {
         attachments: [{
           filename: _data.img,
           path: ('./server/views/emails/img/' + _data.img),
-          cid: 'bonsai@kreata.ee'
+          cid: secret.config.img
         }]
       };
 

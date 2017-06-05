@@ -1,0 +1,11 @@
+{
+  "gmail":{
+    "user": "dami.serv@gmail.com",
+    "pass": "987654321d"
+  },
+  "config": {
+  	"host": "smtp.gmail.com",
+  	"port": 587,
+  	"img": "email.img"
+  }
+}
