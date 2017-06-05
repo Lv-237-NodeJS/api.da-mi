@@ -5,10 +5,15 @@ const passwordHash = require('password-hash');
 
 module.exports = {
   create(req, res) {
+    const nowDate = new Date();
     let assignUser = Object.assign({}, req.body);
 
     User.hook('afterValidate', (user, options) => {
       user.password = passwordHash.generate(user.password);
+    });
+    User.hook('beforeCreate', (user, options) => {
+      user.createdAt = nowDate.getTime();
+      user.updatedAt = nowDate.getTime();
     });
     User.create(assignUser)
     .then(user => res.status(201).send(user))
