@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.BLOB
       },
       birth_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       address: {
         type: Sequelize.STRING(255)
@@ -33,12 +33,10 @@ module.exports = {
         type: Sequelize.STRING(100)
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       }
     }),
   down: (queryInterface, Sequelize) =>
