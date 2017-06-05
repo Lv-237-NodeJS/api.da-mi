@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api/?!auth', function(req, res, next) {
-  let token = req.body.token || req.query.token || req.headers['x-access-token'];
+  let token = req.headers['x-access-token'];
 
   if (token) {
     jwt.verify(token, secret.key, function(err, decoded) {
