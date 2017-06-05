@@ -11,7 +11,7 @@ module.exports = {
       if (!user || !passwordHash.verify(req.body.password, user.password)) {
         res.status(401).send('Email or password is not valid');
       } else {
-        const token = req.session.token = jwt.sign({
+        const token = jwt.sign({
           email: user.email,
           id: user.id
         }, secret.key);

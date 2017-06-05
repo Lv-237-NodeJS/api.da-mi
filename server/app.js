@@ -1,7 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const secret = require('./../config/jwt.secretkey.json');
 const app = express();
 
@@ -14,15 +13,29 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(session({
-  secret: secret.key,
-  resave: false,
-  saveUninitialized: false
-}));
+app.use('/api/?!auth', function(req, res, next) {
+  
+  let token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-app.use(function(req, res, next) {
-  let token = req.session.token;
-  next();
+  if (token) {
+    jwt.verify(token, secret.key, function(err, decoded) {
+      if (err) {
+        return res.json({
+          success: false,
+          message: 'Failed to authenticate token.'
+        });    
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    });
+
+  } else {
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided.'
+    });
+  }
 });
 
 require('./routes')(app);
