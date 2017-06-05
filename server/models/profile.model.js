@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     birth_date: {
-      type: DataTypes.DATE
+      type: DataTypes.DATEONLY
     },
     address: {
       type: DataTypes.STRING(255)
@@ -27,10 +27,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     country: {
       type: DataTypes.STRING(100)
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     paranoid: false,
-    timestamps: true
+    timestamps: false
   });
   return Profile;
 };
