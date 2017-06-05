@@ -12,6 +12,6 @@ let CleanWebPlugin = new CleanWebpackPlugin([buildPath], {
   dry: false
 });
 
-devConfig.plugins.push(cleanWebPlugin);
+devConfig.plugins.push(CleanWebPlugin);
 
 module.exports = devConfig;

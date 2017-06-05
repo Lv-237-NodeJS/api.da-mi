@@ -15,6 +15,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "eslint": "^3.19.0",
     "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.1",
     "password-hash": "^1.2.2",
     "pg": "^6.2.2",
