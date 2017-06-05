@@ -30,7 +30,7 @@ app.use('/api/?!auth', function(req, res, next) {
     });
 
   } else {
-    return res.status(403).send({
+    return res.status(401).send({
       success: false,
       message: 'No token provided.'
     });

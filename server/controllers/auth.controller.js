@@ -12,9 +12,8 @@ module.exports = {
         res.status(401).send('Email or password is not valid');
       } else {
         const token = jwt.sign({
-          email: user.email,
           id: user.id
-        }, secret.key);
+        }, secret.key, {expiresIn: '2h'});
         res.json({'token': token});
       }
     })
