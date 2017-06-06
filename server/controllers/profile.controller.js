@@ -16,11 +16,6 @@ module.exports = {
       });
   },
   update(req, res) {
-    const nowDate = new Date();
-
-    Profile.hook('beforeUpdate', (profile, options) => {
-      profile.updatedAt = nowDate.getTime();
-    });
     Profile.findById(req.params.id)
     .then(profile => {
       if (!profile) {
