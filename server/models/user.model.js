@@ -1,5 +1,7 @@
 'use strict';
 
+const passwordHash = require('password-hash');
+
 module.exports  = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: {
@@ -13,8 +15,7 @@ module.exports  = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-          is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/i,
-          len: [6,20]
+          is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,20}$/
         }
     },
     profile_id: {
@@ -25,15 +26,37 @@ module.exports  = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     paranoid: false,
+    timestamps: false,
     classMethods: {
       associate: models => {
         User.hasOne(models.Profile, {
-          foreignKey: 'profile_id',
-          onDelete: 'cascade'
+          foreignKey: 'id',
+          onDelete: 'CASCADE',
+          hooks: true
         });
+      }
+    },
+    hooks: {
+      afterValidate: (user, options) => {
+        user.password = passwordHash.generate(user.password);
+      },
+      beforeCreate: (user, options) => {
+        user.createdAt = new Date().getTime();
+        user.updatedAt = new Date().getTime();
+      },
+      beforeUpdate: (user, options) => {
+        user.updatedAt = new Date().getTime();
       }
     }
   });
