@@ -1,7 +1,11 @@
 const profileController = require('../controllers/profile.controller');
 const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
+<<<<<<< 1128beb6d2c8463e4d9560b8236af4ee425a4444
 const eventController = require('../controllers/event.controller');
+=======
+const activationController = require('../controllers/activation.controller');
+>>>>>>> LVNOD-63 Relocated function activation for user
 
 module.exports = app => {
   app.get('/api', (req, res) => res.status(200).send({

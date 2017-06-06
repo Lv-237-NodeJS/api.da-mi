@@ -55,26 +55,5 @@ module.exports = {
       .catch(error => res.status(404).send(error));
     })
     .catch(error => res.status(404).send(error));
-  },
-  activation(req, res) {
-    User.findAll({
-        where: {
-          password: req.params.token
-        }
-      })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send({message: 'User Not Found'});
-      } else {
-        User.update({
-          is_activate: true
-        }, {
-          where: {
-            id: req.params.id
-          }
-        });
-        return res.status(200).send(user);
-      }
-    });
   }
 };
