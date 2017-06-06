@@ -38,7 +38,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     paranoid: false,
-    timestamps: false
+    timestamps: false,
+    hooks: {
+      beforeCreate: (profile, options) => {
+        profile.createdAt = new Date().getTime();
+        profile.updatedAt = new Date().getTime();
+      },
+      beforeUpdate: (profile, options) => {
+        profile.updatedAt = new Date().getTime();
+      }
+    }
   });
   return Profile;
 };

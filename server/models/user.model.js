@@ -1,5 +1,7 @@
 'use strict';
 
+const passwordHash = require('password-hash');
+
 module.exports  = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: {
@@ -43,6 +45,18 @@ module.exports  = (sequelize, DataTypes) => {
           onDelete: 'CASCADE',
           hooks: true
         });
+      }
+    },
+    hooks: {
+      afterValidate: (user, options) => {
+        user.password = passwordHash.generate(user.password);
+      },
+      beforeCreate: (user, options) => {
+        user.createdAt = new Date().getTime();
+        user.updatedAt = new Date().getTime();
+      },
+      beforeUpdate: (user, options) => {
+        user.updatedAt = new Date().getTime();
       }
     }
   });
