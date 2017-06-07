@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Profiles', {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('Profiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.BLOB
       },
       birth_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       address: {
         type: Sequelize.STRING(255)
@@ -33,16 +33,12 @@ module.exports = {
         type: Sequelize.STRING(100)
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       }
-    });
-  },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('Profiles');
-  }
+    }),
+  down: (queryInterface, Sequelize) =>
+    queryInterface.dropTable('Profiles')
 };

@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
-  var Profile = sequelize.define('Profile', {
+module.exports = (sequelize, DataTypes) => {
+  const Profile = sequelize.define('Profile', {
     first_name: {
       type: DataTypes.STRING(50),
       allowNull: false
@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     birth_date: {
-      type: DataTypes.DATE
+      type: DataTypes.DATEONLY
     },
     address: {
       type: DataTypes.STRING(255)
@@ -27,10 +27,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     country: {
       type: DataTypes.STRING(100)
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     paranoid: false,
-    timestamps: true
+    timestamps: false,
+    hooks: {
+      beforeCreate: (profile, options) => {
+        profile.createdAt = new Date().getTime();
+        profile.updatedAt = new Date().getTime();
+      },
+      beforeUpdate: (profile, options) => {
+        profile.updatedAt = new Date().getTime();
+      }
+    }
   });
   return Profile;
 };
