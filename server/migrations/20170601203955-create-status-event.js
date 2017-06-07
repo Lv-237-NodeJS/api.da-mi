@@ -13,7 +13,6 @@ module.exports = {
       }
     });
   },
-  down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('statusEvents');
-  }
+  down: (queryInterface, Sequelize) =>
+    queryInterface.dropTable('statusEvents')
 };
