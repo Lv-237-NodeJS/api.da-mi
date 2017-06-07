@@ -23,7 +23,7 @@ module.exports = {
         });
       }
       let updateProfile = Object.assign(profile, req.body);
-      return profile.updateAttributes(updateProfile)
+      return profile.updateAttributes(updateProfile.dataValues)
       .then(() => res.status(200).send(profile))
       .catch(error => res.status(400).send(error));
     })
