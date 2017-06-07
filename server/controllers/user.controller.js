@@ -22,16 +22,7 @@ module.exports = {
           return res.status(404).send({message: 'Profile Not Found'});
         }
 
-        let data = {};
-        data.email = user.email;
-        data.firstName = profile.first_name;
-        data.lastName = profile.last_name;
-        data.avatar = profile.avatar;
-        data.birthdate = profile.birth_date;
-        data.address = profile.address;
-        data.city = profile.city;
-        data.country = profile.country;
-
+        const data = Object.assign({}, {user, profile});
         return res.status(200).send(data);
       })
       .catch(error => {
