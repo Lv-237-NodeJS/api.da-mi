@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const handlebars = require('handlebars');
 const mailerHelper = require('./../helper/mailer.js').send;
 const secret = require('./../../config/jwt.secretkey.json');
-const activUser = require(`${__dirname}/../../config/config.json`)['activUser'];
+const activUser = require(`${__dirname}/../../config/config.json`).activUser;
 
 module.exports = {
   activation(req, res) {
