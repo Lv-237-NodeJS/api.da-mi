@@ -1,6 +1,7 @@
 const profileController = require('../controllers/profile.controller');
 const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
+const eventController = require('../controllers/event.controller');
 
 module.exports = app => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -14,4 +15,10 @@ module.exports = app => {
   app.delete('/api/user/:id', userController.destroy);
 
   app.post('/api/auth/login', authController.login);
+
+  app.post('/api/events', eventController.create);
+  app.put('/api/event/:id', eventController.update);
+  app.get('/api/events', eventController.list);
+  app.get('/api/event/:id', eventController.retrieve);
+  app.delete('/api/event/:id', eventController.destroy);
 };
