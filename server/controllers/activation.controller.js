@@ -3,16 +3,11 @@ const jwt = require('jsonwebtoken');
 const handlebars = require('handlebars');
 const mailerHelper = require('./../helper/mailer.js').send;
 const secret = require('./../../config/jwt.secretkey.json');
+const activUser = require(`${__dirname}/../../config/config.json`)['activUser'];
 
 module.exports = {
   activation(req, res) {
-    let token = req.headers['x-access-token'];
-    let activUser = {
-          email: 'levanwork@ukr.net',
-          firstname: 'Maria',
-          lastname: 'Voitovych',
-          url: '/api'
-        };
+    let token = req.params.token;
     let decoder;
     try {
       decoder = jwt.verify(token, secret.key);
@@ -47,8 +42,8 @@ module.exports = {
           activUser.subject = '~*~🎁~* Congratulation! *~🎁~*~';
           activUser.img = 'keys.jpg';
           mailerHelper(activUser, 'activated');
-          }
         }
+      }
     });
   }
 };
