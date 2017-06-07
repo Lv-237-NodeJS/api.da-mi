@@ -1,64 +1,54 @@
 const User = require('../../config/db').User;
 const jwt = require('jsonwebtoken');
-
+const handlebars = require('handlebars');
+const mailerHelper = require('./../helper/mailer.js').send;
+const secret = require('./../../config/jwt.secretkey.json');
 
 module.exports = {
-	activation(req, res) {
+  activation(req, res) {
     let token = req.headers['x-access-token'];
-
-    /*const token = jwt.sign({
-      email: "zlata@ukr.net",
-      id: "19"
-    }, "andrew");*/
-    //res.send(token);
-
-    
+    let activUser = {
+          email: 'levanwork@ukr.net',
+          firstname: 'Maria',
+          lastname: 'Voitovych',
+          url: '/api'
+        };
     let decoder;
     try {
-    	decoder = jwt.verify(token, 'andrew');
+      decoder = jwt.verify(token, secret.key);
     } catch (err) {
-    	return res.status(401).send({message: 'link are not valid or time expired'});
+      activUser.subject = '~*~🎁~* Link are not valid or time expired! *~🎁~*~';
+      activUser.img = 'notvalid.jpg';
+      mailerHelper(activUser, 'notvalid');
     }
-    	//res.status(200).send(decoder.id);
-
-    //let decoded = jwt.decode(token, {complete: true});
-    //res.send(decoded.payload.id);
-
-
-    /*let decoder = jwt.verify(token, "andrew", function(err, decoded) {
-  if (err) {
-      err = {
-        name: 'TokenExpiredError',
-        message: 'links time expired'
-      }
-      res.status(404).send(err);
-  }
-  //res.status(200).send(decoded);
-});
-res.status(200).send(decoder.id);*/
-
     User.findOne({
-        where: {
-          id: decoder.id
-        }
-      })
+      where: {
+        id: decoder.id
+      }
+    })
     .then(user => {
       if (!user) {
-        return res.status(404).send({message: 'link is not active'});
+        activUser.subject = '~*~🎁~* This user is not create yet! *~🎁~*~';
+        activUser.img = 'notcreate.jpg';
+        mailerHelper(activUser, 'notcreate');
       } else {
         if (user.is_activate) {
-          return res.status(200).send({message: 'link has already actived'});
+          activUser.subject = '~*~🎁~* link has already actived! *~🎁~*~';
+          activUser.img = 'repeatactiv.jpg';
+          mailerHelper(activUser, 'repeatactiv');
         } else {
-        User.update({
-          is_activate: true
-        }, {
-          where: {
-            id: decoder.id
+          User.update({
+            is_activate: true
+          }, {
+            where: {
+              id: decoder.id
+            }
+          });
+          activUser.subject = '~*~🎁~* Congratulation! *~🎁~*~';
+          activUser.img = 'keys.jpg';
+          mailerHelper(activUser, 'activated');
           }
-        });
-        return res.status(200).send({message: 'congratulation'});
         }
-      }
     });
   }
 };
