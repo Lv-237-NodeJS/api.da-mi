@@ -15,19 +15,19 @@ module.exports = {
     .catch(error => res.status(400).send(error));
   },
   retrieve(req, res) {
-    return User.findById(req.params.id)
+    return User.findById(req.params.id), {
+      include: [{
+        model: Profile,
+        as: 'profiles',
+      }],
+    }
     .then(user => {
       if (!user) {
         return res.status(404).send({message: 'User Not Found'});
       }
-      User.findById(user.profile_id).then(profile => {
-        return res.status(200).send({
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          avatar: profile.avatar
-        });
-      });
-    });
+      return res.status(200).send(user);
+    })
+    .catch(error => res.status(400).send(error));
   },
   destroy(req, res) {
     User.findById(req.params.id)
