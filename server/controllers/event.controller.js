@@ -77,6 +77,6 @@ module.exports = {
           .then(event => res.status(204).send(event))
           .catch(error => res.status(400).send(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch(error => res.status(400).send(error));
   }
 };
