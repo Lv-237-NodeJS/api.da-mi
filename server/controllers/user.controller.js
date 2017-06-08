@@ -25,6 +25,7 @@ module.exports = {
         const data = Object.assign({}, {email: user.email,
           firstName: profile.first_name,
           lastName: profile.last_name,
+          avatar: profile.avatar,
           birthdate: profile.birth_date,
           address: profile.address,
           city: profile.city,
