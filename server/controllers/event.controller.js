@@ -2,7 +2,6 @@
 
 const User = require('../../config/db').User;
 const Event = require('../../config/db').Event;
-const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 const needEventProperties = {
