@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const handlebars = require('handlebars');
 const mailerHelper = require('./../helper/mailer.js').send;
 const secret = require('./../../config/jwt.secretkey.json');
-const activUser = require(`${__dirname}/../../config/config.json`).activUser;
+const activUser = require(`./../../config/config.json`).activUser;
+const {message} = require('./../helper/index');
 
 module.exports = {
   activation(req, res) {
@@ -12,9 +13,7 @@ module.exports = {
     try {
       decoder = jwt.verify(token, secret.key);
     } catch (err) {
-      activUser.subject = '~*~🎁~* Link are not valid or time expired! *~🎁~*~';
-      activUser.img = 'notvalid.jpg';
-      mailerHelper(activUser, 'notvalid');
+      res.status(401).send(message.linkNotValid);
     }
     User.findOne({
       where: {
@@ -23,25 +22,21 @@ module.exports = {
     })
     .then(user => {
       if (!user) {
-        activUser.subject = '~*~🎁~* This user is not create yet! *~🎁~*~';
-        activUser.img = 'notcreate.jpg';
-        mailerHelper(activUser, 'notcreate');
+        res.status(404).send(message.userNotValid);
       } else {
         if (user.is_activate) {
-          activUser.subject = '~*~🎁~* link has already actived! *~🎁~*~';
-          activUser.img = 'repeatactiv.jpg';
-          mailerHelper(activUser, 'repeatactiv');
+          res.status(200).send(message.linkAlreadyActivated);
         } else {
-          User.update({
+          user.update({
             is_activate: true
           }, {
             where: {
               id: decoder.id
             }
           });
-          activUser.subject = '~*~🎁~* Congratulation! *~🎁~*~';
-          activUser.img = 'keys.jpg';
+          activUser.email = decoder.email;
           mailerHelper(activUser, 'activated');
+          res.status(200).send(message.congratulation);
         }
       }
     });
