@@ -14,7 +14,7 @@ module.exports = {
     try {
       decoder = jwt.verify(token, secret.key);
     } catch (err) {
-      res.status(401).send(message.linkNotValid);
+      res.status(498).send(message.linkNotValid);
     }
     User.findOne({
       where: {
