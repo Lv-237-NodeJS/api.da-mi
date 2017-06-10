@@ -17,8 +17,8 @@ module.exports = app => {
   app.post('/api/auth/login', authController.login);
 
   app.post('/api/events', eventController.create);
-  app.put('/api/event/:id', eventController.update);
   app.get('/api/events', eventController.list);
   app.get('/api/event/:id', eventController.retrieve);
+  app.put('/api/event/:id', eventController.update);
   app.delete('/api/event/:id', eventController.destroy);
 };
