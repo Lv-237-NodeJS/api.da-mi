@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       associate: models => {
         Gift.hasOne(models.Event, {
           foreignKey: 'id',
-          onDelete: 'CASCADE',
           hooks: true
         });
         Gift.hasOne(models.GiftStatus, {
