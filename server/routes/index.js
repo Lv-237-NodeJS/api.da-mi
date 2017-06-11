@@ -23,8 +23,11 @@ module.exports = app => {
   app.delete('/api/event/:id', eventController.destroy);
 
   app.post('/api/auth/login', authController.login);
+
   app.get('/api/user/activation/:token', authController.activation);
 
   app.post('/api/event/:id/guest/invite', guestController.invite);
   app.get('/api/event/:id/guest/get', guestController.list);
+
+  app.post('/api/auth/Signup', authController.signup);
 };
