@@ -22,6 +22,7 @@ module.exports = {
     })
     .catch(error => res.status(401).send(error));
   },
+
   activation(req, res) {
     let token = req.params.token;
     let decoder;
