@@ -33,7 +33,7 @@ module.exports = {
               user_id: user.id
             });
           });
-        })
+        });
       }) :
     User.findOne({
       where: {
