@@ -1,7 +1,6 @@
 const User = require('../../config/db').User;
 const Profile = require('../../config/db').Profile;
 const jwt = require('jsonwebtoken');
-const handlebars = require('handlebars');
 const {mailer, message} = require('./../helper');
 const secret = require('./../../config/jwt.secretkey.json');
 const activUser = require(`./../../config/config.json`).activUser;
@@ -34,15 +33,17 @@ module.exports = {
           Profile.create(assignProfile)
           .then(result => {
             User.findById(decoder.id)
-            .then(user => user.update({
-              profile_id: result.dataValues.id,
-              is_activate: true
-            }));
+            .then(user => {
+              user.update({
+                profile_id: result.dataValues.id,
+                is_activate: true
+              });
+              activUser.email = decoder.email;
+              mailer(activUser, 'activated');
+              res.status(200).send(message.congratulation);
+            });
           })
           .catch(error => res.status(400).send(error));
-          activUser.email = decoder.email;
-          mailer(activUser, 'activated');
-          res.status(200).send(message.congratulation);
         }
       }
     });
