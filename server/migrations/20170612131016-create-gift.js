@@ -23,7 +23,11 @@ module.exports = {
       },
       event_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'Events',
+          key: 'id'
+        }
       },
       is_available: {
         type: Sequelize.BOOLEAN,
@@ -32,7 +36,12 @@ module.exports = {
       },
       status_gift_id: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        onDelete: 'CASCADE',
+        allowNull: true,
+        references: {
+          model: 'GiftStatus',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
