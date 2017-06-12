@@ -8,6 +8,7 @@ const password = require('./../helper/passwordGenerator');
 module.exports = {
   create(req, res) {
     let assignUser = Object.assign({}, req.body);
+<<<<<<< 241947aad6c7123379d9ec72846b99627c1e36c4
     const eventId = req.body.eventId;
     eventId ?
       req.body.emails.map(email => {
