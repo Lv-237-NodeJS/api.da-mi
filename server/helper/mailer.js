@@ -17,7 +17,8 @@ let transport = nodemailer.createTransport(smtpTransport({
         pass: secret.gmail.pass
       }
   }));
-let templatesDir = ('./server/views/emails');
+
+const templatesDir = ('./server/views/emails');
 
 module.exports = {
   send(_data, _template) {
@@ -52,7 +53,7 @@ module.exports = {
         }]
       };
 
-      transport.sendMail(mailOptions, (error, response) => {
+      transport.sendMail(mailOptions, (error) => {
         if (error) {
           return error;
         }
