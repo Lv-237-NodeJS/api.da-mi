@@ -3,7 +3,6 @@ const Profile = require('../../config/db').Profile;
 const jwt = require('jsonwebtoken');
 const {mailer, message} = require('./../helper');
 const secret = require('./../../config/jwt.secretkey.json');
-const activUser = require(`./../../config/config.json`).activUser;
 
 module.exports = {
   activation(req, res) {
