@@ -33,10 +33,10 @@ module.exports = {
         eventDescription: _data.eventDescription
       };
 
-    template.render(locals, (err, sendMail) => {
+    template.render(locals, (error, sendMail) => {
 
-      if (err) {
-        return console.error(err);
+      if (error) {
+        return (error);
       }
 
       let mailOptions = {
