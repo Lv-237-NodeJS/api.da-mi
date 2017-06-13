@@ -8,6 +8,7 @@ const password = require('./../helper/passwordGenerator');
 module.exports = {
   create(req, res) {
     let assignUser = Object.assign({}, req.body);
+<<<<<<< 479d2539cbdff1cb575f5d8dea951a1521f05a63
 <<<<<<< 241947aad6c7123379d9ec72846b99627c1e36c4
     const eventId = req.body.eventId;
     eventId ?
@@ -36,6 +37,15 @@ module.exports = {
           });
         });
       }) :
+=======
+
+    User.create(assignUser)
+    .then(user => res.status(201).send(user))
+    .catch(error => res.status(400).send(error));
+  },
+
+  signup(req, res) {
+>>>>>>> erase white space
     User.findOne({
       where: {
         email: req.body.email
@@ -60,6 +70,7 @@ module.exports = {
         res.status(201).send();
       };
       if (user) {
+<<<<<<< 479d2539cbdff1cb575f5d8dea951a1521f05a63
         if (!user.is_invated) {
           res.status(422).send(message.emailUsed);
         } else {
@@ -68,6 +79,12 @@ module.exports = {
           .catch(error => res.status(400).send(error));
         }
       } else {
+=======
+        res.status(422).send(error);
+      } else {
+        let assignUser = Object.assign({}, req.body);
+
+>>>>>>> erase white space
         User.create(assignUser)
         .then(dataActivation)
         .catch(error => res.status(400).send(error));
