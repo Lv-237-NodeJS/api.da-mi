@@ -13,6 +13,7 @@ module.exports = app => {
   app.put('/api/profile/:id', profileController.update);
 
   app.post('/api/users', userController.create);
+
   app.get('/api/user/:id', userController.retrieve);
   app.delete('/api/user/:id', userController.destroy);
 
