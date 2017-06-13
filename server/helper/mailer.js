@@ -5,8 +5,8 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const handlebars = require('handlebars');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
-
-const secret = require(path.resolve('./config', 'mailerConfig.json'));
+const configDir = path.resolve('./config', 'mailerConfig.json');
+const secret = require(configDir);
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: secret.config.host,
@@ -17,7 +17,8 @@ let transport = nodemailer.createTransport(smtpTransport({
         pass: secret.gmail.pass
       }
   }));
-let templatesDir = ('./server/views/emails');
+
+const templatesDir = ('./server/views/emails');
 
 module.exports = {
   send(_data, _template) {
@@ -33,10 +34,10 @@ module.exports = {
         eventDescription: _data.eventDescription
       };
 
-    template.render(locals, (err, sendMail) => {
+    template.render(locals, (error, sendMail) => {
 
-      if (err) {
-        return err;
+      if (error) {
+        return error;
       }
 
       let mailOptions = {
@@ -52,9 +53,9 @@ module.exports = {
         }]
       };
 
-      transport.sendMail(mailOptions, (error, response) => {
+      transport.sendMail(mailOptions, (error) => {
         if (error) {
-          callback(error);
+          return error;
         }
       });
     });
