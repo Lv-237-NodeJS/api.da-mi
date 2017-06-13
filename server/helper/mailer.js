@@ -36,7 +36,7 @@ module.exports = {
     template.render(locals, (error, sendMail) => {
 
       if (error) {
-        return (error);
+        return error;
       }
 
       let mailOptions = {
@@ -54,7 +54,7 @@ module.exports = {
 
       transport.sendMail(mailOptions, (error, response) => {
         if (error) {
-          return (error);
+          return error;
         }
       });
     });
