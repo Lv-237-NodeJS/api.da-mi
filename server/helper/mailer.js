@@ -5,8 +5,8 @@ const smtpTransport = require('nodemailer-smtp-transport');
 const handlebars = require('handlebars');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
-
-const secret = require(path.resolve('./config', 'mailerConfig.json'));
+const configDir = path.resolve('./config', 'mailerConfig.json');
+const secret = require(configDir);
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: secret.config.host,
@@ -36,7 +36,7 @@ module.exports = {
     template.render(locals, (err, sendMail) => {
 
       if (err) {
-        return err;
+        return console.error(err);
       }
 
       let mailOptions = {
@@ -54,7 +54,7 @@ module.exports = {
 
       transport.sendMail(mailOptions, (error, response) => {
         if (error) {
-          callback(error);
+          return (error);
         }
       });
     });
