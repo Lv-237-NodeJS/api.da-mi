@@ -6,3 +6,5 @@ module.exports = {
     ACTIVATION: '/api/user/activation/'
   }
 };
+
+export { TIME, ROUTE };
