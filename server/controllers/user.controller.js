@@ -45,11 +45,11 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send({message: 'User Not Found'});
+        return res.status(404).send(`${message.userError}`);
       }
       Profile.findById(user.profile_id).then(profile => {
         if (!profile) {
-          return res.status(404).send({message: 'Profile Not Found'});
+          return res.status(404).send(`${message.profileError}`);
         }
 
         const data = Object.assign({}, {email: user.email,
@@ -75,9 +75,7 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send({
-          message: 'User has not found. Please try again!'
-        });
+        return res.status(404).send(`${message.userNotFound}`);
       }
       return user
       .destroy()
