@@ -6,3 +6,5 @@ module.exports = {
   userNotFound: 'User has not found. Please try again!',
   eventNotFound: 'Event has not found! Try again!'
 };
+
+export default message;
