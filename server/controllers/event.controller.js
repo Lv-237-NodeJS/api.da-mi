@@ -6,7 +6,7 @@ const messages = require('../helper/messages');
 
 module.exports = {
   create(req, res) {
-    let assignEvent = Object.assign({}, req.body, {owner: decoded.id});
+    let assignEvent = Object.assign({}, req.body, {owner: req.decoded.id});
 
     Event.create(assignEvent)
       .then(event => res.status(201).send(event))
@@ -18,7 +18,7 @@ module.exports = {
       attributes: [
         'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'
       ],
-      where: {owner: decoded.id}
+      where: {owner: req.decoded.id}
     })
     .then(event => res.status(200).send(event))
     .catch(error => res.status(400).send(error));
@@ -47,14 +47,12 @@ module.exports = {
       if (event.dataValues.owner !== req.decoded.id || !event) {
         return res.status(404).send(messages.eventNotFound);
       }
-      let updatedEvent = Object.assign(event, req.body);
-      return event.updateAttributes(updatedEvent.dataValues)
+      let updatedEvent = Object.assign({}, req.body);
+      return event.updateAttributes(updatedEvent)
       .then(event => res.status(200).send(event))
       .catch(error => res.status(400).send(error));
     })
-    .catch(error => {
-        return res.status(500).send(error);
-      });
+    .catch(error => res.status(400).send(error));
   },
 
   destroy(req, res) {
