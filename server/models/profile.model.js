@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   const Profile = sequelize.define('Profile', {
     first_name: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     last_name: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: true
     },
     avatar: {
       type: DataTypes.BLOB,

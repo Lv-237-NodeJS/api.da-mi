@@ -1,7 +1,5 @@
 const mailer = require('./mailer');
-const messages = require('./messages');
+const message = require('./messages');
 
-module.exports = {
-  mailer,
-  messages
-};
+exports.mailer = mailer.send;
+exports.message = message;
