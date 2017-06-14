@@ -31,7 +31,7 @@ module.exports = {
           'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description', 'owner'
         ]})
       .then(event => {
-        if (event.dataValues.owner !== decoded.id || !event)  {
+        if (event.dataValues.owner !== req.decoded.id || !event)  {
           return res.status(400).send(messages.eventNotFound);
         } else {
           return res.status(200).send(needEventProperties);
@@ -44,7 +44,7 @@ module.exports = {
 
   update(req, res) {
     Event.findById(req.params.id).then(event => {
-      if (event.dataValues.owner !== decoded.id || !event) {
+      if (event.dataValues.owner !== req.decoded.id || !event) {
         return res.status(404).send(messages.eventNotFound);
       }
       let updatedEvent = Object.assign(event, req.body);
@@ -59,7 +59,7 @@ module.exports = {
 
   destroy(req, res) {
     Event.findById(req.params.id).then(event => {
-        if (event.dataValues.owner !== decoded.id || !event) {
+        if (event.dataValues.owner !== req.decoded.id || !event) {
           return res.status(404).send(messages.eventNotFound);
         }
         return event
