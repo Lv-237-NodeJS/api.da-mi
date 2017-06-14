@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     date_event: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      allowNull: false
     },
     owner: {
       type: DataTypes.INTEGER,
