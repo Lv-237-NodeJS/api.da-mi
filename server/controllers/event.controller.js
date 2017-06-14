@@ -15,7 +15,9 @@ module.exports = {
 
   list(req, res) {
     Event.findAll({
-      attributes: ['name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'],
+      attributes: [
+        'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'
+      ],
       where: {owner: decoded.id}
     })
     .then(event => res.status(200).send(event))
@@ -23,18 +25,15 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    Event.findById(req.params.id).then(event => {
-        if (event.owner !== decoded.id || !event)  {
+    Event.findById(
+        req.params.id, {
+        attributes: [
+          'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description', 'owner'
+        ]})
+      .then(event => {
+        if (event.dataValues.owner !== decoded.id || !event)  {
           return res.status(400).send(messages.eventNotFound);
         } else {
-          let needEventProperties = Object.assign({}, {
-            name: event.name,
-            date_event: event.date_event,
-            location_name: event.location_name,
-            longitude: event.longitude,
-            latitude: event.latitude,
-            description: event.description
-          });
           return res.status(200).send(needEventProperties);
         }
       })
@@ -45,7 +44,7 @@ module.exports = {
 
   update(req, res) {
     Event.findById(req.params.id).then(event => {
-      if (event.owner !== decoded.id || !event) {
+      if (event.dataValues.owner !== decoded.id || !event) {
         return res.status(404).send(messages.eventNotFound);
       }
       let updatedEvent = Object.assign(event, req.body);
@@ -60,7 +59,7 @@ module.exports = {
 
   destroy(req, res) {
     Event.findById(req.params.id).then(event => {
-        if (event.owner !== decoded.id || !event) {
+        if (event.dataValues.owner !== decoded.id || !event) {
           return res.status(404).send(messages.eventNotFound);
         }
         return event
