@@ -2,8 +2,6 @@
 
 const User = require('../../config/db').User;
 const Event = require('../../config/db').Event;
-const jwt = require('jsonwebtoken');
-const secret = require('./../../config/jwt.secretkey.json');
 
 module.exports = {
   create(req, res) {
