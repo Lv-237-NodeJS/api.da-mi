@@ -2,6 +2,7 @@
 
 const User = require('../../config/db').User;
 const Event = require('../../config/db').Event;
+const messages = require('../helper/messages');
 
 module.exports = {
   create(req, res) {
@@ -24,7 +25,7 @@ module.exports = {
   retrieve(req, res) {
     Event.findById(req.params.id).then(event => {
         if (event.owner !== decoded.id || !event)  {
-          return res.status(400).send({message: 'Event has not found! Try again!'});
+          return res.status(400).send(messages.eventNotFound);
         } else {
           let needEventProperties = Object.assign({}, {
             name: event.name,
@@ -45,9 +46,7 @@ module.exports = {
   update(req, res) {
     Event.findById(req.params.id).then(event => {
       if (event.owner !== decoded.id || !event) {
-        return res.status(404).send({
-          message: 'Event has not found! Please try again!'
-        });
+        return res.status(404).send(messages.eventNotFound);
       }
       let updatedEvent = Object.assign(event, req.body);
       return event.updateAttributes(updatedEvent.dataValues)
@@ -62,9 +61,7 @@ module.exports = {
   destroy(req, res) {
     Event.findById(req.params.id).then(event => {
         if (event.owner !== decoded.id || !event) {
-          return res.status(404).send({
-            message: 'Event has not found! Please try again!',
-          });
+          return res.status(404).send(messages.eventNotFound);
         }
         return event
           .destroy()
