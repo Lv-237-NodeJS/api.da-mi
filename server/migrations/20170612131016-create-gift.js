@@ -36,8 +36,9 @@ module.exports = {
       },
       status_gift_id: {
         type: Sequelize.INTEGER,
+        defaultValue: 1,
         onDelete: 'CASCADE',
-        allowNull: true,
+        allowNull: false,
         references: {
           model: 'GiftStatus',
           key: 'id'

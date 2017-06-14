@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     status_gift_id: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      defaultValue: 1,
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.BIGINT,
