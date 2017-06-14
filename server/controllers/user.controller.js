@@ -2,6 +2,7 @@
 
 const User = require('../../config/db').User;
 const Profile = require('../../config/db').Profile;
+<<<<<<< 8765f6d0eac87c49482b146db48550708447fc33
 const Guest = require('../../config/db').Guest;
 const password = require('./../helper/passwordGenerator');
 
@@ -45,11 +46,11 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send(`${message.userError}`);
+        return res.status(404).send(message.userError);
       }
       Profile.findById(user.profile_id).then(profile => {
         if (!profile) {
-          return res.status(404).send(`${message.profileError}`);
+          return res.status(404).send(message.profileError);
         }
 
         const data = Object.assign({}, {email: user.email,
@@ -75,7 +76,7 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send(`${message.userNotFound}`);
+        return res.status(404).send(message.userNotFound);
       }
       return user
       .destroy()
