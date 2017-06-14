@@ -8,6 +8,7 @@ const password = require('./../helper/passwordGenerator');
 
 module.exports = {
   create(req, res) {
+<<<<<<< 12702ba566b5fb3b9797e3ba4d83d0e77122ccba
     let assignUser = Object.assign({}, req.body);
     const eventId = req.body.eventId;
     eventId ?
@@ -34,6 +35,35 @@ module.exports = {
               user_id: user.id
             });
           });
+=======
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(user => {
+      if (user) {
+        res.status(422).send(message.emailUsed);
+      } else {
+        let assignUser = Object.assign({}, req.body);
+
+        User.create(assignUser)
+        .then(user => {
+          let token = jwt.sign({
+            id: user.id,
+            email: user.email
+          }, secret.key, {expiresIn: constant.TIME.TOKEN});
+          let data = {
+            subject: message.activation,
+            img: 'activ.jpg',
+            host: req.headers.host,
+            route: constant.ROUTE.ACTIVATION,
+            email: req.body.email,
+            token: token
+          };
+          console.log(data);
+          mailer(data, 'activation');
+>>>>>>> rename controller signup to create
           res.status(201).send(user);
         })
         .catch(error => res.status(400).send(error));
