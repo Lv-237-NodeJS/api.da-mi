@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const secret = require('./../config/jwt.secretkey.json');
+const jwt = require('jsonwebtoken');
 const app = express();
 
 app.use(logger('dev'));
@@ -14,7 +15,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/api/?!auth', function(req, res, next) {
+app.use('/api/+(?!auth)/?*', function(req, res, next) {
   let token = req.headers['x-access-token'];
 
   if (token) {

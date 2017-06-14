@@ -45,13 +45,14 @@ module.exports  = (sequelize, DataTypes) => {
           onDelete: 'CASCADE',
           hooks: true
         });
+        User.hasMany(models.Event, {
+          foreignKey: 'id'
+        });
       }
     },
     hooks: {
-      afterValidate: (user, options) => {
-        user.password = passwordHash.generate(user.password);
-      },
       beforeCreate: (user, options) => {
+        user.password = passwordHash.generate(user.password);
         user.createdAt = new Date().getTime();
         user.updatedAt = new Date().getTime();
       },
