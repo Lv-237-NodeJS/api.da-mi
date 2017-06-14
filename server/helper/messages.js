@@ -1,6 +1,6 @@
 module.exports = {
   'linkNotValid': 'Link are not valid or time expired!',
-  'userNotValid': 'This user is not valid!',
+  'userNotFound': 'This user is not found!',
   'linkAlreadyActivated': 'Link has already actived!',
   'congratulation': 'Congratulation!'
 };

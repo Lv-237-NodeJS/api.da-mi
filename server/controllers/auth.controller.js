@@ -37,7 +37,7 @@ module.exports = {
     })
     .then(user => {
       if (!user) {
-        res.status(404).send(message.userNotValid);
+        res.status(404).send(message.userNotFound);
       } else {
         if (user.is_activate) {
           res.status(200).send(message.linkAlreadyActivated);
