@@ -34,7 +34,7 @@ module.exports = {
         if (event.dataValues.owner !== req.decoded.id || !event)  {
           return res.status(400).send(messages.eventNotFound);
         } else {
-          return res.status(200).send(needEventProperties);
+          return res.status(200).send(event);
         }
       })
       .catch(error => {
