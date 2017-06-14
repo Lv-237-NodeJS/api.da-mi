@@ -15,7 +15,6 @@ module.exports = app => {
   app.get('/api/user/:id', userController.retrieve);
   app.delete('/api/user/:id', userController.destroy);
 
-  app.get('/api/user/activation/:token', activationController.activation);
   app.post('/api/events', eventController.create);
   app.get('/api/events', eventController.list);
   app.get('/api/event/:id', eventController.retrieve);
@@ -23,5 +22,6 @@ module.exports = app => {
   app.delete('/api/event/:id', eventController.destroy);
 
   app.post('/api/auth/login', authController.login);
+  app.get('/api/user/activation/:token', authController.activation);
 
 };
