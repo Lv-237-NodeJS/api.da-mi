@@ -8,8 +8,8 @@ const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer } = require('./../helper');
-const { message } = require('./../helper');
-const { constant } = require('./../helper');
+const message = require('./../helper/message');
+const constant = require('./../helper/constant');
 
 module.exports = {
   create(req, res) {
@@ -79,18 +79,18 @@ module.exports = {
         .catch(error => res.status(400).send(error));
       };
     })
-      .catch(error => res.status(400).send(error));
+    .catch(error => res.status(422).send(message.emailUsed));
   },
   retrieve(req, res) {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send(message.userError);
+        return res.status(404).send({message: 'User Not Found'});
       }
       Profile.findById(user.profile_id).then(profile => {
         if (!profile) {
-          return res.status(404).send(message.profileError);
-      }
+          return res.status(404).send({message: 'Profile Not Found'});
+        }
 
         const data = Object.assign({}, {email: user.email,
           firstName: profile.first_name,
@@ -115,7 +115,9 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send(`${message.userNotFound}`);
+        return res.status(404).send({
+          message: 'User has not found. Please try again!'
+        });
       }
       return user
       .destroy()
