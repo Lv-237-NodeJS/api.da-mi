@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cors());
 
-app.use('/api/+(?!auth),/api/+(?!/user/activation)/?*', function(req, res, next) {
+app.use('/api/+(?!auth), /api/+(?!/user/activation)/?*', function(req, res, next) {
   let token = req.headers['x-access-token'];
 
   if (token) {
