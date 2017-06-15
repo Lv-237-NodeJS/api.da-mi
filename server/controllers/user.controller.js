@@ -61,7 +61,6 @@ module.exports = {
             email: req.body.email,
             token: token
           };
-          console.log(data);
           mailer(data, 'activation');
 >>>>>>> rename controller signup to create
           res.status(201).send(user);
