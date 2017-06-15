@@ -45,15 +45,11 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'id',
           hooks: true
         });
-        Gift.hasOne(models.GiftStatus, {
-          foreignKey: 'id',
-          onDelete: 'CASCADE',
-          hooks: true
-        });
-        Gift.hasMany(models.Donor, {
-          foreignKey: 'id',
-          hooks: true
-        });
+        // Gift.hasOne(models.GiftStatus, {
+        //   foreignKey: 'id',
+        //   onDelete: 'CASCADE',
+        //   hooks: true
+        // });
       }
     },
     hooks: {

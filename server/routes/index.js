@@ -3,6 +3,7 @@ const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
 const eventController = require('../controllers/event.controller');
 const guestController = require('../controllers/guest.controller');
+const giftController = require('../controllers/gift.controller');
 
 module.exports = app => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -27,4 +28,10 @@ module.exports = app => {
 
   app.post('/api/event/:id/guest/invite', guestController.invite);
   app.get('/api/event/:id/guest/get', guestController.list);
+
+  app.post('/api/event/:id/gifts', giftController.create);
+  app.get('/api/event/:id/gifts', giftController.list);
+  app.get('/api/event/:id/gift/:gift_id', giftController.retrieve);
+  app.put('/api/event/:id/gift/:gift_id', giftController.update);
+  app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
 };
