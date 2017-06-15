@@ -11,7 +11,8 @@ module.exports = {
         is_activate: true,
         profile_id: 1,
         createdAt: Date.now(),
-        updatedAt: Date.now()
+        updatedAt: Date.now(),
+        is_invited: false
       },
       {
         email: 'roma@gmail.com',
@@ -19,7 +20,8 @@ module.exports = {
         is_activate: true,
         profile_id: 2,
         createdAt: Date.now(),
-        updatedAt: Date.now()
+        updatedAt: Date.now(),
+        is_invited: false
       }
     ]),
   down: (queryInterface, Sequelize) =>

@@ -2,44 +2,39 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Users', {
+    queryInterface.createTable('Guests', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      password: {
-        type: Sequelize.TEXT,
-        allowNull: false
-      },
-      profile_id: {
+      event_id: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
+        allowNull: false
+      },
+      user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        unique: false,
         references: {
-          model: 'Profiles',
+          model: 'Users',
           key: 'id'
         }
       },
-      is_activate: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+      status: {
+        type: Sequelize.ENUM,
+        values: ['going', 'notgoing', 'maybe'],
+        defaultValue: null,
+        allowNull: true
       },
       createdAt: {
         type: Sequelize.BIGINT
       },
       updatedAt: {
         type: Sequelize.BIGINT
-      },
-      is_invited: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
       }
     }),
   down: (queryInterface, Sequelize) =>
-    queryInterface.dropTable('Users')
+    queryInterface.dropTable('Guests')
 };
