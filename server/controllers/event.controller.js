@@ -16,7 +16,7 @@ module.exports = {
   list(req, res) {
     Event.findAll({
       attributes: [
-        'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'
+        'id', 'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'
       ],
       where: {owner: req.decoded.id}
     })
