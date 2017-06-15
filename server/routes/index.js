@@ -31,7 +31,19 @@ module.exports = app => {
 
   app.post('/api/event/:id/gifts', giftController.create);
   app.get('/api/event/:id/gifts', giftController.list);
+<<<<<<< HEAD
+<<<<<<< HEAD
   app.get('/api/event/:id/gift/:gift_id', giftController.retrieve);
   app.put('/api/event/:id/gift/:gift_id', giftController.update);
   app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
+=======
+  app.get('/api/event/:id/gift/:giftid', giftController.retrieve);
+  app.put('/api/event/:id/gift/:giftid', giftController.update);
+  app.delete('/api/event/:id/gift/:giftid', giftController.destroy);
+>>>>>>> Minor fixes
+=======
+  app.get('/api/event/:id/gift/:gift_id', giftController.retrieve);
+  app.put('/api/event/:id/gift/:gift_id', giftController.update);
+  app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
+>>>>>>> Code refactoring
 };

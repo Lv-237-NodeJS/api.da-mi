@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Gift = sequelize.define('Gift', {
     name: {
-      type: DataTypes.STRING(15),
+      type: DataTypes.STRING(35),
       allowNull: false
     },
     description: {
@@ -45,11 +45,10 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey: 'id',
           hooks: true
         });
-        // Gift.hasOne(models.GiftStatus, {
-        //   foreignKey: 'id',
-        //   onDelete: 'CASCADE',
-        //   hooks: true
-        // });
+        Gift.hasOne(models.GiftStatus, {
+          foreignKey: 'id',
+          hooks: true
+        });
       }
     },
     hooks: {

@@ -1,13 +1,14 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var status_gift = sequelize.define('status_gift', {
-    name: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
+
+module.exports = (sequelize, DataTypes) => {
+  const GiftStatus = sequelize.define('GiftStatus', {
+    name: {
+      type: DataTypes.STRING(35),
+      allowNull: false
     }
+  }, {
+    paranoid: false,
+    timestamps: false
   });
-  return status_gift;
+  return GiftStatus;
 };
