@@ -73,7 +73,6 @@ module.exports = {
           .catch(error => res.status(400).send(error));
         }
       } else {
-        let assignUser = Object.assign({}, req.body);
         User.create(assignUser)
         .then(dataActivation)
         .catch(error => res.status(400).send(error));
