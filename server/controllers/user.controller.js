@@ -2,7 +2,6 @@
 
 const User = require('../../config/db').User;
 const Profile = require('../../config/db').Profile;
-<<<<<<< 8765f6d0eac87c49482b146db48550708447fc33
 const Guest = require('../../config/db').Guest;
 const password = require('./../helper/passwordGenerator');
 
@@ -35,11 +34,44 @@ module.exports = {
             });
           });
         })
-        .catch(error => res.status(400).send(error));
       }) :
-      User.create(assignUser)
-        .then(user => res.status(201).send(user))
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(user => {
+      let assignUser = Object.assign({}, req.body);
+      let dataActivation = user => {
+        let token = jwt.sign({
+          id: user.id,
+          email: user.email
+        }, secret.key, {expiresIn: constant.TIME.TOKEN});
+        let data = {
+          subject: message.activation,
+          img: 'activ.jpg',
+          host: req.headers.host,
+          route: constant.ROUTE.ACTIVATION,
+          email: req.body.email,
+          token: token
+        };
+        mailer(data, 'activation');
+        res.status(201).send();
+      };
+      if (user) {
+        if (!user.is_invated) {
+          res.status(422).send(message.emailUsed);
+        } else {
+          User.updateAttributes(assignUser)
+          .then(dataActivation)
+          .catch(error => res.status(400).send(error));
+        }
+      } else {
+        User.create(assignUser)
+        .then(dataActivation)
         .catch(error => res.status(400).send(error));
+      };
+    });
   },
   retrieve(req, res) {
     User.findById(req.params.id)
