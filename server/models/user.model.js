@@ -34,6 +34,11 @@ module.exports  = (sequelize, DataTypes) => {
     updatedAt: {
       type: DataTypes.BIGINT,
       allowNull: true
+    },
+    is_invited: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   }, {
     paranoid: false,
