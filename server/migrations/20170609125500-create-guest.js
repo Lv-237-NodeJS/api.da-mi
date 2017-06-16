@@ -11,7 +11,11 @@ module.exports = {
       },
       event_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'Events',
+          key: 'id'
+        }
       },
       user_id: {
         type: Sequelize.INTEGER,
@@ -24,9 +28,9 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['going', 'notgoing', 'maybe'],
-        defaultValue: null,
-        allowNull: true
+        values: ['going', 'notgoing', 'undecided'],
+        defaultValue: 'undecided',
+        allowNull: false
       },
       createdAt: {
         type: Sequelize.BIGINT

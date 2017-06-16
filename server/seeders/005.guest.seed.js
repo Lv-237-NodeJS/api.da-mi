@@ -11,9 +11,9 @@ module.exports = {
         updatedAt: Date.now()
       },
       {
-        event_id: 2,
-        user_id: 1,
-        status: 'notgoing',
+        event_id: 1,
+        user_id: 2,
+        status: 'undecided',
         createdAt: Date.now(),
         updatedAt: Date.now()
       }

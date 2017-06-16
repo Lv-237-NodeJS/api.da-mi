@@ -13,9 +13,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     status: {
       type: DataTypes.ENUM,
-      values: ['going', 'notgoing', 'maybe'],
-      defaultValue: null,
-      allowNull: true
+      values: ['going', 'notgoing', 'undecided'],
+      defaultValue: 'undecided',
+      allowNull: false
     }
   }, {
     paranoid: false,
