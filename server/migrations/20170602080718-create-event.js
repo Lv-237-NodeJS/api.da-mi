@@ -36,6 +36,7 @@ module.exports = {
       },
       status_event_id: {
         type: Sequelize.INTEGER,
+        unique: false,
         references: {
           model: 'statusEvents',
           key: 'id'

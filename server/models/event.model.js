@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status_event_id: {
       allowNull: false,
+      unique: false,
       type: DataTypes.INTEGER,
       defaultValue: 1
     },
