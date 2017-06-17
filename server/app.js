@@ -27,7 +27,7 @@ app.use('/api/+(?!auth)/?*', function(req, res, next) {
       }
     });
 
-  } else if (req.baseUrl != '/api/user+(?!activation)/?*') {
+  } else if (req.baseUrl.includes('/api/user/activation')) {
     next();
   } else {
     return res.status(401).send({
