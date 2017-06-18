@@ -4,7 +4,8 @@ module.exports = function(sequelize, DataTypes) {
   const Guest = sequelize.define('Guest', {
     event_id: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: false
     },
     user_id: {
       type: DataTypes.INTEGER,
@@ -23,11 +24,11 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         Guest.belongsTo(models.User, {
-          foreignKey: 'id',
+          foreignKey: 'user_id',
           hooks: true
         });
-        Guest.hasMany(models.Event, {
-          foreignKey: 'id'
+        Guest.belongsTo(models.Event, {
+          foreignKey: 'event_id'
         });
       }
     },
