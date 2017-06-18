@@ -24,11 +24,11 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         Guest.belongsTo(models.User, {
-          foreignKey: 'id',
+          foreignKey: 'user_id',
           hooks: true
         });
         Guest.belongsTo(models.Event, {
-          foreignKey: 'id'
+          foreignKey: 'event_id'
         });
       }
     },
