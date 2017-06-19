@@ -34,15 +34,11 @@ module.exports = {
         defaultValue: true,
         allowNull: false
       },
-      status_gift_id: {
-        type: Sequelize.INTEGER,
-        defaultValue: 1,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'GiftStatuses',
-          key: 'id'
-        }
+      status: {
+        type: Sequelize.ENUM,
+        values: ['hasOneDonor', 'hasMultipleDonors'],
+        defaultValue: 'hasOneDonor',
+        allowNull: false
       },
       createdAt: {
         type: Sequelize.BIGINT

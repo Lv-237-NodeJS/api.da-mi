@@ -9,7 +9,7 @@ module.exports = {
         link: 'supercool.phone.com',
         event_id: 1,
         is_available: true,
-        status_gift_id: 1,
+        status: 'hasMultipleDonors',
         createdAt: Date.now(),
         updatedAt: Date.now()
       },
@@ -19,7 +19,7 @@ module.exports = {
         link: 'dyson.com/vacuum',
         event_id: 1,
         is_available: true,
-        status_gift_id: 1,
+        status: 'hasOneDonor',
         createdAt: Date.now(),
         updatedAt: Date.now()
       }

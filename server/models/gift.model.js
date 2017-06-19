@@ -23,9 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: true,
       allowNull: false
     },
-    status_gift_id: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
+    status: {
+      type: DataTypes.ENUM,
+      values: ['hasOneDonor', 'hasMultipleDonors'],
+      defaultValue: 'hasOneDonor',
       allowNull: false
     },
     createdAt: {
@@ -42,10 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate: models => {
         Gift.hasOne(models.Event, {
-          foreignKey: 'id',
-          hooks: true
-        });
-        Gift.hasOne(models.GiftStatus, {
           foreignKey: 'id',
           hooks: true
         });
