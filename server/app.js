@@ -17,7 +17,8 @@ app.use('/api/+(?!auth)/?*', function(req, res, next) {
   if (token) {
     jwt.verify(token, secret.key, function(err, decoded) {
       if (err) {
-        return res.json({
+        return res.status(401).json({
+          error: err,
           success: false,
           message: 'Failed to authenticate token.'
         });
@@ -26,7 +27,6 @@ app.use('/api/+(?!auth)/?*', function(req, res, next) {
         next();
       }
     });
-
   } else if (req.baseUrl.includes('/api/user/activation')) {
     next();
   } else {

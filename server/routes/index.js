@@ -2,6 +2,7 @@ const profileController = require('../controllers/profile.controller');
 const userController = require('../controllers/user.controller');
 const authController = require('../controllers/auth.controller');
 const eventController = require('../controllers/event.controller');
+const guestController = require('../controllers/guest.controller');
 
 module.exports = app => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -24,4 +25,6 @@ module.exports = app => {
   app.post('/api/auth/login', authController.login);
   app.get('/api/user/activation/:token', authController.activation);
 
+  app.post('/api/event/:id/guest/invite', guestController.invite);
+  app.get('/api/event/:id/guest/get', guestController.retrieve);
 };
