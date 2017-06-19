@@ -7,4 +7,5 @@ module.exports = {
   activation: '~*~🎁~* Activation *~🎁~*~',
   emailUsed: 'That email address is already in use',
   profileError: 'Profile Not Found',
+  error: 'Bad request'
 };
