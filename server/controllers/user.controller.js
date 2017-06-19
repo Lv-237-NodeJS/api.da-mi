@@ -2,14 +2,45 @@
 
 const User = require('../../config/db').User;
 const Profile = require('../../config/db').Profile;
+const Guest = require('../../config/db').Guest;
+const password = require('./../helper/passwordGenerator');
 
 module.exports = {
   create(req, res) {
     let assignUser = Object.assign({}, req.body);
-
-    User.create(assignUser)
-    .then(user => res.status(201).send(user))
-    .catch(error => res.status(400).send(error));
+    const id = req.body.eventId;
+    id ?
+      req.body.emails.map(email => {
+        User.findOne({
+          where: {
+            email: email
+          }
+        })
+        .then(user => user ?
+          Guest.create({
+            event_id: id,
+            user_id: user.id
+          }) :
+          User.create({
+            email: email,
+            password: password.passwordGenerate(),
+            is_invited: true
+          })
+          .then(user => {
+            Guest.create({
+              event_id: id,
+              user_id: user.id
+            });
+          })
+        )
+        .then(user => {
+          res.send({user: user});
+        })
+        .catch(error => res.status(400).send(error));
+      }) :
+      User.create(assignUser)
+        .then(user => res.status(201).send(user))
+        .catch(error => res.status(400).send(error));
   },
   retrieve(req, res) {
     User.findById(req.params.id)
