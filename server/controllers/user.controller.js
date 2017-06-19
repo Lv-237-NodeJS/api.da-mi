@@ -8,7 +8,7 @@ const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer } = require('./../helper');
-const message = require('./../helper/message');
+const messages = require('./../helper/messages');
 const constant = require('./../helper/constant');
 
 module.exports = {
@@ -54,7 +54,7 @@ module.exports = {
           email: user.email
         }, secret.key, {expiresIn: constant.TIME.TOKEN});
         let data = {
-          subject: message.activation,
+          subject: messages.activation,
           img: 'activ.jpg',
           host: req.headers.host,
           route: constant.ROUTE.ACTIVATION,
@@ -62,23 +62,19 @@ module.exports = {
           token: token
         };
         mailer(data, 'activation');
-        res.status(201).send();
+        res.status(201).send(user);
       };
-      if (user) {
-        if (!user.is_invated) {
-          res.status(422).send(message.emailUsed);
-        } else {
-          User.updateAttributes(assignUser)
-          .then(dataActivation)
-          .catch(error => res.status(400).send(error));
-        }
+      if (user && user.is_invated) {
+        User.updateAttributes(assignUser)
+        .then(dataActivation)
+        .catch(error => res.status(400).send(messages.error));
       } else {
         User.create(assignUser)
         .then(dataActivation)
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(422).send(messages.emailUsed));
       };
     })
-    .catch(error => res.status(422).send(message.emailUsed));
+    .catch(error => res.status(422).send(messages.emailUsed));
   },
   retrieve(req, res) {
     User.findById(req.params.id)
