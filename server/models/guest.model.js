@@ -17,6 +17,14 @@ module.exports = function(sequelize, DataTypes) {
       values: ['going', 'notgoing', 'undecided'],
       defaultValue: 'undecided',
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     paranoid: false,
@@ -44,3 +52,4 @@ module.exports = function(sequelize, DataTypes) {
   });
   return Guest;
 };
+
