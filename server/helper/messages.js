@@ -9,5 +9,6 @@ module.exports = {
   profileError: 'Profile Not Found',
   badRequest: 'Bad request',
   eventNotFound: 'Event has not found! Try again!',
-  giftNotFound: 'Sorry, found no gift here'
+  giftNotFound: 'Sorry, found no gift here',
+  accessDenied: 'Access denied!'
 };
