@@ -26,5 +26,5 @@ module.exports = app => {
   app.get('/api/user/activation/:token', authController.activation);
 
   app.post('/api/event/:id/guest/invite', guestController.invite);
-  app.get('/api/event/:id/guest/get', guestController.retrieve);
+  app.get('/api/event/:id/guest/get', guestController.list);
 };

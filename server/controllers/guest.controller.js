@@ -9,14 +9,14 @@ const URL = require('./../helper/constants');
 
 module.exports = {
 
-  retrieve(req, res) {
+  list(req, res) {
 
     Guest.findAll({
       where: {event_id: req.params.id},
       include: [User]
     })
     .then(guests => {
-      res.send({guest: guests});
+      res.send({guests: guests});
     })
     .catch(error => res.status(404).send(error));
   },
@@ -40,8 +40,8 @@ module.exports = {
     })
     .then(guests => {
       guests.map(guest => {
-        const firstname = guest.User.Profile ? guest.User.Profile.first_name : '';
-        const lastname = guest.User.Profile ? guest.User.Profile.last_name : '';
+        const firstname = guest.User.Profile.first_name || '';
+        const lastname = guest.User.Profile.last_name || '';
         const route = guest.User.is_invited ? '/signup' : `/event/${eventId}`;
 
         mailer.send({
@@ -60,7 +60,7 @@ module.exports = {
       });
       return guests;
     })
-    .then((guests) => res.send({guests: guests}))
-    .catch(err => res.status(404).send(error));
+    .then(guests => res.send({guests: guests}))
+    .catch(err => res.status(400).send(error));
   }
 };

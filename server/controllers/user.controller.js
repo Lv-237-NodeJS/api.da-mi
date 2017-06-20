@@ -8,33 +8,32 @@ const password = require('./../helper/passwordGenerator');
 module.exports = {
   create(req, res) {
     let assignUser = Object.assign({}, req.body);
-    const id = req.body.eventId;
-    id ?
+    const eventId = req.body.eventId;
+    eventId ?
       req.body.emails.map(email => {
-        User.findOne({
+        User.findOrCreate({
           where: {
             email: email
-          }
-        })
-        .then(user => user ?
-          Guest.create({
-            event_id: id,
-            user_id: user.id
-          }) :
-          User.create({
+          },
+          defaults: {
             email: email,
             password: password.passwordGenerate(),
             is_invited: true
+          }
+        })
+        .spread((user, created) => {
+          Guest.findOne({
+            where: {
+              user_id: user.id
+            }
           })
-          .then(user => {
+          .then(guest => {!guest &&
             Guest.create({
-              event_id: id,
+              event_id: eventId,
               user_id: user.id
             });
-          })
-        )
-        .then(user => {
-          res.send({user: user});
+          });
+          res.status(201).send(user);
         })
         .catch(error => res.status(400).send(error));
       }) :
