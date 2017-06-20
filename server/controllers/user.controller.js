@@ -52,12 +52,12 @@ module.exports = {
         let token = jwt.sign({
           id: user.id,
           email: user.email
-        }, secret.key, {expiresIn: constant.TIME.TOKEN});
+        }, secret.key, {expiresIn: constants.TIME.TOKEN});
         let data = {
           subject: messages.activation,
           img: 'activ.jpg',
           host: req.headers.host,
-          route: constant.ROUTE.ACTIVATION,
+          route: constants.ROUTE.ACTIVATION,
           email: req.body.email,
           token: token
         };
@@ -67,7 +67,7 @@ module.exports = {
       if (user && user.is_invated) {
         User.updateAttributes(assignUser)
         .then(dataActivation)
-        .catch(error => res.status(400).send(messages.error));
+        .catch(error => res.status(400).send(messages.badRequest));
       } else {
         User.create(assignUser)
         .then(dataActivation)
@@ -80,11 +80,11 @@ module.exports = {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send({message: 'User Not Found'});
+        return res.status(404).send(messages.userNotFound);
       }
       Profile.findById(user.profile_id).then(profile => {
         if (!profile) {
-          return res.status(404).send({message: 'Profile Not Found'});
+          return res.status(404).send(message.profileError);
         }
 
         const data = Object.assign({}, {email: user.email,
@@ -99,26 +99,24 @@ module.exports = {
         return res.status(200).send(data);
       })
       .catch(error => {
-        return res.status(400).send(error);
+        return res.status(400).send(messages.badRequest);
       });
     })
     .catch(error => {
-      return res.status(400).send(error);
+      return res.status(400).send(messages.badRequest);
     });
   },
   destroy(req, res) {
     User.findById(req.params.id)
     .then(user => {
       if (!user) {
-        return res.status(404).send({
-          message: 'User has not found. Please try again!'
-        });
+        return res.status(404).send(messages.userNotFound);
       }
       return user
       .destroy()
       .then(user => res.status(204).send(user))
-      .catch(error => res.status(404).send(error));
+      .catch(error => res.status(404).send(messages.userNotFound));
     })
-    .catch(error => res.status(404).send(error));
+    .catch(error => res.status(404).send(messages.userNotFound));
   }
 };
