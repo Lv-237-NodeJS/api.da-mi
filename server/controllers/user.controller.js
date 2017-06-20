@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer } = require('./../helper');
 const messages = require('./../helper/messages');
-const constant = require('./../helper/constant');
+const constants = require('./../helper/constants');
 
 module.exports = {
   create(req, res) {
@@ -84,7 +84,7 @@ module.exports = {
       }
       Profile.findById(user.profile_id).then(profile => {
         if (!profile) {
-          return res.status(404).send(message.profileError);
+          return res.status(404).send(messages.profileError);
         }
 
         const data = Object.assign({}, {email: user.email,
