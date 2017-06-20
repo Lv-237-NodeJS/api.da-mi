@@ -1,7 +1,7 @@
 module.exports = {
   linkNotValid: 'Link are not valid or time expired!',
   userNotFound: 'This user is not found!',
-  linkAlreadyActivated: 'Link has already actived!',
+  linkAlreadyActivated: 'Link already actived!',
   congratulation: 'Congratulation!',
   eventNotFound: 'Event has not found! Try again!',
   activation: '~*~🎁~* Activation *~🎁~*~',
