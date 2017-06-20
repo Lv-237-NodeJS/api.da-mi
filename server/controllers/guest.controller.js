@@ -40,8 +40,8 @@ module.exports = {
     })
     .then(guests => {
       guests.map(guest => {
-        const firstname = guest.User.Profile.first_name || '';
-        const lastname = guest.User.Profile.last_name || '';
+        const firstname = guest.User.Profile ? guest.User.Profile.first_name : '';
+        const lastname = guest.User.Profile ? guest.User.Profile.last_name : '';
         const route = guest.User.is_invited ? '/signup' : `/event/${eventId}`;
 
         mailer.send({
