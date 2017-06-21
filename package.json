@@ -35,14 +35,16 @@
   "devDependencies": {
     "istanbul": "^0.4.5",
     "jasmine-node": "^1.14.5",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "should": "^11.2.1",
+    "superagent": "^3.5.2"
   },
   "scripts": {
     "build:prod": "NODE_ENV=production webpack -p --config ./webpack/webpack.config.prod.js",
     "start:dev": "webpack-dev-server --hot --inline --config ./webpack/webpack.config.dev.js",
     "start:prod": "npm run build:prod && node server.js",
-    "test": "jasmine-node server --verbose --test-dir test  --color --watch",
-    "coverage": "istanbul cover --include-all-sources -x jasmine-node server --test-dir test"
+    "test": "NODE_ENV=development jasmine-node --verbose --test-dir test --color --watch",    
+    "coverage": "NODE_ENV=development istanbul cover --report=text --lcov jasmine-node --verbose test"
   },
   "repository": {
     "type": "git",

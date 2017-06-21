@@ -1,4 +1,4 @@
-const calculator = require('./sample.js');
+const calculator = require('../../server/specs/sample.js');
 
 describe('multiplication', () => {
   it('should multiply 2 and 3', () => {

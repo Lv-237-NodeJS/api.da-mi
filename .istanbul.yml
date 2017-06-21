@@ -4,7 +4,12 @@ instrumentation:
   extensions:
     - .js
   default-excludes: true
-  excludes: ['node_modules']
+  excludes: [
+    '**/migrations/**',
+    '**/seeders/**',
+    '**/webpack/**',
+    '**/build/**',
+    ]
   embed-source: false
   variable: __coverage__
   compact: true
@@ -40,16 +45,3 @@ hooks:
   hook-run-in-context: true
   post-require-hook: null
   handle-sigint: true
-check:
-  global:
-    statements: 0
-    lines: 0
-    branches: 0
-    functions: 0
-    excludes: []
-  each:
-    statements: 0
-    lines: 0
-    branches: 0
-    functions: 0
-    excludes: []
