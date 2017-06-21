@@ -47,9 +47,8 @@ module.exports = {
       }
     })
     .then(user => {
-      let assignUser = Object.assign({}, req.body);
-      let dataActivation = user => {
-        let token = jwt.sign({
+      const dataActivation = user => {
+        const token = jwt.sign({
           id: user.id,
           email: user.email
         }, secret.key, {expiresIn: constants.TIME.TOKEN});
@@ -74,7 +73,7 @@ module.exports = {
         .catch(error => res.status(422).send(messages.emailUsed));
       };
     })
-    .catch(error => res.status(422).send(messages.emailUsed));
+    .catch(error => res.status(400).send(messages.badRequest));
   },
   retrieve(req, res) {
     User.findById(req.params.id)
