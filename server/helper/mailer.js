@@ -6,7 +6,7 @@ const handlebars = require('handlebars');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
 const configDir = path.resolve('./config', 'mailerConfig.json');
-const secret = require(configDir);
+const secret = require(`${configDir}`);
 
 let transport = nodemailer.createTransport(smtpTransport({
     host: secret.config.host,
@@ -27,8 +27,6 @@ module.exports = {
     let locals = {
         firstname: _data.firstname,
         lastname: _data.lastname,
-        ownerFirstName: _data.ownerFirstName,
-        ownerLastName: _data.ownerLastName,
         to: _data.email,
         url: url,
         eventName: _data.eventName,
