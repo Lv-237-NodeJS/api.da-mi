@@ -7,9 +7,7 @@ const password = require('./../helper/passwordGenerator');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer } = require('./../helper');
-const messages = require('./../helper/messages');
-const constants = require('./../helper/constants');
+const { mailer, messages, constants } = require('./../helper');
 
 module.exports = {
   create(req, res) {
