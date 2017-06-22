@@ -5,7 +5,7 @@ const Profile = require('../../config/db').Profile;
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer, message } = require('./../helper');
+const { mailer, messages } = require('./../helper');
 const activUser = require('../../config/activUserConfig.json').activUser;
 
 module.exports = {
@@ -22,13 +22,14 @@ module.exports = {
     })
     .catch(error => res.status(401).send(error));
   },
+
   activation(req, res) {
     let token = req.params.token;
     let decoder;
     try {
       decoder = jwt.verify(token, secret.key);
     } catch (err) {
-      res.status(498).send(message.linkNotValid);
+      res.status(498).send(messages.linkNotValid);
     }
     User.findOne({
       where: {
@@ -37,10 +38,10 @@ module.exports = {
     })
     .then(user => {
       if (!user) {
-        res.status(404).send(message.userNotFound);
+        res.status(404).send(messages.userNotFound);
       } else {
         if (user.is_activate) {
-          res.status(418).send(message.linkAlreadyActivated);
+          res.status(418).send(messages.linkAlreadyActivated);
         } else {
           Profile.create()
           .then(result => {
@@ -52,7 +53,7 @@ module.exports = {
               });
               activUser.email = decoder.email;
               mailer(activUser, 'activated');
-              res.status(200).send(message.congratulation);
+              res.status(200).send(messages.congratulation);
             });
           })
           .catch(error => res.status(400).send(error));
