@@ -1,11 +1,12 @@
 'use strict';
 
-const Gift = require('../../config/db').Gift;
-const Event = require('../../config/db').Event;
-const Guest = require('../../config/db').Guest;
-const messages = require('../helper/messages');
+const DB = require('./../../config/db');
+const Gift = DB.Gift;
+const Event = DB.Event;
+const Guest = DB.Guest;
+const { messages } = require('./../helper');
 
-const validateGift = (entity, eventId, res) => {
+const validateGift = (entity, eventId) => {
   return entity && entity.dataValues.event_id === Number(eventId);
 };
 
@@ -19,7 +20,7 @@ const isEventOwner = (eventId, userId, entity) => {
   .catch(error => error);
 };
 
-const isEventGuest = (eventId, userId, entity, res) => {
+const isEventGuest = (eventId, userId, entity) => {
   return Guest.findOne({
     where: {event_id: Number(eventId),
       $and: {user_id: userId}
@@ -41,9 +42,9 @@ const eventIsDraft = eventId => {
 
 module.exports = {
   create(req, res) {
-    let assignGift = Object.assign({}, req.body, {event_id: req.params.id});
-    Gift.create(assignGift)
-    .then(gift => isEventOwner(req.params.id, req.decoded.id, gift, res)
+    let giftParams = Object.assign({}, req.body, {event_id: req.params.id});
+    Gift.create(giftParams)
+    .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => !!out && res.status(201).send(gift) ||
         res.status(403).send(messages.accessDenied)
       )
