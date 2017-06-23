@@ -57,11 +57,11 @@ module.exports = {
       attributes: ['id', 'name', 'description', 'link', 'is_available', 'status'],
       where: {event_id: req.params.id}
     })
-    .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
-      .then(out => !!out && res.status(200).send(gift) ||
-        isEventGuest(req.params.id, req.decoded.id, gift)
+    .then(gifts => isEventOwner(req.params.id, req.decoded.id, gifts)
+      .then(out => !!out && res.status(200).send(gifts) ||
+        isEventGuest(req.params.id, req.decoded.id, gifts)
         .then(out => !!out &&
-          res.status(200).send(gift) ||
+          res.status(200).send(gifts) ||
           res.status(403).send(messages.accessDenied)
         )
       )
