@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     hooks: {
       beforeCreate: (event, options) => {
-        event.date_event = event.date_event.getTime();
+        event.date_event = Date.parse(event.date_event);
         event.createdAt = new Date().getTime();
         event.updatedAt = new Date().getTime();
       },
