@@ -14,7 +14,7 @@ instrumentation:
   variable: __coverage__
   compact: true
   preserve-comments: false
-  complete-copy: false
+  complete-copy: true
   save-baseline: true
   baseline-file: ./coverage/coverage-baseline.json
   include-all-sources: true
