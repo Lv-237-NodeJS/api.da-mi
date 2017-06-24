@@ -5,7 +5,7 @@ module.exports = {
     queryInterface.bulkInsert('Events', [
       {
         name: 'wedding',
-        date_event: '2017-06-01 15:00:00.00+03',
+        date_event: Date.parse('2017-06-01 15:00:00.00+03'),
         owner: 1,
         location_name: 'restoran Kryva Lypa',
         longitude:  24.026109,

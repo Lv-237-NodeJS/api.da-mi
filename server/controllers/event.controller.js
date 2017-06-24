@@ -18,7 +18,10 @@ module.exports = {
       attributes: [
         'id', 'name', 'date_event', 'location_name', 'longitude', 'latitude', 'description'
       ],
-      where: {owner: req.decoded.id}
+      where: {owner: req.decoded.id},
+      order: [
+        ['createdAt', 'DESC']
+      ]
     })
     .then(event => res.status(200).send(event))
     .catch(error => res.status(400).send(error));
