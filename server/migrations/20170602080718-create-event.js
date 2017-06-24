@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       date_event: {
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT
       },
       owner: {
         type: Sequelize.INTEGER,

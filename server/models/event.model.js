@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     date_event: {
-      type: DataTypes.DATE,
+      type: DataTypes.BIGINT,
       allowNull: false
     },
     owner: {
@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     hooks: {
       beforeCreate: (event, options) => {
+        event.date_event = event.date_event.getTime();
         event.createdAt = new Date().getTime();
         event.updatedAt = new Date().getTime();
       },
