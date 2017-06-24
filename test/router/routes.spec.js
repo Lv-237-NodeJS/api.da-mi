@@ -10,12 +10,13 @@ describe('Hello DAMI API Server', () => {
         .expectStatus(200)
         .toss();
     });
-    it('should respond with Welcome to the DAMI API!', done => {
+    it('should respond with Welcome to the API Da-Mi.', done => {
       frisby.create('status code 200')
         .get(baseUrl + '/')
         .expectJSON({
-          message: 'Welcome to the API Da-Mi'
-        });
+          message: 'Welcome to the API Da-Mi.'
+        })
+      .toss();
       done();
     });
   });
@@ -29,10 +30,11 @@ describe('Hello DAMI API Server', () => {
     });
     it('should respond with Welcome to the DAMI API!', done => {
       frisby.create('status code 200')
-        .get(baseUrl + '/')
+        .get(baseUrl + '/api')
         .expectJSON({
-          message: 'Welcome to the API Da-Mi'
-        });
+          message: 'Welcome to the DAMI API!'
+        })
+      .toss();
       done();
     });
   });
