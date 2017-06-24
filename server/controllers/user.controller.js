@@ -12,66 +12,77 @@ const { mailer, messages, constants } = require('./../helper');
 module.exports = {
   create(req, res) {
     let assignUser = Object.assign({}, req.body);
-    const eventId = req.body.eventId;
-    eventId ?
-      req.body.emails.map(email => {
-        User.findOrCreate({
+    const eventId = req.params.id;
+    let users = [];
+    if (eventId) {
+    Promise.all(req.body.emails.map(email => {
+      User.findOrCreate({
+        where: {
+          email: email
+        },
+        defaults: {
+          email: email,
+          password: password.passwordGenerate(),
+          is_invited: true
+        }
+      })
+      .spread((user, created) => {
+        Guest.findOne({
           where: {
-            email: email
-          },
-          defaults: {
-            email: email,
-            password: password.passwordGenerate(),
-            is_invited: true
+            user_id: user.id,
+            event_id: eventId
           }
         })
-        .spread((user, created) => {
-          Guest.findOne({
-            where: {
-              user_id: user.id
-            }
-          })
-          .then(guest => {!guest &&
-            Guest.create({
-              event_id: eventId,
-              user_id: user.id
-            });
+        .then(guest => {
+          !guest &&
+          Guest.create({
+            event_id: eventId,
+            user_id: user.id
           });
         });
-      }) :
-    User.findOne({
-      where: {
-        email: req.body.email
-      }
-    })
-    .then(user => {
-      const dataActivation = user => {
-        const token = jwt.sign({
-          id: user.id,
-          email: user.email
-        }, secret.key, {expiresIn: constants.TIME.TOKEN});
-        let data = {
-          subject: messages.activation,
-          img: 'activ.jpg',
-          host: req.headers.host,
-          route: constants.ROUTE.ACTIVATION,
-          email: req.body.email,
-          token: token
-        };
-        mailer(data, 'activation');
-        res.status(201).send(user);
-      };
-      if (user && user.is_invated) {
-        User.updateAttributes(assignUser)
-        .then(dataActivation)
-        .catch(error => res.status(400).send(messages.badRequest));
-      } else {
-        User.create(assignUser)
-        .then(dataActivation)
-        .catch(error => res.status(422).send(messages.emailUsed));
-      };
+        return users.push(user);
+      });
+    }))
+    .then(result => {
+      console.log('RESULT', result);
+      res.status(201).send(result);
     })
     .catch(error => res.status(400).send(messages.badRequest));
+    } else {
+      User.findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      .then(user => {
+        const dataActivation = user => {
+          const token = jwt.sign({
+            id: user.id,
+            email: user.email
+          }, secret.key, {expiresIn: constants.TIME.TOKEN});
+          let data = {
+            subject: messages.activation,
+            img: 'activ.jpg',
+            host: req.headers.host,
+            route: constants.ROUTE.ACTIVATION,
+            email: req.body.email,
+            token: token
+          };
+          mailer(data, 'activation');
+          res.status(201).send(user);
+        };
+        if (user && user.is_invated) {
+          User.updateAttributes(assignUser)
+          .then(dataActivation)
+          .catch(error => res.status(400).send(messages.badRequest));
+        } else {
+          User.create(assignUser)
+          .then(dataActivation)
+          .catch(error => res.status(422).send(messages.emailUsed));
+        };
+      })
+      .catch(error => res.status(400).send(messages.badRequest));
+    }
   },
 
   retrieve(req, res) {
@@ -102,16 +113,45 @@ module.exports = {
     });
   },
   destroy(req, res) {
+    const eventId = req.headers.referer.split('/')[4];
+    eventId ?
+      Guest.findOne({
+        where: {
+          user_id: req.params.id,
+          event_id: eventId
+        }
+      })
+      .then(guest => {
+        guest && guest.destroy();
+      })
+      .then(() => {
+        User.findById(req.params.id)
+        .then(user =>
+          !user.is_activate && user.destroy()
+        );
+        res.status(204).send('Guest was deleted');
+      })
+      .catch(error => {
+        res.status(404).send(messages.userNotFound);
+      }) :
+
     User.findById(req.params.id)
     .then(user => {
-      if (!user) {
-        return res.status(404).send(messages.userNotFound);
-      }
-      return user
-      .destroy()
-      .then(user => res.status(204).send(user))
-      .catch(error => res.status(404).send(messages.userNotFound));
+      user && user.destroy();
     })
-    .catch(error => res.status(404).send(messages.userNotFound));
+    .then(() => {
+      Guest.findAll({
+        where: {
+          user_id: req.params.id
+        }
+      })
+      .then(guests => {
+        guests.forEach(guest => guest && guest.destroy());
+      });
+    })
+    .then(() => res.status(204).send('User was deleted'))
+    .catch(error => {
+      res.status(404).send(messages.userNotFound);
+    });
   }
 };

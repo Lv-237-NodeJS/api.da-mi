@@ -29,6 +29,7 @@ module.exports = app => {
 
   app.post('/api/event/:id/guest/invite', guestController.invite);
   app.get('/api/event/:id/guest/get', guestController.list);
+  app.post('/api/event/:id/guests', userController.create);
 
   app.post('/api/events/:id/gifts', giftController.create);
   app.get('/api/events/:id/gifts', giftController.list);
