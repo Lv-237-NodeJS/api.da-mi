@@ -1,10 +1,8 @@
 const server = require('../../server');
 const frisby = require('frisby');
-
 const baseUrl = 'http://localhost:8082';
 
 describe('Hello DAMI API Server', () => {
-
   describe('GET /', () => {
     it('returns status code 200', () => {
       frisby.create('status code 200')

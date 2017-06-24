@@ -1,10 +1,9 @@
-
 const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
 
 const randomInt = require('./../helper/test_helpers');
 const testUserNumber = randomInt(10000, 99999).toString();
-const testPass = 'Qq@@11' + testUserNumber;
+const testPass = 'Qq@1' + testUserNumber;
 const testEmail = 'test_' + testUserNumber + '@dami.com';
 
 describe('Test User Controller', () => {
