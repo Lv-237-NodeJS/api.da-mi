@@ -12,7 +12,7 @@ const isEventOwner = (eventId, userId, gift) => {
       $and: {owner: userId}
     }
   })
-  .then(event => event && Number(event.dataValues.id) && 
+  .then(event => event && Number(event.dataValues.id) &&
     (!!gift && gift.dataValues.event_id === Number(eventId)))
   .catch(error => error);
 };
@@ -23,7 +23,7 @@ const isEventGuest = (eventId, userId, gift, res) => {
       $and: {user_id: userId}
     }
   })
-  .then(guest => guest && Number(guest.dataValues.id) && 
+  .then(guest => guest && Number(guest.dataValues.id) &&
     (!!gift && gift.dataValues.event_id === Number(eventId)) ||
     res.status(403).send(messages.giftNotFound))
   .catch(error => error);
