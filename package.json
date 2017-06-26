@@ -33,12 +33,17 @@
     "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
+    "frisby": "^0.8.5",
+    "istanbul": "^0.4.5",
+    "jasmine-node": "^1.14.5",
     "nodemon": "^1.11.0"
   },
   "scripts": {
     "build:prod": "NODE_ENV=production webpack -p --config ./webpack/webpack.config.prod.js",
     "start:dev": "webpack-dev-server --hot --inline --config ./webpack/webpack.config.dev.js",
-    "start:prod": "npm run build:prod && node server.js"
+    "start:prod": "npm run build:prod && node server.js",
+    "test": "NODE_ENV=test jasmine-node --verbose --test-dir test --color --watch",
+    "coverage": "NODE_ENV=test istanbul cover --report=text --report lcov jasmine-node --verbose test"
   },
   "repository": {
     "type": "git",
