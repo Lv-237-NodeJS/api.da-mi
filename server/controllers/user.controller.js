@@ -73,26 +73,27 @@ module.exports = {
     })
     .catch(error => res.status(400).send(messages.badRequest));
   },
+
   retrieve(req, res) {
-    User.findById(req.params.id)
+    User.findById(
+      req.params.id, {
+        attributes: [
+          'email', 'profile_id'
+        ]})
     .then(user => {
       if (!user) {
         return res.status(404).send(messages.userNotFound);
       }
-      Profile.findById(user.profile_id).then(profile => {
+      Profile.findById(
+        user.profile_id, {
+          attributes: [
+            'first_name', 'last_name', 'avatar', 'birth_date', 'address', 'city', 'country'
+          ]})
+        .then(profile => {
         if (!profile) {
           return res.status(404).send(messages.profileError);
         }
-
-        const data = Object.assign({}, {email: user.email,
-          firstName: profile.first_name,
-          lastName: profile.last_name,
-          avatar: profile.avatar,
-          birthdate: profile.birth_date,
-          address: profile.address,
-          city: profile.city,
-          country: profile.city
-        });
+        const data = Object.assign({}, user.dataValues, profile.dataValues);
         return res.status(200).send(data);
       })
       .catch(error => {
