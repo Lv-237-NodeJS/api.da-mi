@@ -81,21 +81,16 @@ module.exports = {
           'email', 'profile_id'
         ]})
     .then(user => {
-      if (!user) {
-        return res.status(404).send(messages.userNotFound);
-      }
+      user || res.status(404).send(messages.userNotFound);
       Profile.findById(
         user.profile_id, {
           attributes: [
             'first_name', 'last_name', 'avatar', 'birth_date', 'address', 'city', 'country'
           ]})
         .then(profile => {
-        if (!profile) {
-          return res.status(404).send(messages.profileError);
-        }
-        const data = Object.assign({}, user.dataValues, profile.dataValues);
-        return res.status(200).send(data);
-      })
+          profile || res.status(404).send(messages.profileError);
+          return (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
+        })
       .catch(error => {
         return res.status(400).send(messages.badRequest);
       });
