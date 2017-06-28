@@ -14,7 +14,7 @@ const isEventOwner = (eventId, userId, gift) => {
 
 const isEventGuest = (eventId, userId, gift, res) => {
   return Guest.findOne({where: {event_id: +eventId, $and: {user_id: userId}}})
-  .then(guest => !!guest && !!gift && (+gift.dataValues.event_id === +eventId) || 
+  .then(guest => !!guest && !!gift && (+gift.dataValues.event_id === +eventId) ||
     res.status(404).send(messages.giftNotFound))
   .catch(error => error);
 };
@@ -30,7 +30,7 @@ module.exports = {
     let giftParams = Object.assign({}, req.body, {event_id: req.params.id});
     let gift = Gift.build(giftParams);
     isEventOwner(req.params.id, req.decoded.id, gift)
-      .then(out => !!out && gift.save() && res.status(201).send(gift) || 
+      .then(out => !!out && gift.save() && res.status(201).send(gift) ||
         res.status(403).send(messages.accessDenied))
     .catch(error => res.status(400));
   },
