@@ -26,7 +26,7 @@ module.exports = {
         },{model: Gift}]
       })
       .then(comment => {
-          const {first_name, last_name} = comment.User.Profile || '';
+          const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
           const template = 'commentReply';
           const subject = 'Comment Reply Notification';
           const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
@@ -35,8 +35,8 @@ module.exports = {
             host: URL,
             subject: subject,
             route: route,
-            firstname: first_name,
-            lastname: last_name,
+            firstname: firstName,
+            lastname: lastName,
             email: comment.User.email,
             giftName: comment.Gift.name,
             img: 'party.jpg'
