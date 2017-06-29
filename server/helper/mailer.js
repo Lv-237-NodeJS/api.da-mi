@@ -43,7 +43,7 @@ module.exports = {
         return error;
       }
       const mailOptions = {
-        from: `"Da-Mi"<${secret.user}>`,
+        from: `Da-Mi<${secret.email}>`,
         to: locals.to,
         subject: _data.subject,
         html: sendMail.html,
@@ -55,7 +55,7 @@ module.exports = {
         }]
       };
 
-      transport.sendMail(mailOptions, (error) => {
+      transport.sendMail(mailOptions, error => {
         if (error) {
           return error;
         }
