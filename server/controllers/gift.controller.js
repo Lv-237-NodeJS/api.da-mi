@@ -7,20 +7,19 @@ const Guest = DB.Guest;
 const { messages } = require('./../helper');
 
 const isEventOwner = (eventId, userId, gift) => {
-  return Event.findOne({where: {id: +eventId, $and: {owner: userId}}})
-  .then(event => !!event && !!gift && (+gift.dataValues.event_id === +eventId))
+  return Event.findOne({where: {id: eventId, $and: {owner: userId}}})
+  .then(event => !!event && !!gift)
   .catch(error => error);
 };
 
 const isEventGuest = (eventId, userId, gift, res) => {
-  return Guest.findOne({where: {event_id: +eventId, $and: {user_id: userId}}})
-  .then(guest => !!guest && !!gift && (+gift.dataValues.event_id === +eventId) ||
-    res.status(404).send(messages.giftNotFound))
+  return Guest.findOne({where: {event_id: eventId, $and: {user_id: userId}}})
+  .then(guest => !!guest && !!gift || res.status(404).send(messages.giftNotFound))
   .catch(error => error);
 };
 
 const eventIsDraft = eventId => {
-  return Event.findOne({where: {id: Number(eventId), $and: {status_event_id: 1}}})
+  return Event.findOne({where: {id: +eventId, $and: {status_event_id: 1}}})
   .then(event => !!event)
   .catch(error => error);
 };
@@ -30,7 +29,7 @@ module.exports = {
     let giftParams = Object.assign({}, req.body, {event_id: req.params.id});
     let gift = Gift.build(giftParams);
     isEventOwner(req.params.id, req.decoded.id, gift)
-      .then(out => !!out && gift.save() && res.status(201).send(gift) ||
+      .then(out => out && gift.save() && res.status(201).send(gift) ||
         res.status(403).send(messages.accessDenied))
     .catch(error => res.status(400));
   },
@@ -47,7 +46,7 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    Gift.findById(req.params.gift_id)
+    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out && res.status(200).send(gift) ||
         isEventGuest(req.params.id, req.decoded.id, gift, res)
@@ -58,7 +57,7 @@ module.exports = {
   },
 
   update(req, res) {
-    Gift.findById(req.params.gift_id)
+    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out &&
         gift.updateAttributes(Object.assign({}, req.body))
@@ -74,7 +73,7 @@ module.exports = {
   },
 
   destroy(req, res) {
-    Gift.findById(req.params.gift_id)
+    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
     .then(gift =>
       isEventOwner(req.params.id, req.decoded.id, gift)
         .then(out => !!out &&
