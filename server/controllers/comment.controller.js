@@ -26,7 +26,6 @@ module.exports = {
         },{model: Gift}]
       })
       .then(comment => {
-
           const {first_name, last_name} = comment.User.Profile || '';
           const template = 'commentReply';
           const subject = 'Comment Reply Notification';
