@@ -5,8 +5,7 @@ const Profile = require('../../config/db').Profile;
 const Gift = require('../../config/db').Gift;
 const Event = require('../../config/db').Event;
 const Comment = require('../../config/db').Comment;
-const messages = require('../helper/messages');
-const mailer = require('./../helper/mailer');
+const { mailer, messages } = require('./../helper');
 const { HOST, PORT } = require('./../helper/constants');
 const URL = HOST + PORT;
 
@@ -15,11 +14,8 @@ module.exports = {
 
     let assignComment = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {event_id: req.params.id}, {user_id: req.decoded.id});
-    if (!!req.body.parent_id) {
-      Comment.findAll({
-        where: {
-          id: req.body.parent_id
-        },
+    !!req.body.parent_id && (
+      Comment.findById(req.body.parent_id, {
         include: [{
           model: User,
           attributes: ['email'],
@@ -29,31 +25,26 @@ module.exports = {
           }],
         },{model: Gift}]
       })
-      .then(items => {
-        items.map(item => {
-          const firstname = item.User.Profile ? item.User.Profile.first_name : '';
-          const lastname = item.User.Profile ? item.User.Profile.last_name : '';
+      .then(comment => {
+
+          const {first_name, last_name} = comment.User.Profile || '';
           const template = 'commentReply';
           const subject = 'Comment Reply Notification';
-          const route = `/events/${req.params.id}/gift/${item.gift_id}`;
+          const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
 
-          mailer.send({
+          mailer({
             host: URL,
             subject: subject,
             route: route,
-            firstname: firstname,
-            lastname: lastname,
-            email: item.User.email,
-            giftName: item.Gift.name,
+            firstname: first_name,
+            lastname: last_name,
+            email: comment.User.email,
+            giftName: comment.Gift.name,
             img: 'party.jpg'
           }, template);
-        });
-      });
-    }
+        }));
     Comment.create(assignComment)
-    .then(comment => {
-      return res.status(201).send(comment);
-    })
+    .then(comment => res.status(201).send(comment))
     .catch(error => res.status(400).send(error));
   },
 
