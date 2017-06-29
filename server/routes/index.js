@@ -29,4 +29,9 @@ module.exports = app => {
   app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
 
   app.post('/api/support', supportController.support);
+
+  app.post('/api/event/:id/gift/:gift_id/comments', commentController.create);
+  app.get('/api/event/:id/gift/:gift_id/comments', commentController.list);
+  app.put('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.update);
+  app.delete('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.destroy);
 };
