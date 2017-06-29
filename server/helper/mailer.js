@@ -22,7 +22,7 @@ const templatesDir = ('./server/views/emails');
 
 module.exports = {
   send(_data, _template) {
-    let url = 'http://' + _data.host + _data.route + _data.token;
+    let url = `http://${_data.host}${_data.route}${_data.token || ''}`;
     let template = new EmailTemplate(path.join(templatesDir, _template));
     let locals = {
         firstname: _data.firstname,
@@ -45,7 +45,7 @@ module.exports = {
       }
 
       let mailOptions = {
-        from: '"Da-Mi"' + secret.gmail.user,
+        from: '"Da-Mi"' + '<' + secret.gmail.user + '>',
         to: _data.email,
         subject: _data.subject,
         html: sendMail.html,

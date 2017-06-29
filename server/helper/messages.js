@@ -11,5 +11,9 @@ module.exports = {
   eventNotFound: 'Event has not found! Try again!',
   giftNotFound: 'Sorry, found no gift here',
   accessDenied: 'Access denied!',
-  problem: 'Have problem'
+  problem: 'Have problem',
+  userDeleted: 'User was deleted.',
+  guestDeleted: 'Guest was deleted.',
+  guestNotFound: 'This guest is not found!',
+  invitationsSended: 'Invitations were sended.'
 };

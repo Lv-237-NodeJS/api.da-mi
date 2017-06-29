@@ -11,7 +11,7 @@ const activUser = require('../../config/activUserConfig.json').activUser;
 module.exports = {
   login(req, res) {
     User.findOne({where: {email: req.body.email}}).then(user => {
-      if (!user || !passwordHash.verify(req.body.password, user.password)) {
+      if (!user || !passwordHash.verify(req.body.password, user.password) || !user.is_activate) {
         res.status(401).send('Email or password is not valid');
       } else {
         const token = jwt.sign({
