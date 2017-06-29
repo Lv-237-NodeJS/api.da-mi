@@ -11,7 +11,6 @@ const URL = HOST + PORT;
 
 module.exports = {
   create(req, res) {
-
     let assignComment = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {event_id: req.params.id}, {user_id: req.decoded.id});
     !!req.body.parent_id && (
