@@ -89,7 +89,7 @@ module.exports = {
           ]})
         .then(profile => {
           profile || res.status(404).send(messages.profileError);
-          return (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
+          (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
         })
       .catch(error => {
         return res.status(400).send(messages.badRequest);
