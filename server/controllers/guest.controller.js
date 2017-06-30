@@ -18,7 +18,7 @@ module.exports = {
       }]
     })
     .then(guests => {
-      res.send({guests});
+      res.status(200).send({guests});
     })
     .catch(error => res.status(404).send(error));
   },
@@ -50,6 +50,7 @@ module.exports = {
           mailer({
             host: URL,
             route: route,
+            subject: 'Invitation',
             firstname: firstName,
             lastname: lastName,
             ownerFirstName: owner.firstName,
