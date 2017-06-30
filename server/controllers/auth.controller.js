@@ -10,15 +10,15 @@ const activUser = require('../../config/activUserConfig.json').activUser;
 
 module.exports = {
   login(req, res) {
+    let token;
     User.findOne({where: {email: req.body.email}}).then(user => {
-      if (!user || !passwordHash.verify(req.body.password, user.password) || !user.is_activate) {
-        res.status(401).send('Email or password is not valid');
-      } else {
-        const token = jwt.sign({
-          id: user.id
-        }, secret.key, {expiresIn: '2h'});
-        res.json({'token': token, 'user_id': user.id, 'profile_id': user.profile_id});
-      }
+      (!user || !passwordHash.verify(req.body.password, user.password)) &&
+        res.status(401).send(messages.loginDataNotValid) ||  !user.is_activate &&
+          res.status(401).send(messages.userIsNotActivated) ||
+            (token = jwt.sign({
+              id: user.id
+            }, secret.key, {expiresIn: '2h'})) &&
+            res.json({'token': token, 'user_id': user.id});
     })
     .catch(error => res.status(401).send(error));
   },

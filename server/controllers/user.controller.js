@@ -120,15 +120,15 @@ module.exports = {
   },
 
   destroy(req, res) {
-    const eventId = req.headers.referer.split('/')[4];
+    const eventId = req.params.event_id;
 
     eventId && checkEventOwner(eventId, req.decoded.id)
       .then(isOwner => {
-        isOwner && findGuest(req.params.id, eventId)
+        isOwner && findGuest(req.params.user_id, eventId)
         .then(guest => {
           guest && guest.destroy();
 
-          User.findById(req.params.id)
+          User.findById(req.params.user_id)
           .then(user =>
             !user.is_activate && user.destroy()
           );
