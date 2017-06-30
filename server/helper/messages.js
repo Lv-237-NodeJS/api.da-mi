@@ -2,7 +2,7 @@ module.exports = {
   loginDataNotValid: 'Email or password is not valid.',
   linkNotValid: 'Link are not valid or time expired!',
   userNotFound: 'This user is not found!',
-  userIsNotActivated: 'User is not activated.',
+  userIsNotActivated: 'You are not activated. Please check your email.',
   linkAlreadyActivated: 'Link already activated!',
   congratulation: 'Congratulation!',
   eventNotFound: 'Event has not found! Try again!',
