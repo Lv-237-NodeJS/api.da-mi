@@ -1,17 +1,12 @@
 'use strict';
 
-const User = require('../../config/db').User;
-const Profile = require('../../config/db').Profile;
-const Gift = require('../../config/db').Gift;
-const Event = require('../../config/db').Event;
-const Comment = require('../../config/db').Comment;
+const { User, Profile, Gift, Event, Comment } = require('../../config/db');
 const { mailer, messages } = require('./../helper');
-const { HOST, PORT } = require('./../helper/constants');
-const URL = HOST + PORT;
+const { URL } = require('./../helper/constants');
 
 module.exports = {
   create(req, res) {
-    let assignComment = Object.assign({}, req.body, {gift_id: req.params.gift_id},
+    let commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {event_id: req.params.id}, {user_id: req.decoded.id});
     !!req.body.parent_id && (
       Comment.findById(req.body.parent_id, {
@@ -41,7 +36,7 @@ module.exports = {
             img: 'party.jpg'
           }, template);
         }));
-    Comment.create(assignComment)
+    Comment.create(commentParams)
     .then(comment => res.status(201).send(comment))
     .catch(error => res.status(400).send(error));
   },
