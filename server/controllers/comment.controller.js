@@ -59,7 +59,7 @@ module.exports = {
     .catch(error => res.status(400).send(error));
   },
 
-  update(req, res) {    
+  update(req, res) {
     Comment.findOne({
       where: {
         id: req.params.comment_id,
@@ -67,7 +67,7 @@ module.exports = {
       }
     })
     .then(comment =>
-      !comment && res.status(404).send(messages.commentNotFound) ||      
+      !comment && res.status(404).send(messages.commentNotFound) ||
       comment.updateAttributes(Object.assign({}, req.body))
       .then(comment => res.status(200).send(comment))
       .catch(error => res.status(400).send(error))
@@ -75,7 +75,7 @@ module.exports = {
     .catch(error => res.status(400).send(error));
   },
 
-  destroy(req, res) {   
+  destroy(req, res) {
     Comment.findOne({
       where: {
         id: req.params.comment_id,
@@ -87,6 +87,6 @@ module.exports = {
       comment.destroy()
       .then(comment => res.status(204).send(messages.commentDeleted))
       .catch(error => res.status(400).send(error))
-    )      
+    );
   }
 };
