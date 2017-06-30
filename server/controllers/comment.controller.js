@@ -59,31 +59,34 @@ module.exports = {
     .catch(error => res.status(400).send(error));
   },
 
-  update(req, res) {
-    Comment.findById(req.params.comment_id)
-    .then(comment => {
-      if (comment.dataValues.user_id !== req.decoded.id || !comment) {
-        return res.status(404).send(messages.commentNotFound);
+  update(req, res) {    
+    Comment.findOne({
+      where: {
+        id: req.params.comment_id,
+        $and: {user_id: req.decoded.id}
       }
-      let updatedComment = Object.assign({}, req.body);
-      return comment.updateAttributes(updatedComment)
-      .then(comment => res.status(200).send(comment))
-      .catch(error => res.status(400).send(error));
     })
+    .then(comment =>
+      !comment && res.status(404).send(messages.commentNotFound) ||      
+      comment.updateAttributes(Object.assign({}, req.body))
+      .then(comment => res.status(200).send(comment))
+      .catch(error => res.status(400).send(error))
+    )
     .catch(error => res.status(400).send(error));
   },
 
-  destroy(req, res) {
-    Comment.findById(req.params.comment_id)
-    .then(comment => {
-        if (comment.dataValues.user_id !== req.decoded.id || !comment) {
-          return res.status(404).send(messages.commentNotFound);
-        }
-        return comment
-          .destroy()
-          .then(comment => res.status(204).send(messages.commentDeleted))
-          .catch(error => res.status(400).send(error));
-      })
-      .catch(error => res.status(400).send(error));
+  destroy(req, res) {   
+    Comment.findOne({
+      where: {
+        id: req.params.comment_id,
+        $and: {user_id: req.decoded.id}
+      }
+    })
+    .then(comment =>
+      !comment && res.status(404).send(messages.commentNotFound) ||
+      comment.destroy()
+      .then(comment => res.status(204).send(messages.commentDeleted))
+      .catch(error => res.status(400).send(error))
+    )      
   }
 };
