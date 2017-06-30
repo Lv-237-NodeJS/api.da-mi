@@ -55,7 +55,7 @@ module.exports = {
         }]
       };
 
-      transport.sendMail(mailOptions, error => {
+      transport.sendMail(mailOptions, (error) => {
         if (error) {
           return error;
         }
