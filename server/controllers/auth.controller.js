@@ -1,7 +1,6 @@
 'use strict';
 
-const User = require('../../config/db').User;
-const Profile = require('../../config/db').Profile;
+const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');

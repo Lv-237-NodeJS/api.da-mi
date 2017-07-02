@@ -1,9 +1,6 @@
 'use strict';
 
-const Guest = require('../../config/db').Guest;
-const User = require('../../config/db').User;
-const Event = require('../../config/db').Event;
-const Profile = require('../../config/db').Profile;
+const { Guest, User, Event, Profile } = require('../../config/db');
 const { mailer, constants, messages } = require('./../helper');
 const URL = constants.HOST + constants.PORT;
 

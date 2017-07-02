@@ -1,10 +1,7 @@
 'use strict';
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
-const User = require('../../config/db').User;
-const Profile = require('../../config/db').Profile;
-const Guest = require('../../config/db').Guest;
-const Event = require('../../config/db').Event;
+const { User, Profile, Guest, Event } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, messages, constants, password } = require('./../helper');
 
