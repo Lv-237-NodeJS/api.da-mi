@@ -17,7 +17,7 @@ module.exports = {
         const token = jwt.sign({
           id: user.id
         }, secret.key, {expiresIn: '2h'});
-        res.json({'token': token, 'user_id': user.id});
+        res.json({'token': token, 'user_id': user.id, 'profile_id': user.profile_id});
       }
     })
     .catch(error => res.status(401).send(error));
