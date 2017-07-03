@@ -46,9 +46,7 @@ module.exports = {
           return {id: user.id, email: user.email};
         })
       )) || res.status(403).send(messages.accessDenied))
-      .then(guests => {
-        guests && res.status(201).send({guests});
-      })
+      .then(guests => guests && res.status(201).send({guests}))
       .catch(error => res.status(400).send(messages.badRequest));
 
     eventId && guestsCreate() ||
@@ -107,13 +105,9 @@ module.exports = {
           profile || res.status(404).send(messages.profileError);
           (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
         })
-      .catch(error => {
-        return res.status(400).send(messages.badRequest);
-      });
+      .catch(error => res.status(400).send(messages.badRequest));
     })
-    .catch(error =>
-      res.status(400).send(messages.badRequest)
-    );
+    .catch(error => res.status(400).send(messages.badRequest));
   },
 
   destroy(req, res) {
@@ -126,14 +120,11 @@ module.exports = {
           guest && guest.destroy();
 
           User.findById(req.params.user_id)
-          .then(user =>
-            !user.is_activate && user.destroy()
-          );
+          .then(user => !user.is_activate && user.destroy());
         })
         .then(() => res.status(204).send(messages.guestDeleted))
-        .catch(error => {
-          res.status(404).send(messages.guestNotFound);
-        }) || res.status(403).send(messages.accessDenied);
+        .catch(error => res.status(404).send(messages.guestNotFound)) ||
+          res.status(403).send(messages.accessDenied);
       }) ||
 
       User.findById(req.params.id)
@@ -149,8 +140,6 @@ module.exports = {
         });
       })
       .then(() => res.status(204).send(messages.userDeleted))
-      .catch(error => {
-        res.status(404).send(messages.userNotFound);
-      });
+      .catch(error => res.status(404).send(messages.userNotFound));
   }
 };

@@ -10,14 +10,19 @@ const activUser = require('../../config/activUserConfig.json').activUser;
 module.exports = {
   login(req, res) {
     let token;
-    User.findOne({where: {email: req.body.email}}).then(user => {
+    let id;
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(user => {
       (!user || !passwordHash.verify(req.body.password, user.password)) &&
-        res.status(401).send(messages.loginDataNotValid) ||  !user.is_activate &&
+        res.status(401).send(messages.loginDataNotValid) || !user.is_activate &&
           res.status(401).send(messages.userIsNotActivated) ||
-            (token = jwt.sign({
-              id: user.id
-            }, secret.key, {expiresIn: '2h'})) &&
-            res.json({'token': token, 'user_id': user.id});
+            (id = user.id) &&
+              (token = jwt.sign({id}, secret.key, {expiresIn: '2h'})) &&
+                res.status(200).json({'token': token, 'user_id': id});
     })
     .catch(error => res.status(401).send(error));
   },
