@@ -103,12 +103,19 @@ module.exports = {
   },
 
   destroy(req, res) {
-    const eventId = req.params.event_id;
+    const {event_id: eventId, user_id: userId} = req.params;
 
     eventId && checkEventOwner(eventId, req.decoded.id)
       .then(isOwner => {
-        isOwner && User.findById(req.params.user_id)
-        .then(user => !user.is_activate && user.destroy())
+        isOwner && User.findById(userId)
+        .then(user =>  !user.is_activate && user.destroy() ||
+          Guest.findOne({
+            where: {
+              user_id: userId,
+              event_id: eventId
+            }
+          }).then(guest => guest.destroy())
+        )
         .then(() => res.status(200).send(messages.guestDeleted))
         .catch(error => res.status(404).send(messages.guestNotFound)) ||
           res.status(403).send(messages.accessDenied);
