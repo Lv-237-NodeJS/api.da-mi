@@ -15,9 +15,7 @@ let transport = nodemailer.createTransport(smtpTransport({
     auth: {
         user: secret.gmail.user,
         pass: secret.gmail.pass
-      },
-    logger: true,
-    debug: true
+      }
   }));
 
 const templatesDir = ('./server/views/emails');
