@@ -2,7 +2,6 @@
 
 const { Guest, User, Event, Profile } = require('../../config/db');
 const { mailer, constants, messages } = require('./../helper');
-const URL = constants.HOST + constants.PORT;
 
 module.exports = {
 
@@ -14,9 +13,7 @@ module.exports = {
         attributes: ['id', 'email']
       }]
     })
-    .then(guests => {
-      res.status(200).send({guests});
-    })
+    .then(guests => res.status(200).send({guests}))
     .catch(error => res.status(404).send(error));
   },
 
@@ -45,7 +42,7 @@ module.exports = {
           const route = guest.User.is_invited && '/signup' || '/';
 
           mailer({
-            host: URL,
+            host: constants.URL,
             route: route,
             subject: 'Invitation',
             firstname: firstName,
