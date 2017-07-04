@@ -4,6 +4,7 @@ const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
+<<<<<<< 66e7d5e2f0489ca055415c5330c8f7bda680e2fb
 const { mailer, templates, messages, constants } = require('./../helper');
 const activUser = require('../../config/mailerOptions.json').activUser;
 
@@ -12,6 +13,11 @@ const validUser = (password, user) =>
 
 const signToken = id =>
   jwt.sign({id}, secret.key, {expiresIn: constants.TIME.LOGIN_TOKEN});
+=======
+const { mailer, messages } = require('./../helper');
+const activUser = require('../../config/activUserConfig.json').activUser;
+const { URL } = require('./../helper/constants');
+>>>>>>> Optimizing resolving some issues LVNOD-63
 
 module.exports = {
   login(req, res) {
@@ -63,7 +69,7 @@ module.exports = {
 
               activUser.email = decoder.email;
               mailer(activUser, templates.activated);
-              res.status(200).send(messages.congratulation);
+              res.redirect('http://' + URL);
             });
           })
           .catch(error => res.status(400).send(error));
