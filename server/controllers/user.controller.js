@@ -5,14 +5,6 @@ const { User, Profile, Guest, Event } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, messages, constants, password } = require('./../helper');
 
-const findGuest = (userId, eventId) =>
-  Guest.findOne({
-    where: {
-      user_id: userId,
-      event_id: eventId
-    }
-  });
-
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
     .then(event => event.owner === reqOwner)
@@ -35,13 +27,13 @@ module.exports = {
           }
         })
         .spread((user, created) => {
-          findGuest(user.id, eventId)
-          .then(guest => {
-            !guest &&
-            Guest.create({
-              event_id: eventId,
-              user_id: user.id
-            });
+          const guestData = {
+            event_id: eventId,
+            user_id: user.id
+          };
+          Guest.findOrCreate({
+            where: guestData,
+            defaults: guestData
           });
           return {id: user.id, email: user.email};
         })
@@ -115,14 +107,9 @@ module.exports = {
 
     eventId && checkEventOwner(eventId, req.decoded.id)
       .then(isOwner => {
-        isOwner && findGuest(req.params.user_id, eventId)
-        .then(guest => {
-          guest && guest.destroy();
-
-          User.findById(req.params.user_id)
-          .then(user => !user.is_activate && user.destroy());
-        })
-        .then(() => res.status(204).send(messages.guestDeleted))
+        isOwner && User.findById(req.params.user_id)
+        .then(user => !user.is_activate && user.destroy())
+        .then(() => res.status(200).send(messages.guestDeleted))
         .catch(error => res.status(404).send(messages.guestNotFound)) ||
           res.status(403).send(messages.accessDenied);
       }) ||
@@ -130,16 +117,8 @@ module.exports = {
       User.findById(req.params.id)
       .then(user => {
         user && user.destroy();
-        Guest.findAll({
-          where: {
-            user_id: req.params.id
-          }
-        })
-        .then(guests => {
-          guests.forEach(guest => guest && guest.destroy());
-        });
       })
-      .then(() => res.status(204).send(messages.userDeleted))
+      .then(() => res.status(200).send(messages.userDeleted))
       .catch(error => res.status(404).send(messages.userNotFound));
   }
 };
