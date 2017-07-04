@@ -10,5 +10,6 @@ module.exports = {
   badRequest: 'Bad request',
   eventNotFound: 'Event has not found! Try again!',
   giftNotFound: 'Sorry, found no gift here',
-  accessDenied: 'Access denied!'
+  accessDenied: 'Access denied!',
+  problem: 'Have problem'
 };

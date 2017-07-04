@@ -15,7 +15,9 @@ let transport = nodemailer.createTransport(smtpTransport({
     auth: {
         user: secret.gmail.user,
         pass: secret.gmail.pass
-      }
+      },
+    logger: true,
+    debug: true
   }));
 
 const templatesDir = ('./server/views/emails');
@@ -33,7 +35,9 @@ module.exports = {
         url: url,
         eventName: _data.eventName,
         date: _data.date,
-        eventDescription: _data.eventDescription
+        eventDescription: _data.eventDescription,
+        text: _data.text,
+        mailsForSupport: _data.mailsForSupport
       };
 
     template.render(locals, (error, sendMail) => {
