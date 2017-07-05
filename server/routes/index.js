@@ -4,6 +4,7 @@ const authController = require('../controllers/auth.controller');
 const eventController = require('../controllers/event.controller');
 const guestController = require('../controllers/guest.controller');
 const giftController = require('../controllers/gift.controller');
+const supportController = require('../controllers/support.controller');
 
 module.exports = app => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -34,4 +35,6 @@ module.exports = app => {
   app.get('/api/event/:id/gift/:gift_id', giftController.retrieve);
   app.put('/api/event/:id/gift/:gift_id', giftController.update);
   app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
+
+  app.post('/api/support', supportController.support);
 };

@@ -5,6 +5,7 @@ module.exports = {
     TOKEN: '48h'
   },
   ROUTE: {
-    ACTIVATION: '/api/user/activation/'
+    ACTIVATION: '/api/user/activation/',
+    SUPPORT: '/api/users/support'
   }
 };
