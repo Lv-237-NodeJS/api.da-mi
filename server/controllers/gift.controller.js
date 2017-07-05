@@ -34,9 +34,11 @@ module.exports = {
   list(req, res) {
     Gift.findAll({where: {event_id: req.params.id}})
     .then(gifts => isEventOwner(req.params.id, req.decoded.id, gifts)
-      .then(out => out && res.status(200).send(gifts) ||
-        isEventGuest(req.params.id, req.decoded.id, gifts, res)
-        .then(out => out && res.status(200).send(gifts))
+      .then(out => out &&
+        res.status(200).send(gifts) ||
+          isEventGuest(req.params.id, req.decoded.id, gifts, res)
+          .then(out => out &&
+          res.status(200).send(gifts))
       )
     )
     .catch(() => res.status(400).json({'message': messages.badRequest}));
