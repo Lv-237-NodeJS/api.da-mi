@@ -43,7 +43,7 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
+    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out && res.status(200).send(gift) ||
         isEventGuest(req.params.id, req.decoded.id, gift, res)
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   update(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
+    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out &&
         gift.updateAttributes(Object.assign({}, req.body))
@@ -70,7 +70,7 @@ module.exports = {
   },
 
   destroy(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, $and: {event_id: req.params.id}}})
+    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
     .then(gift =>
       isEventOwner(req.params.id, req.decoded.id, gift)
         .then(out => !!out &&
