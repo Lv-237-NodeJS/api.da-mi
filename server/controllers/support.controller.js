@@ -13,6 +13,6 @@ module.exports = {
       text: req.body.textarea
     };
     mailer(data, 'support');
-    res.status(201).send();
+    res.status(200).send();
   }
 };
