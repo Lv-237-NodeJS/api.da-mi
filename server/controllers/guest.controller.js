@@ -51,7 +51,7 @@ module.exports = {
             ownerLastName: owner.lastName,
             email: guest.User.email,
             eventName: guest.Event.name,
-            date: Date(guest.Event.date_event),
+            date: new Date(parseInt(guest.Event.date_event)),
             eventDescription: guest.Event.description,
             img: 'party.jpg'
           }, template);
