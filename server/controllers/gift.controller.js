@@ -6,23 +6,20 @@ const Event = DB.Event;
 const Guest = DB.Guest;
 const { messages } = require('./../helper');
 
-const isEventOwner = (eventId, userId, gift) => {
-  return Event.findOne({where: {id: eventId, $and: {owner: userId}}})
+const isEventOwner = (eventId, userId, gift) =>
+  Event.findOne({where: {id: eventId, owner: userId}})
   .then(event => !!event && !!gift)
   .catch(error => error);
-};
 
-const isEventGuest = (eventId, userId, gift, res) => {
-  return Guest.findOne({where: {event_id: eventId, $and: {user_id: userId}}})
+const isEventGuest = (eventId, userId, gift, res) =>
+  Guest.findOne({where: {event_id: eventId, user_id: userId}})
   .then(guest => !!guest && !!gift || res.status(404).send(messages.giftNotFound))
   .catch(error => error);
-};
 
-const eventIsDraft = eventId => {
-  return Event.findOne({where: {id: +eventId, $and: {status_event_id: 1}}})
+const eventIsDraft = eventId =>
+  Event.findOne({where: {id: parseInt(eventId, 10), status_event_id: 1}})
   .then(event => !!event)
   .catch(error => error);
-};
 
 module.exports = {
   create(req, res) {
