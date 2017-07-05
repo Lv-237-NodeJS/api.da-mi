@@ -88,6 +88,8 @@ module.exports = {
             'first_name', 'last_name', 'avatar', 'birth_date', 'address', 'city', 'country'
           ]})
         .then(profile => {
+          profile.dataValues.avatar = (profile.dataValues.avatar !== null ?
+          profile.dataValues.avatar.toString() : profile.dataValues.avatar);
           profile || res.status(404).send(messages.profileError);
           (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
         })
