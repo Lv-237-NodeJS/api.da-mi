@@ -7,6 +7,9 @@ const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, messages } = require('./../helper');
 const activUser = require('../../config/activUserConfig.json').activUser;
 
+const validUser = (password, user) =>
+  (user && passwordHash.verify(password, user.password)) && true || false;
+
 module.exports = {
   login(req, res) {
     let token;
@@ -17,8 +20,7 @@ module.exports = {
       }
     })
     .then(user => {
-      (!user || !passwordHash.verify(req.body.password, user.password)) &&
-      res.status(401).send(messages.loginDataNotValid) ||
+      !validUser(req.body.password, user) && res.status(401).send(messages.loginDataNotValid) ||
       !user.is_activate && res.status(401).send(messages.userIsNotActivated) ||
       (id = user.id) &&
       (token = jwt.sign({id}, secret.key, {expiresIn: '2h'})) &&
