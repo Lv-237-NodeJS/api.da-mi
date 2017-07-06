@@ -1,24 +1,30 @@
 'use strict';
 
-const User = require('../../config/db').User;
-const Profile = require('../../config/db').Profile;
+const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, messages } = require('./../helper');
 const activUser = require('../../config/activUserConfig.json').activUser;
 
+const validUser = (password, user) =>
+  (user && passwordHash.verify(password, user.password)) && true || false;
+
 module.exports = {
   login(req, res) {
-    User.findOne({where: {email: req.body.email}}).then(user => {
-      if (!user || !passwordHash.verify(req.body.password, user.password)) {
-        res.status(401).send('Email or password is not valid');
-      } else {
-        const token = jwt.sign({
-          id: user.id
-        }, secret.key, {expiresIn: '2h'});
-        res.json({'token': token, 'user_id': user.id, 'profile_id': user.profile_id});
+    let token;
+    let id;
+    User.findOne({
+      where: {
+        email: req.body.email
       }
+    })
+    .then(user => {
+      !validUser(req.body.password, user) && res.status(401).send(messages.loginDataNotValid) ||
+      !user.is_activate && res.status(401).send(messages.userIsNotActivated) ||
+      (id = user.id) &&
+      (token = jwt.sign({id}, secret.key, {expiresIn: '2h'})) &&
+      res.status(200).json({'token': token, 'user_id': id});
     })
     .catch(error => res.status(401).send(error));
   },

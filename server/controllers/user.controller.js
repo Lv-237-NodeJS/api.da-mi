@@ -1,44 +1,48 @@
 'use strict';
-
-const User = require('../../config/db').User;
-const Profile = require('../../config/db').Profile;
-const Guest = require('../../config/db').Guest;
-const password = require('./../helper/passwordGenerator');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
+const { User, Profile, Guest, Event } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer, messages, constants } = require('./../helper');
+const { mailer, messages, constants, password } = require('./../helper');
+
+const checkEventOwner = (eventId, reqOwner) =>
+  Event.findById(eventId)
+    .then(event => event.owner === reqOwner)
+    .catch(error => error);
 
 module.exports = {
   create(req, res) {
-    let assignUser = Object.assign({}, req.body);
-    const eventId = req.body.eventId;
-    eventId ?
-      req.body.emails.map(email => {
+    const assignUser = Object.assign({}, req.body);
+    const eventId = req.params.id;
+
+    const guestsCreate = () => checkEventOwner(eventId, req.decoded.id)
+    .then(isOwner => isOwner &&
+      Promise.all(req.body.emails.map(email =>
         User.findOrCreate({
-          where: {
-            email: email
-          },
+          where: {email},
           defaults: {
             email: email,
-            password: password.passwordGenerate(),
+            password: password(),
             is_invited: true
           }
         })
         .spread((user, created) => {
-          Guest.findOne({
-            where: {
-              user_id: user.id
-            }
-          })
-          .then(guest => {!guest &&
-            Guest.create({
-              event_id: eventId,
-              user_id: user.id
-            });
+          const guestData = {
+            event_id: eventId,
+            user_id: user.id
+          };
+          Guest.findOrCreate({
+            where: guestData,
+            defaults: guestData
           });
-        });
-      }) :
+          return {id: user.id, email: user.email};
+        })
+      )) || res.status(403).send(messages.accessDenied))
+      .then(guests => guests && res.status(201).send({guests}))
+      .catch(error => res.status(400).send(messages.badRequest));
+
+    eventId && guestsCreate() ||
+
     User.findOne({
       where: {
         email: req.body.email
@@ -93,25 +97,35 @@ module.exports = {
           profile || res.status(404).send(messages.profileError);
           (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
         })
-      .catch(error => {
-        return res.status(400).send(messages.badRequest);
-      });
+      .catch(error => res.status(400).send(messages.badRequest));
     })
-    .catch(error => {
-      return res.status(400).send(messages.badRequest);
-    });
+    .catch(error => res.status(400).send(messages.badRequest));
   },
+
   destroy(req, res) {
-    User.findById(req.params.id)
-    .then(user => {
-      if (!user) {
-        return res.status(404).send(messages.userNotFound);
-      }
-      return user
-      .destroy()
-      .then(user => res.status(204).send(user))
+    const {event_id: eventId, user_id: userId} = req.params;
+
+    eventId && checkEventOwner(eventId, req.decoded.id)
+      .then(isOwner => {
+        isOwner && User.findById(userId)
+        .then(user =>  !user.is_activate && user.destroy() ||
+          Guest.findOne({
+            where: {
+              user_id: userId,
+              event_id: eventId
+            }
+          }).then(guest => guest.destroy())
+        )
+        .then(() => res.status(200).send(messages.guestDeleted))
+        .catch(error => res.status(404).send(messages.guestNotFound)) ||
+          res.status(403).send(messages.accessDenied);
+      }) ||
+
+      User.findById(req.params.id)
+      .then(user => {
+        user && user.destroy();
+      })
+      .then(() => res.status(200).send(messages.userDeleted))
       .catch(error => res.status(404).send(messages.userNotFound));
-    })
-    .catch(error => res.status(404).send(messages.userNotFound));
   }
 };
