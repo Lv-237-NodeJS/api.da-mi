@@ -15,5 +15,9 @@
     "subject": "Have a problem",
     "img": "error.png",
     "email": "dami.suppor@gmail.com"
+  },
+  "commentReply": {
+    "subject": "Comment Reply Notification",
+    "img": "party.jpg"
   }
 }

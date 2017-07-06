@@ -3,5 +3,6 @@ module.exports = {
   activation: 'activation',
   invitation: 'invitation',
   resetPassword: 'resetPassword',
-  support: 'support'
+  support: 'support',
+  commentReply: 'Comment Reply Notification'
 };
