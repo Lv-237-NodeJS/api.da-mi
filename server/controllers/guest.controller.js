@@ -44,8 +44,8 @@ module.exports = {
           let data = Object.assign(invitation, {
             host: constants.URL,
             route: route,
-            firstname: firstName,
-            lastname: lastName,
+            firstName: firstName,
+            lastName: lastName,
             ownerFirstName: owner.firstName,
             ownerLastName: owner.lastName,
             email: guest.User.email,

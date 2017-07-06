@@ -6,8 +6,8 @@ module.exports = {
     let assignSupport = Object.assign({}, req.body);
 
     let data = Object.assign(support, {
-      firstname: req.body.name,
-      lastname: req.body.surname,
+      firstName: req.body.name,
+      lastName: req.body.surname,
       mailsForSupport: req.body.email,
       text: req.body.textarea
     });
