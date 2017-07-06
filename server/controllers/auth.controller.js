@@ -4,8 +4,8 @@ const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer, messages } = require('./../helper');
-const activUser = require('../../config/activUserConfig.json').activUser;
+const { mailer, templates, messages } = require('./../helper');
+const activUser = require('../../config/mailerOptions.json').activUser;
 
 const validUser = (password, user) =>
   (user && passwordHash.verify(password, user.password)) && true || false;
@@ -57,8 +57,9 @@ module.exports = {
                 profile_id: result.dataValues.id,
                 is_activate: true
               });
+
               activUser.email = decoder.email;
-              mailer(activUser, 'activated');
+              mailer(activUser, templates.activated);
               res.status(200).send(messages.congratulation);
             });
           })

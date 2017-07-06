@@ -1,7 +1,8 @@
 'use strict';
 
 const { Guest, User, Event, Profile } = require('../../config/db');
-const { mailer, constants, messages } = require('./../helper');
+const { mailer, templates, constants, messages } = require('./../helper');
+const invitation = require('../../config/mailerOptions.json').invitation;
 
 module.exports = {
 
@@ -18,7 +19,6 @@ module.exports = {
   },
 
   invite(req, res) {
-    const template = 'invitation';
     const eventId = req.params.id;
     const owner = req.body.owner || {
       firstName: 'Your',
@@ -41,10 +41,9 @@ module.exports = {
           const {first_name: firstName, last_name: lastName} = guest.User.Profile || '';
           const route = guest.User.is_invited && '/signup' || '/';
 
-          mailer({
+          let data = Object.assign(invitation, {
             host: constants.URL,
             route: route,
-            subject: 'Invitation',
             firstname: firstName,
             lastname: lastName,
             ownerFirstName: owner.firstName,
@@ -52,9 +51,10 @@ module.exports = {
             email: guest.User.email,
             eventName: guest.Event.name,
             date: new Date(parseInt(guest.Event.date_event)),
-            eventDescription: guest.Event.description,
-            img: 'party.jpg'
-          }, template);
+            eventDescription: guest.Event.description
+          });
+
+          mailer(data, templates.invitation);
         });
       }) || res.status(403).send(messages.accessDenied);
     })

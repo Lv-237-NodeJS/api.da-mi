@@ -6,16 +6,18 @@ const handlebars = require('handlebars');
 const EmailTemplate = require('email-templates').EmailTemplate;
 const path = require('path');
 const configDir = path.resolve('./config', 'mailerConfig.json');
-const secret = require(`${configDir}`);
+const secret = require(`${configDir}`).sendGrid;
 
 const transport = nodemailer.createTransport(smtpTransport({
-  host: secret.config.host,
-  port: secret.config.port,
+  host: secret.host,
+  port: secret.port,
   secure: false,
   auth: {
-    user: secret.gmail.user,
-    pass: secret.gmail.pass
-  }
+    user: secret.user,
+    pass: secret.pass
+  },
+  logger: true,
+  debug: false
 }));
 
 const templatesDir = ('./server/views/emails');
@@ -45,7 +47,7 @@ module.exports = {
       }
 
       const mailOptions = {
-        from: `"Da-Mi"<${secret.gmail.user}>`,
+        from: `"Da-Mi"<${secret.user}>`,
         to: _data.email,
         subject: _data.subject,
         html: sendMail.html,
@@ -53,7 +55,7 @@ module.exports = {
         attachments: [{
           filename: _data.img,
           path: (`./server/views/emails/img/${_data.img}`),
-          cid: secret.config.img
+          cid: secret.img
         }]
       };
 
