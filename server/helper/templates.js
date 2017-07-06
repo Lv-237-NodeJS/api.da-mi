@@ -4,5 +4,5 @@ module.exports = {
   invitation: 'invitation',
   resetPassword: 'resetPassword',
   support: 'support',
-  commentReply: 'Comment Reply Notification'
+  commentReply: 'commentReply'
 };
