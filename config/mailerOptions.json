@@ -4,15 +4,15 @@
     "img": "keys.jpg"
   },
   "signUp": {
-  	"subject": "~*~🎁~* Activation! ~*~🎁~*",
+    "subject": "~*~🎁~* Activation! ~*~🎁~*",
     "img": "activ.jpg"
   },
   "invitation": {
-  	"subject": "Invitation!",
+    "subject": "Invitation!",
     "img": "party.jpg"
   },
   "support": {
-  	"subject": "Have a problem",
+    "subject": "Have a problem",
     "img": "error.png",
     "email": "dami.suppor@gmail.com"
   }
