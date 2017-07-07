@@ -22,6 +22,7 @@ module.exports = {
   failedToken: 'Failed to authenticate token.',
   noToken: 'No token provided',
   eventDeleted: 'Event is successfully deleted!'
+  invitationsSended: 'Invitations were sended.',
   commentNotFound: 'Comment not found!',
   commentDeleted: 'Comment deleted!'
 };
