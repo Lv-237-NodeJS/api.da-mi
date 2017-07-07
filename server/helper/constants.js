@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: 'localhost:',
+  HOST: 'http://localhost:',
   PORT: '8080',
   get URL() {
     return this.HOST + this.PORT;
