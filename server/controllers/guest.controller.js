@@ -41,11 +41,11 @@ module.exports = {
           const {first_name: firstName, last_name: lastName} = guest.User.Profile || '';
           const route = guest.User.is_invited && '/signup' || '/';
 
-          let data = Object.assign(invitation, {
+          const data = Object.assign(invitation, {
             host: constants.URL,
-            route: route,
-            firstName: firstName,
-            lastName: lastName,
+            route,
+            firstName,
+            lastName,
             ownerFirstName: owner.firstName,
             ownerLastName: owner.lastName,
             email: guest.User.email,

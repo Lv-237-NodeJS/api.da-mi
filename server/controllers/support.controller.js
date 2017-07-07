@@ -3,9 +3,9 @@ const support = require('../../config/mailerOptions.json').support;
 
 module.exports = {
   support(req, res) {
-    let assignSupport = Object.assign({}, req.body);
+    const assignSupport = Object.assign({}, req.body);
 
-    let data = Object.assign(support, {
+    const data = Object.assign(support, {
       firstName: req.body.name,
       lastName: req.body.surname,
       mailsForSupport: req.body.email,
