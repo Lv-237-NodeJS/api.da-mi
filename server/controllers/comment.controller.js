@@ -1,13 +1,16 @@
 'use strict';
 
 const { User, Profile, Gift, Event, Comment } = require('../../config/db');
-const { mailer, messages } = require('./../helper');
+const { mailer, templates, messages } = require('./../helper');
 const { URL } = require('./../helper/constants');
+const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 module.exports = {
   create(req, res) {
+    console.log(req.params);
     let commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
-      {event_id: req.params.id}, {user_id: req.decoded.id});
+      {user_id: req.decoded.id});
+
     !!req.body.parent_id && (
       Comment.findById(req.body.parent_id, {
         include: [{
@@ -20,22 +23,18 @@ module.exports = {
         },{model: Gift}]
       })
       .then(comment => {
-          const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
-          const template = 'commentReply';
-          const subject = 'Comment Reply Notification';
-          const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
-
-          mailer({
-            host: URL,
-            subject: subject,
-            route: route,
-            firstname: firstName,
-            lastname: lastName,
-            email: comment.User.email,
-            giftName: comment.Gift.name,
-            img: 'party.jpg'
-          }, template);
-        }));
+        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
+        const route = `/events/${req.body.event_id}/gift/${comment.gift_id}`;
+        let data = Object.assign(commentReply, {
+          host: URL,
+          route: route,
+          firstName: firstName,
+          lastName: lastName,
+          email: comment.User.email,
+          giftName: comment.Gift.name,
+        });
+        mailer(data, templates.commentReply);
+      }));
     Comment.create(commentParams)
     .then(comment => res.status(201).send(comment))
     .catch(error => res.status(400).send(error));
@@ -44,7 +43,7 @@ module.exports = {
   list(req, res) {
     Comment.findAll({
       where: {
-        gift_id: req.params.id
+        gift_id: req.params.gift_id
       },
       include: [{
         model: User,
@@ -55,15 +54,26 @@ module.exports = {
         }],
       }]
     })
-    .then(comments => res.status(200).send({comments: comments}))
-    .catch(error => res.status(400).send(error));
+    .then(comments => {
+      const data = [];
+      comments.forEach(comment => {
+        if (comment.parent_id) {
+          const parentComment = comments.find(item =>
+            item.id == comment.parent_id).dataValues;
+          parentComment.children ? parentComment.children.push(comment)
+            : parentComment.children = [comment];
+        } else { data.push(comment); }
+      });
+      res.status(200).send(data);
+    })
+  .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {
     Comment.findOne({
       where: {
         id: req.params.comment_id,
-        $and: {user_id: req.decoded.id}
+        user_id: req.decoded.id
       }
     })
     .then(comment =>
@@ -79,12 +89,19 @@ module.exports = {
     Comment.findOne({
       where: {
         id: req.params.comment_id,
-        $and: {user_id: req.decoded.id}
+        user_id: req.decoded.id
       }
     })
     .then(comment =>
-      !comment && res.status(404).send(messages.commentNotFound) ||
-      comment.destroy()
+       !comment && res.status(404).send(messages.commentNotFound) ||
+        Comment.findAll({
+          where: {
+            parent_id: req.params.comment_id
+          }
+        })
+      .then(comments => {comments.forEach(comment => comment.destroy());
+        comment.destroy()}
+        )
       .then(comment => res.status(204).send(messages.commentDeleted))
       .catch(error => res.status(400).send(error))
     );
