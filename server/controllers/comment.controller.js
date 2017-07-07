@@ -7,10 +7,8 @@ const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 module.exports = {
   create(req, res) {
-    console.log(req.params);
-    let commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
+    const commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {user_id: req.decoded.id});
-
     !!req.body.parent_id && (
       Comment.findById(req.body.parent_id, {
         include: [{
@@ -25,19 +23,19 @@ module.exports = {
       .then(comment => {
         const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
         const route = `/events/${req.body.event_id}/gift/${comment.gift_id}`;
-        let data = Object.assign(commentReply, {
+        const data = Object.assign(commentReply, {
           host: URL,
-          route: route,
-          firstName: firstName,
-          lastName: lastName,
+          route,
+          firstName,
+          lastName,
           email: comment.User.email,
           giftName: comment.Gift.name,
         });
         mailer(data, templates.commentReply);
       }));
     Comment.create(commentParams)
-    .then(comment => res.status(201).send(comment))
-    .catch(error => res.status(400).send(error));
+    .then(comment => res.status(201).send({comment}))
+    .catch(error => res.status(400).send({error}));
   },
 
   list(req, res) {
@@ -64,9 +62,9 @@ module.exports = {
             : parentComment.children = [comment];
         } else { data.push(comment); }
       });
-      res.status(200).send(data);
+      res.status(200).send({data});
     })
-  .catch(error => res.status(400).send(error));
+  .catch(error => res.status(400).send({message: error}));
   },
 
   update(req, res) {
@@ -77,12 +75,12 @@ module.exports = {
       }
     })
     .then(comment =>
-      !comment && res.status(404).send(messages.commentNotFound) ||
+      !comment && res.status(404).send({message: messages.commentNotFound}) ||
       comment.updateAttributes(Object.assign({}, req.body))
-      .then(comment => res.status(200).send(comment))
-      .catch(error => res.status(400).send(error))
+      .then(comment => res.status(200).send({message: comment}))
+      .catch(error => res.status(400).send({message: error}))
     )
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(400).send({message: error}));
   },
 
   destroy(req, res) {
@@ -93,17 +91,17 @@ module.exports = {
       }
     })
     .then(comment =>
-       !comment && res.status(404).send(messages.commentNotFound) ||
+       !comment && res.status(404).send({message: messages.commentNotFound}) ||
         Comment.findAll({
           where: {
             parent_id: req.params.comment_id
           }
         })
       .then(comments => {comments.forEach(comment => comment.destroy());
-        comment.destroy()}
+        comment.destroy();}
         )
-      .then(comment => res.status(204).send(messages.commentDeleted))
-      .catch(error => res.status(400).send(error))
+      .then(comment => res.status(204).send({message: messages.commentDeleted}))
+      .catch(error => res.status(400).send({message: error}))
     );
   }
 };
