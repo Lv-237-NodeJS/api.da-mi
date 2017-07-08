@@ -3,7 +3,8 @@ const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const { User, Profile, Guest, Event } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer, messages, constants, password } = require('./../helper');
+const { mailer, templates, messages, constants, password } = require('./../helper');
+const signUp = require('../../config/mailerOptions.json').signUp;
 
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
@@ -69,15 +70,13 @@ module.exports = {
           id: user.id,
           email: user.email
         }, secret.key, {expiresIn: constants.TIME.ACTIVATION_TOKEN});
-        let data = {
-          subject: messages.activation,
-          img: 'activ.jpg',
+        const data = Object.assign(signUp, {
           host: req.headers.host,
           route: constants.ROUTE.ACTIVATION,
           email: req.body.email,
           token: token
-        };
-        mailer(data, 'activation');
+        });
+        mailer(data, templates.activation);
         res.status(201).send(user);
       };
       if (user && user.is_invated) {

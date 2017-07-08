@@ -1,0 +1,18 @@
+{
+  "gmail":{
+    "email": "your@email.com",
+    "user": "your@gmail.com",
+    "pass": "password",
+    "host": "smtp.gmail.com",
+    "port": 587,
+    "img": "your.img"
+  },
+  "sendGrid":{
+    "email": "your@email.com",
+    "user": "apikey",
+    "pass": "yourkeyyyyyCZjPoimGvY1Q.k5bcvbfdgQ94AYg30fZfZujgsUaCVCrhPGXUj0mQxEg",
+    "host": "smtp.sendgrid.net",
+    "port": 587,
+    "img": "your.img"
+  }
+}

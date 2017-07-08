@@ -1,0 +1,23 @@
+{
+  "activUser": {
+    "subject": "~*~🎁~* Сongratulation! ~*~🎁~*",
+    "img": "keys.jpg"
+  },
+  "signUp": {
+    "subject": "~*~🎁~* Activation! ~*~🎁~*",
+    "img": "activ.jpg"
+  },
+  "invitation": {
+    "subject": "Invitation!",
+    "img": "party.jpg"
+  },
+  "support": {
+    "subject": "Have a problem",
+    "img": "error.png",
+    "email": "dami.suppor@gmail.com"
+  },
+  "commentReply": {
+    "subject": "Comment Reply Notification",
+    "img": "party.jpg"
+  }
+}
