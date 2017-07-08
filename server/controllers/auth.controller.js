@@ -4,27 +4,31 @@ const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
 const secret = require('./../../config/jwt.secretkey.json');
-const { mailer, messages } = require('./../helper');
+const { mailer, messages, constants } = require('./../helper');
 const activUser = require('../../config/activUserConfig.json').activUser;
 
 const validUser = (password, user) =>
   (user && passwordHash.verify(password, user.password)) && true || false;
 
+const signToken = id =>
+  jwt.sign({id}, secret.key, {expiresIn: constants.TIME.LOGIN_TOKEN});
+
 module.exports = {
   login(req, res) {
-    let token;
-    let id;
     User.findOne({
       where: {
         email: req.body.email
       }
     })
     .then(user => {
-      !validUser(req.body.password, user) && res.status(401).send(messages.loginDataNotValid) ||
-      !user.is_activate && res.status(401).send(messages.userIsNotActivated) ||
-      (id = user.id) &&
-      (token = jwt.sign({id}, secret.key, {expiresIn: '2h'})) &&
-      res.status(200).json({'token': token, 'user_id': id});
+      !validUser(req.body.password, user) &&
+      res.status(401).json({'message': messages.loginDataNotValid}) ||
+      !user.is_activate && res.status(401).json({'message': messages.userIsNotActivated}) ||
+      res.status(200).json({
+        'token': signToken(user.id),
+        'user_id': user.id,
+        'profile_id': user.profile_id
+      });
     })
     .catch(error => res.status(401).send(error));
   },
