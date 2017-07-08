@@ -7,8 +7,8 @@ module.exports = {
   retrieve(req, res) {
     Profile.findById(req.params.id)
     .then(profile => {
-      profile || res.status(404).json(messages.profileError);
-      res.status(200).send(profile);
+      !!profile && res.status(200).send(profile) ||
+        res.status(404).json(messages.profileError);
     })
     .catch(error => res.status(400).send(error));
   },
