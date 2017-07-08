@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
-    paranoid: false,
     timestamps: false
   });
   return statusEvent;

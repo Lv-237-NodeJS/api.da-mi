@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     }
   }, {
-    paranoid: false,
     timestamps: false,
     classMethods: {
       associate: models => {

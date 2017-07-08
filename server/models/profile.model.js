@@ -37,7 +37,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     }
   }, {
-    paranoid: false,
     timestamps: false,
     hooks: {
       beforeCreate: (profile, options) => {
