@@ -21,12 +21,15 @@ const eventIsDraft = eventId =>
   .then(event => !!event)
   .catch(error => error);
 
+const getGift = (giftId, eventId) =>
+  Gift.findOne({where: {id: giftId, event_id: eventId}});
+
 module.exports = {
   create(req, res) {
     let giftParams = Object.assign({}, req.body, {event_id: req.params.id});
     let gift = Gift.build(giftParams);
     isEventOwner(req.params.id, req.decoded.id, gift)
-      .then(out => out && gift.save() && res.status(201).send(gift) ||
+      .then(out => out && Gift.create(giftParams).then(gift => res.status(201).send(gift)) ||
         res.status(403).send(messages.accessDenied))
     .catch(error => res.status(400));
   },
@@ -43,7 +46,7 @@ module.exports = {
   },
 
   retrieve(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
+    getGift(req.params.gift_id, req.params.id)
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out && res.status(200).send(gift) ||
         isEventGuest(req.params.id, req.decoded.id, gift, res)
@@ -54,7 +57,7 @@ module.exports = {
   },
 
   update(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
+    getGift(req.params.gift_id, req.params.id)
     .then(gift => isEventOwner(req.params.id, req.decoded.id, gift)
       .then(out => out &&
         gift.updateAttributes(Object.assign({}, req.body))
@@ -70,13 +73,13 @@ module.exports = {
   },
 
   destroy(req, res) {
-    Gift.findOne({where: {id: req.params.gift_id, event_id: req.params.id}})
+    getGift(req.params.gift_id, req.params.id)
     .then(gift =>
       isEventOwner(req.params.id, req.decoded.id, gift)
-        .then(out => !!out &&
+        .then(out => out &&
           eventIsDraft(req.params.id).then(out => !!out &&
             gift.destroy()
-            .then(gift => res.status(204).send(gift))
+            .then(gift => res.status(204).send("deleted"))
             .catch(error => res.status(400).send(error))
         ) || res.status(403).send(messages.accessDenied))
       )
