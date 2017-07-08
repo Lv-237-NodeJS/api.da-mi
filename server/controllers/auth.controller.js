@@ -24,7 +24,11 @@ module.exports = {
       !validUser(req.body.password, user) &&
       res.status(401).json({'message': messages.loginDataNotValid}) ||
       !user.is_activate && res.status(401).json({'message': messages.userIsNotActivated}) ||
-      res.status(200).json({'token': signToken(user.id), 'user_id': user.id});
+      res.status(200).json({
+        'token': signToken(user.id),
+        'user_id': user.id,
+        'profile_id': user.profile_id
+      });
     })
     .catch(error => res.status(401).send(error));
   },
