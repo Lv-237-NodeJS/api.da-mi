@@ -5,7 +5,8 @@ module.exports = {
     return this.HOST + this.PORT;
   },
   TIME: {
-    TOKEN: '48h'
+    ACTIVATION_TOKEN: '5d',
+    LOGIN_TOKEN: '2h'
   },
   ROUTE: {
     ACTIVATION: '/api/user/activation/',

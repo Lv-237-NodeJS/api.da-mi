@@ -1,21 +1,20 @@
 module.exports = {
   loginDataNotValid: 'Email or password is not valid.',
-  linkNotValid: 'Link are not valid or time expired!',
+  linkNotValid: 'Link is not valid or time expired!',
   userNotFound: 'This user is not found!',
   userIsNotActivated: 'You are not activated. Please check your email.',
-  linkAlreadyActivated: 'Link already activated!',
+  linkAlreadyActivated: 'Link has been already activated!',
   congratulation: 'Congratulation!',
-  eventNotFound: 'Event has not found! Try again!',
+  eventNotFound: 'Event is not found! Try again!',
   activation: '~*~🎁~* Activation *~🎁~*~',
   emailUsed: 'That email address is already in use.',
   profileError: 'Profile Not Found.',
   badRequest: 'Bad request.',
-  eventNotFound: 'Event has not found! Try again!',
   giftNotFound: 'Sorry, found no gift here',
   accessDenied: 'Access denied!',
-  problem: 'Have problem',
+  problem: 'Sorry, there is a problem.',
   userDeleted: 'User was deleted.',
   guestDeleted: 'Guest was deleted.',
   guestNotFound: 'This guest is not found!',
-  invitationsSended: 'Invitations were sended.'
+  invitationsSended: 'Invitations were sent.'
 };
