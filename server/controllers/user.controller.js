@@ -112,9 +112,9 @@ module.exports = {
           profile || res.status(404).send(messages.profileError);
           (res.status(200).send(Object.assign({}, user.dataValues, profile.dataValues)));
         })
-      .catch(error => res.status(400).send(messages.badRequest));
+      .catch(() => res.status(400).json(messages.badRequest));
     })
-    .catch(error => res.status(400).send(messages.badRequest));
+    .catch(() => res.status(400).json(messages.badRequest));
   },
 
   destroy(req, res) {
