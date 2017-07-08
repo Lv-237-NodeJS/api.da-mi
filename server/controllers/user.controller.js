@@ -69,7 +69,7 @@ module.exports = {
         const token = jwt.sign({
           id: user.id,
           email: user.email
-        }, secret.key, {expiresIn: constants.TIME.ACTIVATION_TOKEN});        
+        }, secret.key, {expiresIn: constants.TIME.ACTIVATION_TOKEN});
         const data = Object.assign(signUp, {
           host: req.headers.host,
           route: constants.ROUTE.ACTIVATION,
