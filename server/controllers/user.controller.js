@@ -39,6 +39,9 @@ const deleteGuest = (userId, eventId) =>
     }
   }).then(guest => guest.destroy());
 
+const signToken = (id, email) =>
+  jwt.sign({id, email}, secret.key, {expiresIn: constants.ACTIVATION_TOKEN});
+
 module.exports = {
   create(req, res) {
     const assignUser = Object.assign({}, req.body);
@@ -58,7 +61,6 @@ module.exports = {
         .catch(error => res.status(400).json({'message': messages.badRequest}));
 
     eventId && guestsCreate() ||
-
     User.findOne({
       where: {
         email: req.body.email
@@ -66,30 +68,24 @@ module.exports = {
     })
     .then(user => {
       const dataActivation = user => {
-        const token = jwt.sign({
-          id: user.id,
-          email: user.email
-        }, secret.key, {expiresIn: constants.TIME.ACTIVATION_TOKEN});
         const data = Object.assign(signUp, {
           host: req.headers.host,
           route: constants.ROUTE.ACTIVATION,
           email: req.body.email,
-          token: token
+          token: signToken(user.id, user.email)
         });
         mailer(data, templates.activation);
-        res.status(201).send(user);
+        res.status(201).json({'user': user, 'message': messages.successSignup});
       };
-      if (user && user.is_invated) {
-        User.updateAttributes(assignUser)
-        .then(dataActivation)
-        .catch(error => res.status(400).send(messages.badRequest));
-      } else {
-        User.create(assignUser)
-        .then(dataActivation)
-        .catch(error => res.status(422).send(messages.emailUsed));
-      };
+      user && user.is_invited &&
+      User.updateAttributes(assignUser)
+      .then(user => dataActivation(user))
+      .catch(error => res.status(400).json({'message': messages.badRequest})) ||
+      User.create(assignUser)
+      .then(user => dataActivation(user))
+      .catch(error => res.status(422).json({'message': messages.emailUsed}));
     })
-    .catch(error => res.status(400).send(messages.badRequest));
+    .catch(error => res.status(402).json({'message': messages.badRequest}));
   },
 
   retrieve(req, res) {
