@@ -9,8 +9,9 @@ module.exports = {
   create(req, res) {
     const commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {user_id: req.decoded.id});
-    !!req.body.parent_id && (
-      Comment.findById(req.body.parent_id, {
+    const parentId = req.body.parent_id;
+    !!parentId && (
+      Comment.findById(parentId, {
         include: [{
           model: User,
           attributes: ['email'],
@@ -35,7 +36,7 @@ module.exports = {
       }));
     Comment.create(commentParams)
     .then(comment => res.status(201).send({comment}))
-    .catch(error => res.status(400).send({error}));
+    .catch(error => res.status(400).send(error));
   },
 
   list(req, res) {
@@ -64,7 +65,7 @@ module.exports = {
       });
       res.status(200).send({data});
     })
-  .catch(error => res.status(400).send({message: error}));
+  .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {
@@ -75,12 +76,12 @@ module.exports = {
       }
     })
     .then(comment =>
-      !comment && res.status(404).send({message: messages.commentNotFound}) ||
+      !comment && res.status(404).json({'message': messages.commentNotFound}) ||
       comment.updateAttributes(Object.assign({}, req.body))
-      .then(comment => res.status(200).send({message: comment}))
-      .catch(error => res.status(400).send({message: error}))
+      .then(comment => res.status(200).send({comment}))
+      .catch(error => res.status(400).send(error))
     )
-    .catch(error => res.status(400).send({message: error}));
+    .catch(error => res.status(400).send(error));
   },
 
   destroy(req, res) {
@@ -91,17 +92,17 @@ module.exports = {
       }
     })
     .then(comment =>
-       !comment && res.status(404).send({message: messages.commentNotFound}) ||
+       !comment && res.status(404).json({'message': messages.commentNotFound}) ||
         Comment.findAll({
           where: {
             parent_id: req.params.comment_id
           }
         })
-      .then(comments => {comments.forEach(comment => comment.destroy());
+      .then(comments => {comments.forEach(comment => comment && comment.destroy());
         comment.destroy();}
         )
-      .then(comment => res.status(204).send({message: messages.commentDeleted}))
-      .catch(error => res.status(400).send({message: error}))
+      .then(() => res.status(204).json({'message': messages.commentDeleted}))
+      .catch(error => res.status(400).send(error))
     );
   }
 };
