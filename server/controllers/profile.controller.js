@@ -1,29 +1,23 @@
 'use strict';
 
-const Profile = require('../../config/db').Profile;
+const { Profile } = require('../../config/db');
+const { messages } = require('./../helper');
 
 module.exports = {
   retrieve(req, res) {
     Profile.findById(req.params.id)
     .then(profile => {
-      if (!profile) {
-        return res.status(404).send({message: 'Profile Not Found'});
-      }
-      return res.status(200).send(profile);
+      !!profile && res.status(200).send(profile) ||
+        res.status(404).json(messages.profileError);
     })
-    .catch(error => {
-        return res.status(400).send(error);
-      });
+    .catch(error => res.status(400).send(error));
   },
+
   update(req, res) {
     Profile.findById(req.params.id)
     .then(profile => {
-      if (!profile) {
-        return res.status(404).send({message: 'Profile Not Found',
-        });
-      }
-      let updateProfile = Object.assign({}, req.body);
-      return profile.updateAttributes(updateProfile)
+      profile || res.status(404).json(messages.profileError);
+      profile.updateAttributes(Object.assign({}, req.body))
       .then(() => res.status(200).send(profile))
       .catch(error => res.status(400).send(error));
     })
