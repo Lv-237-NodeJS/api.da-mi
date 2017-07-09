@@ -77,7 +77,7 @@ module.exports = {
           token: token
         });
         mailer(data, templates.activation);
-        res.status(201).send(user);
+        res.status(201).send({'message': messages.successSignup, 'user': user});
       };
       if (user && user.is_invated) {
         User.updateAttributes(assignUser)
@@ -86,7 +86,7 @@ module.exports = {
       } else {
         User.create(assignUser)
         .then(dataActivation)
-        .catch(error => res.status(422).send(messages.emailUsed));
+        .catch(error => res.status(422).json({'message': messages.emailUsed}));
       };
     })
     .catch(error => res.status(400).send(messages.badRequest));
