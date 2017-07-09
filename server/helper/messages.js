@@ -10,9 +10,11 @@ module.exports = {
   profileError: 'Profile Not Found.',
   badRequest: 'Bad request.',
   giftNotFound: 'Sorry, found no gift here',
-  accessDenied: 'Access denied!',
+  accessDenied: 'Access denied.',
+  problem: 'Sorry, there is a problem.',
   userDeleted: 'User was deleted.',
   guestDeleted: 'Guest was deleted.',
   guestNotFound: 'This guest is not found!',
-  invitationsSended: 'Invitations were sent.'
+  invitationsSended: 'Invitations were sent.',
+  deleted: 'Deleted succesfully'
 };
