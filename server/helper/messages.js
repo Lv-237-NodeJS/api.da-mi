@@ -16,7 +16,7 @@ module.exports = {
   guestDeleted: 'Guest was deleted.',
   guestNotFound: 'This guest is not found!',
   invitationsSended: 'Invitations were sent.',
-  deleted: 'Deleted succesfully'
+  deleted: 'Deleted succesfully',
   successSignup: 'You have successfully signed up! For confirmation please visit your e-mail',
   sendMessage: 'Your message is sent'
 };
