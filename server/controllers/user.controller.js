@@ -42,28 +42,6 @@ const deleteGuest = (userId, eventId) =>
 const signToken = (id, email) =>
   jwt.sign({id, email}, secret.key, {expiresIn: constants.ACTIVATION_TOKEN});
 
-const dataActivation = user => {
-  signToken(user.id, user.email);
-  const data = Object.assign(signUp, {
-    host: req.headers.host,
-    route: constants.ROUTE.ACTIVATION,
-    email: req.body.email,
-    token: token
-  });
-  mailer(data, templates.activation);
-  res.status(201).json({'user': user, 'message': messages.successSignup});
-};
-
-const userCreateOrUpdate = user => {
-  (user && user.is_invited) &&
-  (User.updateAttributes(assignUser)
-  .then(user => dataActivation(user))
-  .catch(error => res.status(400).json({'message': messages.badRequest}))) ||
-  (User.create(assignUser)
-  .then(user => dataActivation(user))
-  .catch(error => res.status(422).json({'message': messages.emailUsed})));
-};
-
 module.exports = {
   create(req, res) {
     const assignUser = Object.assign({}, req.body);
@@ -88,7 +66,25 @@ module.exports = {
         email: req.body.email
       }
     })
-    .then(user => userCreateOrUpdate(user))
+    .then(user => {
+      const dataActivation = user => {
+        const data = Object.assign(signUp, {
+          host: req.headers.host,
+          route: constants.ROUTE.ACTIVATION,
+          email: req.body.email,
+          token: signToken(user.id, user.email)
+        });
+        mailer(data, templates.activation);
+        res.status(201).json({'user': user, 'message': messages.successSignup});
+      };
+      user && user.is_invited &&
+      User.updateAttributes(assignUser)
+      .then(user => dataActivation(user))
+      .catch(error => res.status(400).json({'message': messages.badRequest})) ||
+      User.create(assignUser)
+      .then(user => dataActivation(user))
+      .catch(error => res.status(422).json({'message': messages.emailUsed}));
+    })
     .catch(error => res.status(402).json({'message': messages.badRequest}));
   },
 
