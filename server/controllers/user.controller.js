@@ -78,14 +78,14 @@ module.exports = {
         res.status(201).json({'user': user, 'message': messages.successSignup});
       };
       user && user.is_invited &&
-      User.updateAttributes(assignUser)
+      user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(400).json({'message': messages.badRequest})) ||
       User.create(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(422).json({'message': messages.emailUsed}));
     })
-    .catch(() => res.status(400).json({'message': messages.badRequest}));
+    .catch(() => res.status(404).json({'message': messages.userNotFound}));
   },
 
   retrieve(req, res) {
