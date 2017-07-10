@@ -26,7 +26,7 @@ module.exports = {
           }],
         },{model: Gift}]
       })
-      .then(comment => {        
+      .then(comment => {
         const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
         const route = `/events/${req.params.id}`;
         const data = Object.assign(commentReply, {
