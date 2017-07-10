@@ -5,10 +5,10 @@ const { mailer, templates, messages, constants } = require('./../helper');
 const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 const avatarView = comment => {
-  const {avatar} = comment.User.Profile.dataValues;
-  comment.User.Profile.dataValues.avatar = (avatar !== null ?
+    const {avatar} = comment.User.Profile.dataValues;
+    comment.User.Profile.dataValues.avatar = (avatar !== null ?
     avatar.toString() : avatar);
-  }
+  };
 
 module.exports = {
   create(req, res) {
@@ -67,7 +67,7 @@ module.exports = {
             item.id == comment.parent_id).dataValues;
           parentComment.children ? parentComment.children.push(comment)
             : parentComment.children = [comment];
-        } else { 
+        } else {
           avatarView(comment);
           data.push(comment); }
       });
