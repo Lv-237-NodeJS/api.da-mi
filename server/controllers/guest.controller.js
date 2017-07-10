@@ -56,9 +56,9 @@ module.exports = {
 
           mailer(data, templates.invitation);
         });
-      }) || res.status(403).send(messages.accessDenied);
+      }) || res.status(403).json({'message': messages.accessDenied});
     })
-    .then(() => res.send(messages.invitationsSended))
+    .then(() => res.json({'message': messages.invitationsSended}))
     .catch(error => res.status(400).send(error));
   }
 };
