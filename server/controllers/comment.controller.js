@@ -1,8 +1,8 @@
 'use strict';
 
 const { User, Profile, Gift, Event, Comment } = require('../../config/db');
-const { mailer, templates, messages } = require('./../helper');
-const { URL } = require('./../helper/constants');
+const { mailer, templates, messages, constants } = require('./../helper');
+// const { URL } = require('./../helper/constants');
 const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 module.exports = {
@@ -22,10 +22,10 @@ module.exports = {
         },{model: Gift}]
       })
       .then(comment => {
-        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
-        const route = `/events/${req.body.event_id}/gift/${comment.gift_id}`;
+        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';        
+        const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
         const data = Object.assign(commentReply, {
-          host: URL,
+          host: constants.URL,
           route,
           firstName,
           lastName,

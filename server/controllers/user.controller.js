@@ -5,7 +5,6 @@ const { User, Profile, Guest, Event } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, templates, messages, constants, password } = require('./../helper');
 const signUp = require('../../config/mailerOptions.json').signUp;
-const { URL } = require('./../helper/constants');
 
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
