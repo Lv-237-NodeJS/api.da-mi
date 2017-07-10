@@ -44,7 +44,7 @@ module.exports = {
       }
       const mailOptions = {
         from: `"Da-Mi"<${secret.user}>`,
-        to: _data.email,
+        to: locals.to,
         subject: _data.subject,
         html: sendMail.html,
         text: sendMail.text,
