@@ -18,7 +18,7 @@ module.exports = {
     .then(profile => {
       profile || res.status(404).json(messages.profileError);
       profile.updateAttributes(Object.assign({}, req.body))
-      .then(() => res.status(200).send(profile))
+      .then(profile => res.status(200).send(profile))
       .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
