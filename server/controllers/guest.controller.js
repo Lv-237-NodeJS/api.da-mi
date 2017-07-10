@@ -34,14 +34,14 @@ module.exports = {
         include: [{
           model: User,
           include: [Profile]
-        }, Event]
+        }]
       })
       .then(guests => {
         guests.map(guest => {
-          const {first_name: firstName, last_name: lastName} = guest.User.Profile || '';
-          const route = guest.User.is_invited && '/signup' || '/';
+          let {first_name: firstName, last_name: lastName} = guest.User.Profile || '';
+          let route = guest.User.is_invited && '/signup' || '/';
 
-          const data = Object.assign(invitation, {
+          let data = Object.assign(invitation, {
             host: constants.URL,
             route,
             firstName,
@@ -49,16 +49,16 @@ module.exports = {
             ownerFirstName: owner.firstName,
             ownerLastName: owner.lastName,
             email: guest.User.email,
-            eventName: guest.Event.name,
-            date: new Date(parseInt(guest.Event.date_event)),
-            eventDescription: guest.Event.description
+            eventName: event.name,
+            date: new Date(parseInt(event.date_event)),
+            eventDescription: event.description
           });
 
           mailer(data, templates.invitation);
         });
       }) || res.status(403).json({'message': messages.accessDenied});
     })
-    .then(() => res.json({'message': messages.invitationsSended}))
+    .then(() => res.status(200).json({'message': messages.invitationsSended}))
     .catch(error => res.status(400).send(error));
   }
 };
