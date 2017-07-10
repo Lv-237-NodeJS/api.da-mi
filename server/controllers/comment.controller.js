@@ -22,7 +22,7 @@ module.exports = {
         },{model: Gift}]
       })
       .then(comment => {
-        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';        
+        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
         const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
         const data = Object.assign(commentReply, {
           host: constants.URL,
