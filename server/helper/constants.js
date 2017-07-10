@@ -6,7 +6,7 @@ module.exports = {
   },
   TIME: {
     ACTIVATION_TOKEN: '5d',
-    LOGIN_TOKEN: '2h'
+    LOGIN_TOKEN: '1d'
   },
   ROUTE: {
     ACTIVATION: '/api/user/activation/',
