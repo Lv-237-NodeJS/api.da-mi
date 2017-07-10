@@ -25,9 +25,9 @@ module.exports = {
   retrieve(req, res) {
     Event.findById(req.params.id)
       .then(event => {
-        (event.dataValues.owner !== req.decoded.id || !event) &&
-          res.status(400).json(messages.eventNotFound) ||
-          res.status(200).send(event);
+        if (event.dataValues.owner !== req.decoded.id || !event)
+          res.status(400).json(messages.eventNotFound);
+        res.status(200).send(event);
       })
       .catch(error => {
         res.status(400).send(error);
@@ -36,7 +36,7 @@ module.exports = {
 
   update(req, res) {
     Event.findById(req.params.id).then(event => {
-      (event.dataValues.owner !== req.decoded.id || !event) &&
+      if (event.dataValues.owner !== req.decoded.id || !event)
         res.status(404).json(messages.eventNotFound);
       const updatedEvent = Object.assign({}, req.body);
       event.updateAttributes(updatedEvent)
@@ -48,7 +48,7 @@ module.exports = {
 
   destroy(req, res) {
     Event.findById(req.params.id).then(event => {
-        (event.dataValues.owner !== req.decoded.id || !event) &&
+        if (event.dataValues.owner !== req.decoded.id || !event)
           res.status(404).json(messages.eventNotFound);
         return event
           .destroy()
