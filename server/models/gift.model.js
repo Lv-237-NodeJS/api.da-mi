@@ -11,10 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     image: {
-      type: DataTypes.BLOB,
-      validate: {
-        max: 65000
-      }
+      type: DataTypes.STRING(200000),
+      allowNull: true
     },
     link: {
       type: DataTypes.STRING(150),
