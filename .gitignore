@@ -42,3 +42,4 @@ config/config.json
 config/mailerConfig.json
 config/jwt.secretkey.json
 build
+package-lock.json
