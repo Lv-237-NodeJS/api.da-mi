@@ -6,8 +6,8 @@ const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 const avatarView = comment => {
     const {avatar} = comment.User.Profile.dataValues;
-    comment.User.Profile.dataValues.avatar = (avatar !== null ?
-    avatar.toString() : avatar);
+    comment.User.Profile.dataValues.avatar = (avatar !== null &&
+    avatar.toString() || avatar);
   };
 
 module.exports = {
@@ -26,9 +26,9 @@ module.exports = {
           }],
         },{model: Gift}]
       })
-      .then(comment => {
+      .then(comment => {        
         const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
-        const route = `/events/${req.params.id}/gift/${comment.gift_id}`;
+        const route = `/events/${req.params.id}`;
         const data = Object.assign(commentReply, {
           host: constants.URL,
           route,
@@ -106,9 +106,10 @@ module.exports = {
             parent_id: req.params.comment_id
           }
         })
-      .then(comments => {comments.forEach(comment => comment && comment.destroy());
-        comment.destroy();}
-        )
+      .then(comments => {
+        comments.map(comment => comment.destroy());
+        comment.destroy();
+      })
       .then(() => res.status(204).json({'message': messages.commentDeleted}))
       .catch(error => res.status(400).send(error))
     );

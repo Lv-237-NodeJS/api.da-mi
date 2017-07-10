@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     body: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     },
     parent_id: {
       type: DataTypes.INTEGER,
