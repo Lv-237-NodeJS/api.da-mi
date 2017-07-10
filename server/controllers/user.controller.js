@@ -58,7 +58,7 @@ module.exports = {
           ))
         )) || res.status(403).json({'message': messages.accessDenied}))
         .then(guests => guests && res.status(201).send({guests}))
-        .catch(error => res.status(400).json({'message': messages.badRequest}));
+        .catch(() => res.status(400).json({'message': messages.badRequest}));
 
     eventId && guestsCreate() ||
     User.findOne({
@@ -80,12 +80,12 @@ module.exports = {
       user && user.is_invited &&
       User.updateAttributes(assignUser)
       .then(user => dataActivation(user))
-      .catch(error => res.status(400).json({'message': messages.badRequest})) ||
+      .catch(() => res.status(400).json({'message': messages.badRequest})) ||
       User.create(assignUser)
       .then(user => dataActivation(user))
-      .catch(error => res.status(422).json({'message': messages.emailUsed}));
+      .catch(() => res.status(422).json({'message': messages.emailUsed}));
     })
-    .catch(error => res.status(402).json({'message': messages.badRequest}));
+    .catch(() => res.status(400).json({'message': messages.badRequest}));
   },
 
   retrieve(req, res) {
