@@ -4,7 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     gift_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   }, {
-      paranoid: false,
       timestamps: false,
       classMethods: {
         associate: models => {

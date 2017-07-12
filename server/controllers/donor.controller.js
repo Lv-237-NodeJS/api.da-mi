@@ -11,19 +11,15 @@ module.exports = {
       attributes: ['gift_id', 'user_id']
     })
       .then(donor => {
-
         let isDonor = donor.filter((each) => {
           return each.dataValues.user_id ==
             req.params.id && each.dataValues.gift_id == req.params.gift_id;
         });
-
-        if (!isDonor[0]) {
+        !isDonor[0] &&
           Donor.create(assignDonor)
             .then(donor => res.status(201).send(donor))
-            .catch(error => res.status(400).send(error));
-        } else {
+            .catch(error => res.status(400).send(error)) ||
           res.status(400).json({'message': messages.badRequest});
-        };
       });
   },
 
@@ -36,25 +32,20 @@ module.exports = {
       }
     })
       .then(donor => {
-
           User.findAll({
             attributes: ['id', 'email']
           })
           .then(user => {
-
             Profile.findAll({
                 attributes: ['id', 'first_name', 'last_name']
               })
               .then(profile => {
-
               donor.map(each => {
                 profile.forEach(every => {
                   user.forEach(some => {
-
-                    if (each.dataValues.user_id == every.dataValues.id == some.dataValues.id) {
+                    each.dataValues.user_id == every.dataValues.id == some.dataValues.id &&
                       result.push(`${every.dataValues.first_name} ${every.dataValues.last_name}` +
                         ` email: ${some.dataValues.email}`);
-                    };
                   });
                 });
               });
