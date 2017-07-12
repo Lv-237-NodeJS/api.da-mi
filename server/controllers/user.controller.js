@@ -69,7 +69,7 @@ module.exports = {
     .then(user => {
       const dataActivation = user => {
         const data = Object.assign(signUp, {
-          host: req.headers.host,
+          host: constants.URL,
           route: constants.ROUTE.ACTIVATION,
           email: req.body.email,
           token: signToken(user.id, user.email)
@@ -77,7 +77,7 @@ module.exports = {
         mailer(data, templates.activation);
         res.status(201).json({'user': user, 'message': messages.successSignup});
       };
-      user && user.is_invited &&
+      user && user.is_invited && (user.is_activate == false) &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(400).json({'message': messages.badRequest})) ||
