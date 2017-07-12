@@ -13,6 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: false,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           model: 'Events',
           key: 'id'
