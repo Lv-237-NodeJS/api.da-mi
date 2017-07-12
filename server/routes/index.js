@@ -42,4 +42,8 @@ module.exports = app => {
     limits: { fileSize: 52428800 }
   });
   app.post('/api/upload', upload.single('fileToUpload'), uploadController.uploadFile);
+
+  app.post('/api/user/:id/gift/:gift_id/donor', donorController.create);
+  app.get('/api/user/:id/gift/:gift_id/donor', donorController.list);
+  app.delete('/api/user/:id/gift/:gift_id/donor/:donor_id', donorController.destroy);
 };
