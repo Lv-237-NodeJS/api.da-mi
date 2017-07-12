@@ -21,4 +21,5 @@ module.exports = {
   sendMessage: 'Your message is sent',
   failedToken: 'Failed to authenticate token.',
   noToken: 'No token provided'
+  eventDeleted: 'Event is successfully deleted!'
 };
