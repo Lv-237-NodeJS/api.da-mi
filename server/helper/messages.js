@@ -18,5 +18,6 @@ module.exports = {
   invitationsSended: 'Invitations were sent.',
   deleted: 'Deleted succesfully',
   successSignup: 'You have successfully signed up! For confirmation please visit your e-mail',
-  sendMessage: 'Your message is sent'
+  sendMessage: 'Your message is sent',
+  eventDeleted: 'Event is successfully deleted!'
 };
