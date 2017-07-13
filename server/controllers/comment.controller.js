@@ -5,10 +5,23 @@ const { mailer, templates, messages, constants } = require('./../helper');
 const commentReply = require('../../config/mailerOptions.json').commentReply;
 
 const avatarView = comment => {
-    const {avatar} = comment.User.Profile.dataValues;
-    comment.User.Profile.dataValues.avatar = (avatar !== null &&
+  const {avatar} = comment.User.Profile.dataValues;
+  comment.User.Profile.dataValues.avatar = (avatar !== null &&
     avatar.toString() || avatar);
-  };
+};
+const reply = comment => {
+  const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
+  const route = `/events/${req.params.id}`;
+  const data = Object.assign(commentReply, {
+    host: constants.URL,
+    route,
+    firstName,
+    lastName,
+    email: comment.User.email,
+    giftName: comment.Gift.name,
+  });
+  mailer(data, templates.commentReply);
+};
 
 module.exports = {
   create(req, res) {
@@ -26,19 +39,7 @@ module.exports = {
           }],
         },{model: Gift}]
       })
-      .then(comment => {
-        const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
-        const route = `/events/${req.params.id}`;
-        const data = Object.assign(commentReply, {
-          host: constants.URL,
-          route,
-          firstName,
-          lastName,
-          email: comment.User.email,
-          giftName: comment.Gift.name,
-        });
-        mailer(data, templates.commentReply);
-      }));
+      .then(reply(comment)));
     Comment.create(commentParams)
     .then(comment => res.status(201).send({comment}))
     .catch(error => res.status(400).send(error));
@@ -110,7 +111,7 @@ module.exports = {
         comments.map(comment => comment.destroy());
         comment.destroy();
       })
-      .then(() => res.status(204).json({'message': messages.commentDeleted}))
+      .then(() => res.status(200).json({'message': messages.commentDeleted}))
       .catch(error => res.status(400).send(error))
     );
   }
