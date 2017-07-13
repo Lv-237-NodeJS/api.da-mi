@@ -9,9 +9,11 @@ const avatarView = comment => {
   comment.User.Profile.dataValues.avatar = (avatar !== null &&
     avatar.toString() || avatar);
 };
+
 const reply = comment => {
+  let eventId;
   const {first_name: firstName, last_name: lastName} = comment.User.Profile || '';
-  const route = `/events/${req.params.id}`;
+  const route = `/events/${eventId}`;
   const data = Object.assign(commentReply, {
     host: constants.URL,
     route,
@@ -26,7 +28,7 @@ const reply = comment => {
 module.exports = {
   create(req, res) {
     const commentParams = Object.assign({}, req.body, {gift_id: req.params.gift_id},
-      {user_id: req.decoded.id});
+      {eventId: req.params.id}, {user_id: req.decoded.id});
     const parentId = req.body.parent_id;
     !!parentId && (
       Comment.findById(parentId, {
@@ -39,7 +41,7 @@ module.exports = {
           }],
         },{model: Gift}]
       })
-      .then(reply(comment)));
+      .then(comment => reply(comment)));
     Comment.create(commentParams)
     .then(comment => res.status(201).send({comment}))
     .catch(error => res.status(400).send(error));
