@@ -20,7 +20,7 @@ const reply = comment => {
     firstName,
     lastName,
     email: comment.User.email,
-    giftName: comment.Gift.name,
+    giftName: comment.Gift.dataValues.name,
   });
   mailer(data, templates.commentReply);
 };

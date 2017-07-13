@@ -35,7 +35,8 @@ module.exports = {
         date: _data.date,
         eventDescription: _data.eventDescription,
         text: _data.text,
-        mailsForSupport: _data.mailsForSupport
+        mailsForSupport: _data.mailsForSupport,
+        giftName: _data.giftName
       };
 
     template.render(locals, (error, sendMail) => {
