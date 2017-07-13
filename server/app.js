@@ -2,46 +2,29 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const secret = require('./../config/jwt.secretkey.json');
 const jwt = require('jsonwebtoken');
 const app = express();
+const secret = require('./../config/jwt.secretkey.json');
+const { messages } = require('./helper');
+
+const token = req => req.headers['x-access-token'];
+const tokenFreeURLs = ['/api/user/activation', '/api/users', '/api/support', '/api/auth/login'];
+const checkURL = URL => tokenFreeURLs.includes(URL);
+const verifyToken = (token, req, next) => jwt.verify(token, secret.key, (err, decoded) =>
+  err && res.status(401).json({'message': messages.failedToken}) ||
+  (req.decoded = decoded) && next()
+);
 
 app.use(logger('dev'));
 app.use(bodyParser.json({limit: '2mb'}));
 app.use(bodyParser.urlencoded({limit: '2mb', extended: true}));
 app.use(cors());
 
-app.use('/api/+(?!auth)/?*', function(req, res, next) {
-  let token = req.headers['x-access-token'];
-
-  if (token) {
-    jwt.verify(token, secret.key, function(err, decoded) {
-      if (err) {
-        return res.status(401).json({
-          error: err,
-          success: false,
-          message: 'Failed to authenticate token.'
-        });
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else if (req.baseUrl.includes('/api/user/activation') || req.baseUrl.includes('/api/users') ||
-    req.baseUrl.includes('/api/support')) {
-    next();
-  } else {
-    return res.status(401).send({
-      success: false,
-      message: 'No token provided.'
-    });
-  }
+app.use('*', (req, res, next) => {
+  !token(req) && !checkURL(req.baseUrl) && res.status(401).json({'message': messages.noToken}) ||
+  token(req) && verifyToken(token(req), req, next) || checkURL(req.baseUrl) && next();
 });
 
 require('./routes')(app);
-
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the API Da-Mi.'
-}));
 
 module.exports = app;

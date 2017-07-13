@@ -1,9 +1,6 @@
 'use strict';
 
-const DB = require('./../../config/db');
-const Gift = DB.Gift;
-const Event = DB.Event;
-const Guest = DB.Guest;
+const { Gift, Event, Guest } = require('./../../config/db');
 const { messages } = require('./../helper');
 
 const isEventOwner = (eventId, userId, gift) =>
