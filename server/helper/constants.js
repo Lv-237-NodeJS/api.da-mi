@@ -2,10 +2,10 @@ module.exports = {
   HOST: 'http://localhost:',
   PORT_BACK: '8082',
   PORT_FRONT: '8080',
-  get URL() {
+  get BACKEND_URL() {
     return this.HOST + this.PORT_BACK;
   },
-  get URL1() {
+  get FRONTEND_URL() {
     return this.HOST + this.PORT_FRONT;
   },
   TIME: {

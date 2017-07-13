@@ -69,7 +69,7 @@ module.exports = {
     .then(user => {
       const dataActivation = user => {
         const data = Object.assign(signUp, {
-          host: constants.URL,
+          host: constants.BACKEND_URL,
           route: constants.ROUTE.ACTIVATION,
           email: req.body.email,
           token: signToken(user.id, user.email)
