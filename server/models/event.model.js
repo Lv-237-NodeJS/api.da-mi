@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.TEXT
     },
-    status_event_id: {
+    status_event: {
       type: DataTypes.ENUM,
       values: ['draft', 'public', 'finished'],
       defaultValue: 'draft',
@@ -42,13 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     timestamps: false,
-    classMethods: {
-      associate: models => {
-        Event.hasOne(models.statusEvent, {
-          foreignKey: 'id'
-        });
-      }
-    },
     hooks: {
       beforeCreate: (event, options) => {
         event.date_event = Date.parse(event.date_event);
