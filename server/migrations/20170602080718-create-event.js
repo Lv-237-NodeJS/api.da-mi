@@ -35,7 +35,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       status_event: {
-        type: DataTypes.ENUM,
+        type: Sequelize.ENUM,
         values: ['draft', 'public', 'finished'],
         defaultValue: 'draft',
         allowNull: false

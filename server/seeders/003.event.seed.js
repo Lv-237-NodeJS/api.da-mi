@@ -11,7 +11,7 @@ module.exports = {
         longitude:  24.026109,
         latitude: 49.840575,
         description: 'The wedding will be on Sunday',
-        status_event_id: 'draft',
+        status_event: 'draft',
         createdAt: Date.now(),
         updatedAt: Date.now()
       }
