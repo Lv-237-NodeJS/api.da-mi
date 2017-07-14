@@ -34,13 +34,11 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
-      status_event_id: {
-        type: Sequelize.INTEGER,
-        unique: false,
-        references: {
-          model: 'statusEvents',
-          key: 'id'
-        }
+      status_event: {
+        type: DataTypes.ENUM,
+        values: ['draft', 'public', 'finished'],
+        defaultValue: 'draft',
+        allowNull: false
       },
       createdAt: {
         type: Sequelize.BIGINT
