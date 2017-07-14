@@ -1,6 +1,6 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var Donor = sequelize.define('Donor', {
+module.exports = (sequelize, DataTypes) => {
+  const Donor = sequelize.define('Donor', {
     gift_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER
   }, {

@@ -56,8 +56,7 @@ module.exports = {
                   })
                     .then(gift => {
                       result.status = gift.dataValues.status;
-                      result.is_available = gift.dataValues.is_available
-                      ;
+                      result.is_available = gift.dataValues.is_available;
                       Event.findOne({
                         where: {
                           id: gift.dataValues.event_id
