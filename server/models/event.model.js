@@ -27,10 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     status_event_id: {
-      allowNull: false,
-      unique: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 1
+      type: DataTypes.ENUM,
+      values: ['draft', 'public', 'finished'],
+      defaultValue: 'draft',
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.BIGINT,
