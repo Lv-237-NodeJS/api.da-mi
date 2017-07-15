@@ -57,8 +57,9 @@ module.exports = {
                 is_activate: true
               });
               activUser.email = decoder.email;
+              activUser.host = constants.BACKEND_URL;
               mailer(activUser, templates.activated);
-              res.redirect(constants.URL);
+              res.redirect(constants.FRONTEND_URL);
             });
           })
           .catch(error => res.status(400).send(error));
