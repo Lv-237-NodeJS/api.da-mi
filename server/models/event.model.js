@@ -1,5 +1,7 @@
 'use strict';
 
+const { hooks } = require('./../helper');
+
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
     name: {
@@ -43,14 +45,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     hooks: {
-      beforeCreate: (event, options) => {
-        event.date_event = Date.parse(event.date_event);
-        event.createdAt = new Date().getTime();
-        event.updatedAt = new Date().getTime();
-      },
-      beforeUpdate: (event, options) => {
-        event.updatedAt = new Date().getTime();
-      }
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
     }
   });
   return Event;
