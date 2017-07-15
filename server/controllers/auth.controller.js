@@ -1,11 +1,11 @@
 'use strict';
 
-const { User, Profile } = require('../../config/db');
 const passwordHash = require('password-hash');
 const jwt = require('jsonwebtoken');
+const { User, Profile } = require('../../config/db');
 const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, templates, messages, constants } = require('./../helper');
-const activUser = require('../../config/mailerOptions.json').activUser;
+const { activUser } = require('../../config/mailerOptions.json');
 
 const validUser = (password, user) =>
   (user && passwordHash.verify(password, user.password)) && true || false;

@@ -1,15 +1,17 @@
-const profiles = require('./profile.controller');
-const users = require('./user.controller');
-const autorization = require('./auth.controller');
-const events = require('./event.controller');
-const guests = require('./guest.controller');
-const gifts = require('./gift.controller');
+const profileController = require('./profile.controller');
+const userController = require('./user.controller');
+const authController = require('./auth.controller');
+const eventController = require('./event.controller');
+const guestController = require('./guest.controller');
+const giftController = require('./gift.controller');
+const supportController = require('./support.controller');
 
 module.exports = {
-  profiles,
-  users,
-  autorization,
-  events,
-  guests,
-  gifts
+  profileController,
+  userController,
+  authController,
+  eventController,
+  guestController,
+  giftController,
+  supportController
 };

@@ -15,8 +15,10 @@ module.exports = {
   userDeleted: 'User was deleted.',
   guestDeleted: 'Guest was deleted.',
   guestNotFound: 'This guest is not found!',
-  invitationsSended: 'Invitations were sent.',
-  deleted: 'Deleted succesfully',
+  invitationsSent: 'Invitations were sent.',
+  deleted: 'Deleted successfully',
   successSignup: 'You have successfully signed up! For confirmation please visit your e-mail',
-  sendMessage: 'Your message is sent'
+  sendMessage: 'Your message is sent',
+  failedToken: 'Failed to authenticate token.',
+  noToken: 'No token provided'
 };
