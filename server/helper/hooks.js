@@ -10,7 +10,7 @@ module.exports = {
     model.updatedAt = new Date().getTime();
   },
   beforeUpdate: model => {
-  	model.password && (model.password = passwordHash.generate(model.password));
+    model.password && (model.password = passwordHash.generate(model.password));
     model.updatedAt = new Date().getTime();
   }
 };
