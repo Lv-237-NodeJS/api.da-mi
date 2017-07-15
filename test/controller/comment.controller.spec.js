@@ -1,9 +1,8 @@
-const server = require('../../server');
 const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
 
 describe('Login, create and delete comment', () => {
-  it('returns status code 200, 201, 204', () => {
+  it('returns status code 200, 201', () => {
     frisby.create()
       .post(`${baseUrl}/api/auth/login`,
         { email: 'your@email.net', password: 'qQ22@@' },
@@ -20,7 +19,6 @@ describe('Login, create and delete comment', () => {
             headers: { 'x-access-token': res.token }
           }
         });
-
         describe('Create comment', () => {
           it('returns status code 201 and text of created comment', () => {
             frisby.create()
@@ -33,12 +31,13 @@ describe('Login, create and delete comment', () => {
                 }
               })
               .afterJSON(res => {
-
                 describe('Delete comment', () => {
                   it('return status code 204', () => {
                     frisby.create()
-                      .delete(`${baseUrl}/api/event/1/gift/1/comment/${res.comment.id}`)
-                      .expectStatus(204)
+                      .delete(`${baseUrl}/api/event/1/gift/1/comment/${res.comment.id}`)                      
+                      .expectJSON({
+                        message: 'Comment deleted!'
+                      })
                     .toss();
                   });
                 });
@@ -50,7 +49,3 @@ describe('Login, create and delete comment', () => {
     .toss();
   });
 });
-
-setTimeout(() => {
-    server.close();
-  }, 5000);
