@@ -18,7 +18,8 @@ module.exports = {
         allowNull: true
       },
       avatar: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING(200000),
+        allowNull: true
       },
       birth_date: {
         type: Sequelize.DATEONLY

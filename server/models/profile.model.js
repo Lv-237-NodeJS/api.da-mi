@@ -13,10 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     avatar: {
-      type: DataTypes.BLOB,
-      validate: {
-        max: 65000
-      }
+      type: DataTypes.STRING(200000),
+      allowNull: true
     },
     birth_date: {
       type: DataTypes.DATEONLY
