@@ -34,7 +34,7 @@ describe('Login, create and delete comment', () => {
                 describe('Delete comment', () => {
                   it('return status code 204', () => {
                     frisby.create()
-                      .delete(`${baseUrl}/api/event/1/gift/1/comment/${res.comment.id}`)                      
+                      .delete(`${baseUrl}/api/event/1/gift/1/comment/${res.comment.id}`)
                       .expectJSON({
                         message: 'Comment deleted!'
                       })

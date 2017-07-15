@@ -6,7 +6,7 @@ describe('Server require token', () => {
   describe('GET /', () => {
     it('returns status code 401', () => {
       frisby.create()
-        .get(baseUrl + '/')
+        .get(`${baseUrl}/api`)
         .expectStatus(401)
         .toss();
     });
