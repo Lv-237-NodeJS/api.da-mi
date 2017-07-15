@@ -1,5 +1,6 @@
-const { profileController, userController, authController, eventController,
-  guestController, giftController, supportController } = require('../controllers');
+const { profileController, userController, authController,
+  eventController, guestController, giftController,
+  supportController, commentController } = require('../controllers');
 
 module.exports = app => {
   app.get('/api/profile/:id', profileController.retrieve);
