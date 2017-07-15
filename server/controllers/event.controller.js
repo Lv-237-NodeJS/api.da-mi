@@ -55,7 +55,7 @@ module.exports = {
         }
         return event
           .destroy()
-          .then(event => res.status(204).send(event))
+          .then(() => res.status(200).json(messages.eventDeleted))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
