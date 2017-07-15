@@ -20,6 +20,6 @@ module.exports = {
   successSignup: 'You have successfully signed up! For confirmation please visit your e-mail',
   sendMessage: 'Your message is sent',
   failedToken: 'Failed to authenticate token.',
-  noToken: 'No token provided'
+  noToken: 'No token provided',
   eventDeleted: 'Event is successfully deleted!'
 };
