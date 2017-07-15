@@ -26,7 +26,7 @@ module.exports = {
     Event.findById(req.params.id)
       .then(event => {
         if (event.dataValues.owner !== req.decoded.id || !event) {
-          res.status(400).json(messages.eventNotFound);
+          res.status(400).json({'message': messages.eventNotFound});
         }
         res.status(200).send(event);
       })
@@ -38,7 +38,7 @@ module.exports = {
   update(req, res) {
     Event.findById(req.params.id).then(event => {
       if (event.dataValues.owner !== req.decoded.id || !event) {
-        res.status(404).json(messages.eventNotFound);
+        res.status(404).json({'message': messages.eventNotFound});
       }
       const updatedEvent = Object.assign({}, req.body);
       event.updateAttributes(updatedEvent)
@@ -51,11 +51,11 @@ module.exports = {
   destroy(req, res) {
     Event.findById(req.params.id).then(event => {
         if (event.dataValues.owner !== req.decoded.id || !event) {
-          res.status(404).json(messages.eventNotFound);
+          res.status(404).json({'message': messages.eventNotFound});
         }
         return event
           .destroy()
-          .then(() => res.status(200).json(messages.eventDeleted))
+          .then(() => res.status(200).json({'message': messages.eventDeleted}))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
