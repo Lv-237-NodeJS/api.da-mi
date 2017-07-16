@@ -7,40 +7,46 @@ module.exports = {
   create(req, res) {
     let assignDonor = Object.assign({}, req.body, {gift_id: req.params.gift_id},
       {user_id: req.params.id});
-    Donor.findOne({
+    Gift.findOne({
       where: {
-        user_id: req.params.id,
-        gift_id: req.params.gift_id
+        id: req.params.gift_id,
+        is_available: true
       }
     })
-      .then(donor => {
-        !donor &&
-        Gift.findOne({
-          where: {
-            id: req.params.gift_id,
-            is_available: true
-          }
-        }).then(gift => {
-          !gift && res.status(400).json({'message': messages.badRequest});
-          gift.dataValues.status == 'hasOneDonor' &&
-          gift.update({
-            is_available: false
-          });
-          Donor.create(assignDonor)
-            .then(donor => res.status(201).send(donor));
+      .then(gift => {
+          !gift && res.status(201).json({'message': messages.attempt}) ||
+            Donor.findOne({
+              where: {
+                user_id: req.params.id,
+                gift_id: req.params.gift_id
+              }
+            }).
+              then(donor => {
+                donor && res.status(201).json({'message': messages.booked}) ||
+                  Donor.create(assignDonor).then(donor => {
+                    Gift.update({
+                      is_available: false
+                    }, {
+                      where: {
+                        id: req.params.gift_id,
+                        status: 'hasOneDonor',
+                        is_available: true
+                      }
+                    });
+                    res.status(200).send(donor);
+                  })
+                    .catch(error => res.status(400).send(error));
+              })
+                .catch(error => res.status(400).send(error));
         })
-          .catch(error => res.status(400).send(error)) ||
-            res.status(400).json({'message': messages.badRequest});
-      })
-        .catch(error => res.status(400).send(error)) ||
-          res.status(400).json({'message': messages.badRequest});
+          .catch(error => res.status(400).send(error));
   },
 
   list(req, res) {
     let result = {
       donor: []
     };
-    let i = 1;
+    let i = 0;
     Donor.findAll({
       where: {
         gift_id: req.params.gift_id
@@ -70,8 +76,7 @@ module.exports = {
                               user.forEach(some => {
                                 each.dataValues.user_id == every.dataValues.id ==
                                   some.dataValues.id &&
-                                    (result.donor[i - 1] = `Donor_${i++}: ` +
-                                      `${every.dataValues.first_name}` +
+                                    (result.donor[i++] = `${every.dataValues.first_name}` +
                                         ` ${every.dataValues.last_name}` +
                                          ` email: ${some.dataValues.email}`);
                               });
@@ -97,7 +102,7 @@ module.exports = {
       .then(donor => {
         donor.destroy()
           .then(donor => res.status(200).send(messages.deleted))
-          .catch(error => res.status(400).json({'message': messages.badRequest}));
+          .catch(error => res.status(400).send(error));
       })
         .catch(error => res.status(400).send(error));
   }
