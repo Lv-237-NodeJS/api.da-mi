@@ -1,6 +1,6 @@
 'use strict';
 
-const passwordHash = require('password-hash');
+const { hooks } = require('./../helper');
 
 module.exports  = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -56,14 +56,8 @@ module.exports  = (sequelize, DataTypes) => {
       }
     },
     hooks: {
-      beforeCreate: (user, options) => {
-        user.password = passwordHash.generate(user.password);
-        user.createdAt = new Date().getTime();
-        user.updatedAt = new Date().getTime();
-      },
-      beforeUpdate: (user, options) => {
-        user.updatedAt = new Date().getTime();
-      }
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
     }
   });
   return User;

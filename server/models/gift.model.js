@@ -1,5 +1,7 @@
 'use strict';
 
+const { hooks } = require('./../helper');
+
 module.exports = (sequelize, DataTypes) => {
   const Gift = sequelize.define('Gift', {
     name: {
@@ -52,13 +54,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     hooks: {
-      beforeCreate: (gift, options) => {
-        gift.createdAt = new Date().getTime();
-        gift.updatedAt = new Date().getTime();
-      },
-      beforeUpdate: (gift, options) => {
-        gift.updatedAt = new Date().getTime();
-      }
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
     }
   });
   return Gift;

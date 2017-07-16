@@ -1,5 +1,7 @@
 'use strict';
 
+const { hooks } = require('./../helper');
+
 module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
     name: {
@@ -26,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.TEXT
     },
-    status_event_id: {
-      allowNull: false,
-      unique: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 1
+    status_event: {
+      type: DataTypes.ENUM,
+      values: ['draft', 'public', 'finished'],
+      defaultValue: 'draft',
+      allowNull: false
     },
     createdAt: {
       type: DataTypes.BIGINT,
@@ -42,22 +44,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     timestamps: false,
-    classMethods: {
-      associate: models => {
-        Event.hasOne(models.statusEvent, {
-          foreignKey: 'id'
-        });
-      }
-    },
     hooks: {
-      beforeCreate: (event, options) => {
-        event.date_event = Date.parse(event.date_event);
-        event.createdAt = new Date().getTime();
-        event.updatedAt = new Date().getTime();
-      },
-      beforeUpdate: (event, options) => {
-        event.updatedAt = new Date().getTime();
-      }
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
     }
   });
   return Event;
