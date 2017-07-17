@@ -1,5 +1,6 @@
-const { profileController, userController, authController, eventController,
-  guestController, giftController, supportController } = require('../controllers');
+const { profileController, userController, authController,
+  eventController, guestController, giftController,
+  supportController, commentController } = require('../controllers');
 
 module.exports = app => {
   app.get('/api/profile/:id', profileController.retrieve);
@@ -29,4 +30,9 @@ module.exports = app => {
   app.delete('/api/event/:id/gift/:gift_id', giftController.destroy);
 
   app.post('/api/support', supportController.support);
+
+  app.post('/api/event/:id/gift/:gift_id/comments', commentController.create);
+  app.get('/api/event/:id/gift/:gift_id/comments', commentController.list);
+  app.put('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.update);
+  app.delete('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.destroy);
 };

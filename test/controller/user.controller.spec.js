@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:8082';
 const randomInt = require('./../helper/test_helpers');
 const testUserNumber = randomInt(10000, 99999).toString();
 const testPass = 'Qq@1' + testUserNumber;
-const testEmail = 'test_' + testUserNumber + '@dami.com';
+const testEmail = 'dami.tests+' + testUserNumber + '@gmail.com';
 
 describe('Test User Controller', () => {
   describe('Sign Up User', () => {
@@ -21,13 +21,19 @@ describe('Test User Controller', () => {
         .expectHeader('Content-Type', 'application/json; charset=utf-8')
         .expectHeaderContains('content-type', 'application/json')
         .expectJSON({
-          email: testEmail,
-          is_activate: false,
-          is_invited: false,
+          user: {
+            email: testEmail,
+            profile_id: null,
+            is_activate: false,
+            is_invited: false,
+          },
+          message: 'You have successfully signed up! For confirmation please visit your e-mail'
         })
         .expectJSONTypes({
-          password: String,
-          email: String
+          user: {
+            password: String,
+            email: String
+          }
         })
       .toss();
     });

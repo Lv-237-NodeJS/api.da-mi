@@ -35,7 +35,8 @@ module.exports = {
         date: _data.date,
         eventDescription: _data.eventDescription,
         text: _data.text,
-        mailsForSupport: _data.mailsForSupport
+        mailsForSupport: _data.mailsForSupport,
+        giftName: _data.giftName
       };
 
     template.render(locals, (error, sendMail) => {
@@ -43,7 +44,7 @@ module.exports = {
         return error;
       }
       const mailOptions = {
-        from: `"Da-Mi"<${secret.user}>`,
+        from: `Da-Mi<${secret.email}>`,
         to: locals.to,
         subject: _data.subject,
         html: sendMail.html,
