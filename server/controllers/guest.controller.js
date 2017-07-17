@@ -2,7 +2,7 @@
 
 const { Guest, User, Event, Profile } = require('../../config/db');
 const { mailer, templates, constants, messages } = require('./../helper');
-const invitation = require('../../config/mailerOptions.json').invitation;
+const { invitation } = require('../../config/mailerOptions.json');
 
 module.exports = {
 

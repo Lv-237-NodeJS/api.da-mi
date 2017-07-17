@@ -1,6 +1,6 @@
 'use strict';
 
-const { User, Event } = require('../../config/db');
+const { User, Event, Guest } = require('../../config/db');
 const { messages } = require('./../helper');
 
 module.exports = {
@@ -12,27 +12,42 @@ module.exports = {
   },
 
   list(req, res) {
-    Event.findAll({
-      where: {owner: req.decoded.id},
-      order: [
-        ['createdAt', 'DESC']
-      ]
-    })
-    .then(event => res.status(200).send(event))
-    .catch(error => res.status(400).send(error));
+    const userId = req.decoded.id;
+    Guest.findAll({
+      where: {
+        user_id: userId
+      },
+      include: [Event]
+    }).then(guestEvents => {
+      Event.findAll({
+        where: {
+          owner: userId
+        },
+        order: [
+          ['createdAt', 'DESC']
+        ]
+      })
+      .then(events => res.status(200).send({myEvents: events, myInvitations: guestEvents}))
+      .catch(error => res.status(400).send(error));
+    });
   },
 
   retrieve(req, res) {
-    Event.findById(req.params.id)
-      .then(event => {
-        if (event.dataValues.owner !== req.decoded.id || !event) {
-          res.status(400).json({'message': messages.eventNotFound});
+    const eventId = req.params.id;
+    const userId = req.decoded.id;
+    Event.findById(eventId)
+    .then(event =>
+      Guest.findOne({
+        where: {
+          event_id: eventId,
+          user_id: userId
         }
-        res.status(200).send(event);
-      })
-      .catch(error => {
-        res.status(400).send(error);
-      });
+      }).then(guest =>
+        event && (guest || event.owner === userId) &&
+        res.status(200).send(event) ||
+        res.status(400).json({'message': messages.eventNotFound}))
+    )
+    .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {

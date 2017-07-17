@@ -9,7 +9,7 @@ const { messages } = require('./helper');
 
 const token = req => req.headers['x-access-token'];
 const tokenFreeURLs = ['/api/user/activation', '/api/users', '/api/support', '/api/auth/login'];
-const checkURL = URL => tokenFreeURLs.includes(URL);
+const checkURL = baseUrl => tokenFreeURLs.some(URL => baseUrl.match(URL));
 const verifyToken = (token, req, next) => jwt.verify(token, secret.key, (err, decoded) =>
   err && res.status(401).json({'message': messages.failedToken}) ||
   (req.decoded = decoded) && next()
