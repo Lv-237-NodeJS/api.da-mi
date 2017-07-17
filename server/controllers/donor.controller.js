@@ -14,7 +14,7 @@ module.exports = {
       }
     })
       .then(gift => {
-          !gift && res.status(201).json({'message': messages.attempt}) ||
+          !gift && res.status(403).json({'message': messages.attempt}) ||
             Donor.findOne({
               where: {
                 user_id: req.params.id,
@@ -22,7 +22,7 @@ module.exports = {
               }
             }).
               then(donor => {
-                donor && res.status(201).json({'message': messages.booked}) ||
+                donor && res.status(403).json({'message': messages.booked}) ||
                   Donor.create(assignDonor).then(donor => {
                     Gift.update({
                       is_available: false
