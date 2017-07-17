@@ -26,5 +26,7 @@ module.exports = {
   eventDeleted: 'Event is successfully deleted!',
   commentNotFound: 'Comment not found!',
   commentDeleted: 'Comment deleted!',
-  invalidPassword: 'Invalid password! Please, try again.'
+  invalidPassword: 'Invalid password! Please, try again.',
+  success: 'success',
+  danger: 'danger'
 };

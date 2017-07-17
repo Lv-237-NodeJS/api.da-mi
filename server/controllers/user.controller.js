@@ -91,12 +91,21 @@ module.exports = {
       user && user.is_invited && (user.is_activate == false) &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
-      .catch(() => res.status(400).json({'message': messages.badRequest})) ||
+      .catch(() => res.status(400).json({
+        'message': messages.badRequest,
+        'view': messages.danger
+      })) ||
       User.create(assignUser)
       .then(user => dataActivation(user))
-      .catch(() => res.status(422).json({'message': messages.emailUsed}));
+      .catch(() => res.status(422).json({
+        'message': messages.emailUsed,
+        'view': messages.danger
+      }));
     })
-    .catch(() => res.status(404).json({'message': messages.userNotFound}));
+    .catch(() => res.status(404).json({
+      'message': messages.userNotFound,
+      'view': messages.danger
+    }));
   },
 
   retrieve(req, res) {
