@@ -63,13 +63,14 @@ module.exports = {
     })
     .then(comments => {
       const data = [];
-      comments.forEach(comment => {
+      comments.map(comment => {
         if (comment.parent_id) {
           avatarView(comment);
           const parentComment = comments.find(item =>
             item.id == comment.parent_id).dataValues;
-          parentComment.children ? parentComment.children.push(comment)
-            : parentComment.children = [comment];
+          parentComment.children
+          ? parentComment.children.push(comment)
+          : parentComment.children = [comment];
         } else {
           avatarView(comment);
           data.push(comment); }
@@ -89,7 +90,7 @@ module.exports = {
     .then(comment =>
       !comment && res.status(404).json({'message': messages.commentNotFound}) ||
       comment.updateAttributes(Object.assign({}, req.body))
-      .then(comment => res.status(200).send({comment}))
+      .then(comment => res.status(200).send(comment))
       .catch(error => res.status(400).send(error))
     )
     .catch(error => res.status(400).send(error));

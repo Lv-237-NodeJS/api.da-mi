@@ -1,5 +1,7 @@
 'use strict';
 
+const { hooks } = require('./../helper');
+
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
     user_id: {
@@ -39,13 +41,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     hooks: {
-      beforeCreate: (comment, options) => {
-        comment.createdAt = new Date().getTime();
-        comment.updatedAt = new Date().getTime();
-      },
-      beforeUpdate: (comment, options) => {
-        comment.updatedAt = new Date().getTime();
-      }
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
     }
   });
   return Comment;
