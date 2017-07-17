@@ -68,8 +68,8 @@ module.exports = {
           avatarView(comment);
           const parentComment = comments.find(item =>
             item.id == comment.parent_id).dataValues;
-          parentComment.children
-          ? parentComment.children.push(comment)
+          parentComment.children ?
+          parentComment.children.push(comment)
           : parentComment.children = [comment];
         } else {
           avatarView(comment);
