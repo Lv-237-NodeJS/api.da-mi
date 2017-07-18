@@ -57,7 +57,8 @@ module.exports  = (sequelize, DataTypes) => {
     },
     hooks: {
       beforeCreate: hooks.beforeCreate,
-      beforeUpdate: hooks.beforeUpdate
+      beforeUpdate: hooks.beforeUpdate,
+      afterValidate: hooks.afterValidate
     }
   });
   return User;
