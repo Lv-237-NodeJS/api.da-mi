@@ -10,7 +10,7 @@ describe('Test User Controller', () => {
   describe('Sign Up User', () => {
     it('Expect status 201 and JSON', () => {
       frisby.create()
-        .post(baseUrl + '/api/users', {
+        .post(`${baseUrl}/api/users`, {
           'email': testEmail,
           'password': testPass
         },

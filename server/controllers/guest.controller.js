@@ -42,7 +42,7 @@ module.exports = {
           const route = guest.User.is_invited && '/signup' || '/';
 
           const data = Object.assign(invitation, {
-            host: constants.BACKEND_URL,
+            host: constants.FRONTEND_URL,
             route,
             firstName,
             lastName,

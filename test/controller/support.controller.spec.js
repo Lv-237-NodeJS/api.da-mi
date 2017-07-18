@@ -10,7 +10,7 @@ describe('Test Support Controller', () => {
   describe('Send Message To Support', () => {
     it('Expect status 200 and JSON', () => {
       frisby.create()
-        .post(baseUrl + '/api/support', {
+        .post(`${baseUrl}/api/support`, {
           'email': testEmail,
           'textarea': testText,
         },
