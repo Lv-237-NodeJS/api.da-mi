@@ -10,8 +10,5 @@ module.exports = {
   },
   beforeUpdate: model => {
     model.updatedAt = new Date().getTime();
-  },
-  afterValidate: model => {
-    model.password && (model.password = passwordHash.generate(model.password));
   }
 };
