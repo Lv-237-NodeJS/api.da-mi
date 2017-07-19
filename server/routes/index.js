@@ -37,7 +37,6 @@ module.exports = app => {
   app.put('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.update);
   app.delete('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.destroy);
 
-
   const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 52428800 }
