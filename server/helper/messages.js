@@ -23,5 +23,6 @@ module.exports = {
   noToken: 'No token provided',
   eventDeleted: 'Event is successfully deleted!',
   commentNotFound: 'Comment not found!',
-  commentDeleted: 'Comment deleted!'
+  commentDeleted: 'Comment deleted!',
+  invalidPassword: 'Invalid password! Please, try again.'
 };
