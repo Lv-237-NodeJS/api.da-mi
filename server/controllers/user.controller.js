@@ -6,6 +6,10 @@ const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, templates, messages, constants, password } = require('./../helper');
 const signUp = require('../../config/mailerOptions.json').signUp;
 
+const pattern = {
+  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,20}$/
+};
+
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
     .then(event => event.owner === reqOwner);
@@ -26,7 +30,7 @@ const findOrCreateUser = email =>
     where: {email},
     defaults: {
       email,
-      password: password(),
+      password: passwordHash.generate(password()),
       is_invited: true
     }
   });
@@ -44,8 +48,14 @@ const signToken = (id, email) =>
 
 module.exports = {
   create(req, res) {
-    const assignUser = Object.assign({}, req.body);
     const eventId = req.params.id;
+    if (req.body.password) {
+      const validatePassword = req.body.password;
+      const checkValidatePassword = validatePassword.match(pattern.password);
+      checkValidatePassword && (req.body.password = passwordHash.generate(validatePassword)) ||
+      res.status(400).json({'message': messages.invalidPassword});
+    };
+    const assignUser = Object.assign({}, req.body);
 
     const guestsCreate = () =>
       checkEventOwner(eventId, req.decoded.id)
@@ -77,10 +87,11 @@ module.exports = {
         mailer(data, templates.activation);
         res.status(201).json({'user': user, 'message': messages.successSignup});
       };
-      user && user.is_invited && (user.is_activate == false) &&
+      user && user.is_invited && (user.is_activate == false) && checkValidatePassword &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
-      .catch(() => res.status(400).json({'message': messages.badRequest})) ||
+      .catch((err) => res.status(400).send(err)) || 
+      checkValidatePassword &&
       User.create(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(422).json({'message': messages.emailUsed}));
