@@ -90,7 +90,7 @@ module.exports = {
       user && user.is_invited && (user.is_activate == false) && checkValidatePassword &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
-      .catch((err) => res.status(400).send(err)) || 
+      .catch((err) => res.status(400).send(err)) ||
       checkValidatePassword &&
       User.create(assignUser)
       .then(user => dataActivation(user))
