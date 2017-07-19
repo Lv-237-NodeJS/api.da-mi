@@ -6,6 +6,7 @@ const guestController = require('./guest.controller');
 const giftController = require('./gift.controller');
 const supportController = require('./support.controller');
 const commentController = require('./comment.controller');
+const uploadController = require('./upload.controller');
 
 module.exports = {
   profileController,
@@ -15,5 +16,6 @@ module.exports = {
   guestController,
   giftController,
   supportController,
-  commentController
+  commentController,
+  uploadController
 };
