@@ -1,14 +1,9 @@
 'use strict';
 
-const multer = require('multer');
 const AWS = require('aws-sdk');
 const uuid = require('node-uuid');
 
 const s3 = new AWS.S3();
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: { fileSize: 52428800 },
-});
 
 module.exports = {
   uploadFile(req, res) {
