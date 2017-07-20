@@ -16,7 +16,7 @@ module.exports = {
     s3.putObject(params, (err) => {
           !!err && res.status(400).send(err);
           res.json({
-            url: 'https://s3.eu-central-1.amazonaws.com/da-mi-bucket/' + params.Key
+            url: `https://s3.eu-central-1.amazonaws.com/da-mi-bucket/${params.Key}`
           });
         });
   }
