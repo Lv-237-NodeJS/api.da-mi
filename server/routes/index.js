@@ -1,6 +1,7 @@
 const { profileController, userController, authController,
   eventController, guestController, giftController,
-  supportController, commentController } = require('../controllers');
+  supportController, commentController, uploadController } = require('../controllers');
+const multer = require('multer');
 
 module.exports = app => {
   app.get('/api/profile/:id', profileController.retrieve);
@@ -35,4 +36,10 @@ module.exports = app => {
   app.get('/api/event/:id/gift/:gift_id/comments', commentController.list);
   app.put('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.update);
   app.delete('/api/event/:id/gift/:gift_id/comment/:comment_id', commentController.destroy);
+
+  const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 52428800 }
+  });
+  app.post('/api/upload', upload.single('fileToUpload'), uploadController.uploadFile);
 };
