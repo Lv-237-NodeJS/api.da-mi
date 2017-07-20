@@ -52,8 +52,9 @@ module.exports = {
     const assignUser = Object.assign({}, req.body);
 
     if (assignUser.password) {
-      if (!assignUser.password.match(patterns.password)) 
+      if (!assignUser.password.match(patterns.password)) {
         return res.status(400).json({'message': messages.invalidPassword});
+      }
       assignUser.password = passwordHash.generate(assignUser.password);
     };
 
