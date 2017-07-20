@@ -49,13 +49,14 @@ const signToken = (id, email) =>
 module.exports = {
   create(req, res) {
     const eventId = req.params.id;
-    if (req.body.password) {
-      const validatePassword = req.body.password;
-      const checkValidatePassword = validatePassword.match(pattern.password);
-      checkValidatePassword && (req.body.password = passwordHash.generate(validatePassword)) ||
-      res.status(400).json({'message': messages.invalidPassword});
-    };
     const assignUser = Object.assign({}, req.body);
+    
+    if (assignUser.password) {
+      const checkValidatePassword = assignUser.password.match(pattern.password);
+      if (!checkValidatePassword) 
+        return res.status(400).json({'message': messages.invalidPassword});
+      assignUser.password = passwordHash.generate(assignUser.password);
+    };
 
     const guestsCreate = () =>
       checkEventOwner(eventId, req.decoded.id)
@@ -87,11 +88,10 @@ module.exports = {
         mailer(data, templates.activation);
         res.status(201).json({'user': user, 'message': messages.successSignup});
       };
-      user && user.is_invited && (user.is_activate == false) && checkValidatePassword &&
+      user && user.is_invited && (user.is_activate == false) &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
       .catch((err) => res.status(400).send(err)) ||
-      checkValidatePassword &&
       User.create(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(422).json({'message': messages.emailUsed}));
