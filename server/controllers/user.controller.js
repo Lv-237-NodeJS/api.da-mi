@@ -46,6 +46,9 @@ const deleteGuest = (userId, eventId) =>
 const signToken = (id, email) =>
   jwt.sign({id, email}, secret.key, {expiresIn: constants.ACTIVATION_TOKEN});
 
+const validUser = (password, user) =>
+  (user && passwordHash.verify(password, user.password)) && true || false;
+
 module.exports = {
   create(req, res) {
     const eventId = req.params.id;
@@ -86,7 +89,11 @@ module.exports = {
           token: signToken(user.id, user.email)
         });
         mailer(data, templates.activation);
-        res.status(201).json({'user': user, 'message': messages.successSignup});
+        res.status(201).json({
+          'user': user,
+          'message': messages.successSignup,
+          'view': messages.success
+        });
       };
       user && user.is_invited && (user.is_activate == false) &&
       user.updateAttributes(assignUser)
@@ -106,6 +113,21 @@ module.exports = {
       'message': messages.userNotFound,
       'view': messages.danger
     }));
+  },
+
+  update(req, res) {
+    const assignUser = Object.assign({}, req.body.newPassword, {id: req.decoded.id});
+    console.log('dddddd------', req.decoded.id);
+    console.log('passss------', req.body.oldPassword);
+    console.log('newwww------', req.body.newPassword);
+    User.findById(req.decoded.id)
+    .then(user => {
+      console.log('user------', user);
+      validUser(req.body.oldPassword, user) &&
+      user.updateAttributes(assignUser) && res.status(205).json({ }) ||
+      res.status(478).json({});
+    })
+    .catch(error => res.status(444).send(error));
   },
 
   retrieve(req, res) {
