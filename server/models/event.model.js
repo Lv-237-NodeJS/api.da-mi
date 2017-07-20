@@ -6,7 +6,10 @@ module.exports = (sequelize, DataTypes) => {
   const Event = sequelize.define('Event', {
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [4,50]
+      }
     },
     date_event: {
       type: DataTypes.BIGINT,
