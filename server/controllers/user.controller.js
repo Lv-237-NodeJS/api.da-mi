@@ -6,7 +6,7 @@ const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, templates, messages, constants, password } = require('./../helper');
 const signUp = require('../../config/mailerOptions.json').signUp;
 
-const pattern = {
+const patterns = {
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,20}$/
 };
 
@@ -50,10 +50,9 @@ module.exports = {
   create(req, res) {
     const eventId = req.params.id;
     const assignUser = Object.assign({}, req.body);
-    
+
     if (assignUser.password) {
-      const checkValidatePassword = assignUser.password.match(pattern.password);
-      if (!checkValidatePassword) 
+      if (!assignUser.password.match(patterns.password)) 
         return res.status(400).json({'message': messages.invalidPassword});
       assignUser.password = passwordHash.generate(assignUser.password);
     };
@@ -91,7 +90,7 @@ module.exports = {
       user && user.is_invited && (user.is_activate == false) &&
       user.updateAttributes(assignUser)
       .then(user => dataActivation(user))
-      .catch((err) => res.status(400).send(err)) ||
+      .catch(() => res.status(400).json({'message': messages.badRequest})) ||
       User.create(assignUser)
       .then(user => dataActivation(user))
       .catch(() => res.status(422).json({'message': messages.emailUsed}));
