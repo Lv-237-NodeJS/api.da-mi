@@ -44,7 +44,7 @@ module.exports = app => {
   });
   app.post('/api/upload', upload.single('fileToUpload'), uploadController.uploadFile);
 
-  app.post('/api/user/:id/gift/:gift_id/donor', donorController.create);
-  app.get('/api/user/:id/gift/:gift_id/donor', donorController.list);
-  app.delete('/api/user/:id/gift/:gift_id/donor/:donor_id', donorController.destroy);
+  app.post('/api/event/:id/gift/:gift_id/donor', donorController.create);
+  app.get('/api/event/:id/gift/:gift_id/donor', donorController.list);
+  app.delete('/api/event/:id/gift/:gift_id/donor/:donor_id', donorController.destroy);
 };

@@ -47,8 +47,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     classMethods: {
       associate: models => {
-        Gift.hasOne(models.Event, {
-          foreignKey: 'id',
+        Gift.belongsTo(models.Event, {
+          foreignKey: 'event_id',
           hooks: true
         });
       }

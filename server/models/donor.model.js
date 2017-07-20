@@ -1,20 +1,41 @@
 'use strict';
+
+const { hooks } = require('./../helper');
+
 module.exports = (sequelize, DataTypes) => {
   const Donor = sequelize.define('Donor', {
-    gift_id: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER
+    gift_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    }
   }, {
-      timestamps: false,
-      classMethods: {
-        associate: models => {
+    timestamps: false,
+    classMethods: {
+      associate: models => {
           Donor.belongsTo(models.Gift, {
-            foreignKey: 'id'
+            foreignKey: 'gift_id'
           });
           Donor.belongsTo(models.User, {
-            foreignKey: 'id'
+            foreignKey: 'user_id'
           });
         }
-      }
-    });
+    },
+    hooks: {
+      beforeCreate: hooks.beforeCreate,
+      beforeUpdate: hooks.beforeUpdate
+    }
+  });
   return Donor;
 };
