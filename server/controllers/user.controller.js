@@ -6,6 +6,10 @@ const secret = require('./../../config/jwt.secretkey.json');
 const { mailer, templates, messages, constants, password } = require('./../helper');
 const signUp = require('../../config/mailerOptions.json').signUp;
 
+const patterns = {
+  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,20}$/
+};
+
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
     .then(event => event.owner === reqOwner);
@@ -26,7 +30,7 @@ const findOrCreateUser = email =>
     where: {email},
     defaults: {
       email,
-      password: password(),
+      password: passwordHash.generate(password()),
       is_invited: true
     }
   });
@@ -44,8 +48,15 @@ const signToken = (id, email) =>
 
 module.exports = {
   create(req, res) {
-    const assignUser = Object.assign({}, req.body);
     const eventId = req.params.id;
+    const assignUser = Object.assign({}, req.body);
+
+    if (assignUser.password) {
+      if (!assignUser.password.match(patterns.password)) {
+        return res.status(400).json({'message': messages.invalidPassword});
+      }
+      assignUser.password = passwordHash.generate(assignUser.password);
+    };
 
     const guestsCreate = () =>
       checkEventOwner(eventId, req.decoded.id)

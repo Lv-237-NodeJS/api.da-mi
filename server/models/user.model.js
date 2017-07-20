@@ -14,10 +14,7 @@ module.exports  = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-          is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,20}$/
-        }
+      allowNull: false
     },
     profile_id: {
       type: DataTypes.INTEGER,
