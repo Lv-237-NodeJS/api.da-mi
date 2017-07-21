@@ -104,14 +104,24 @@ module.exports = {
       }
     })
     .then(comment =>
-       !comment && res.status(404).json({'message': messages.commentNotFound}) ||
-        Comment.findAll({
-          where: {
-            parent_id: req.params.comment_id
-          }
-        })
+      !comment && res.status(404).json({'message': messages.commentNotFound}) ||
+      Comment.findAll({
+        where: {
+          gift_id: req.params.gift_id
+        }
+      })
       .then(comments => {
-        comments.map(comment => comment.destroy());
+        const data = [];
+        const grabComments = commentId => {
+          comments.map(item => {
+            if (item.parent_id == commentId) {
+              data.push(item);
+              grabComments(item.id);
+            }
+          });
+        };
+        grabComments(comment.dataValues.id);
+        data.map(comment => comment.destroy());
         comment.destroy();
       })
       .then(() => res.status(200).json({'message': messages.commentDeleted}))
