@@ -24,6 +24,7 @@ module.exports = app => {
   app.get('/api/event/:id/guests', guestController.list);
   app.post('/api/event/:id/guests', userController.create);
   app.delete('/api/event/:event_id/guest/:user_id', userController.destroy);
+  app.put('/api/event/:event_id/guest/status', guestController.changeStatus);
 
   app.post('/api/events/:id/gifts', giftController.create);
   app.get('/api/events/:id/gifts', giftController.list);

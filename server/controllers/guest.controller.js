@@ -60,5 +60,19 @@ module.exports = {
     })
     .then(() => res.status(200).json({'message': messages.invitationsSended}))
     .catch(error => res.status(400).send(error));
+  },
+
+  changeStatus(req, res) {
+    const userId = req.decoded.id;
+    const eventId = req.params.event_id;
+    const status = req.body.status;
+    Guest.findOne({
+      where: {
+        user_id: userId,
+        event_id: eventId
+      }
+    })
+    .then(guest => guest.update({status}) && res.status(200).send())
+    .catch(error => res.status(400).send(error));
   }
 };
