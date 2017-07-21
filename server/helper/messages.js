@@ -9,6 +9,8 @@ module.exports = {
   emailUsed: 'That email address is already in use.',
   profileError: 'Profile Not Found.',
   badRequest: 'Bad request.',
+  attempt: 'Sorry, this gift is already booked!',
+  booked: 'Sorry, you have booked this gift already',
   giftNotFound: 'Sorry, found no gift here',
   accessDenied: 'Access denied!',
   problem: 'Sorry, there is a problem.',

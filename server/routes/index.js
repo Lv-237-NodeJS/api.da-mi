@@ -1,6 +1,7 @@
 const { profileController, userController, authController,
   eventController, guestController, giftController,
-  supportController, commentController, uploadController } = require('../controllers');
+  supportController, commentController, uploadController,
+  donorController } = require('../controllers');
 const multer = require('multer');
 
 module.exports = app => {
@@ -42,4 +43,8 @@ module.exports = app => {
     limits: { fileSize: 52428800 }
   });
   app.post('/api/upload', upload.single('fileToUpload'), uploadController.uploadFile);
+
+  app.post('/api/event/:id/gift/:gift_id/donor', donorController.create);
+  app.get('/api/event/:id/gift/:gift_id/donor', donorController.list);
+  app.delete('/api/event/:id/gift/:gift_id/donor/:donor_id', donorController.destroy);
 };
