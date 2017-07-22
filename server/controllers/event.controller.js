@@ -44,7 +44,7 @@ module.exports = {
         }
       }).then(guest =>
         event && (guest || event.owner === userId) &&
-        res.status(200).send(event) ||
+        res.status(200).send({event, status: guest.status}) ||
         res.status(400).json({'message': messages.eventNotFound}))
     )
     .catch(error => res.status(400).send(error));
