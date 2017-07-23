@@ -25,6 +25,16 @@ const findOrCreateGuest = (eventId, user) => {
   });
 };
 
+const hasPassword = (assignUser) => {
+  if (assignUser.password) {
+    if (!assignUser.password.match(patterns.password)) {
+      return false;
+    }
+    assignUser.password = passwordHash.generate(assignUser.password);
+  };
+  return true;
+};
+
 const findOrCreateUser = email =>
   User.findOrCreate({
     where: {email},
@@ -54,12 +64,10 @@ module.exports = {
     const eventId = req.params.id;
     const assignUser = Object.assign({}, req.body);
 
-    if (assignUser.password) {
-      if (!assignUser.password.match(patterns.password)) {
-        return res.status(400).json({'message': messages.invalidPassword});
-      }
-      assignUser.password = passwordHash.generate(assignUser.password);
-    };
+    (!hasPassword(assignUser)) && res.status(400).json({
+      'message': messages.invalidPassword,
+      'view': messages.danger
+    });
 
     const guestsCreate = () =>
       checkEventOwner(eventId, req.decoded.id)
@@ -70,9 +78,19 @@ module.exports = {
             findOrCreateGuest(eventId, user),
             {id: user.id, email: user.email}
           ))
-        )) || res.status(403).json({'message': messages.accessDenied}))
-        .then(guests => guests && res.status(201).send({guests}))
-        .catch(() => res.status(400).json({'message': messages.badRequest}));
+        )) || res.status(403).json({
+          'message': messages.accessDenied,
+          'view': messages.danger
+        }))
+        .then(guests => guests && res.status(201).json({
+          'guests': guests,
+          'message': messages.guestAdd,
+          'view': messages.success
+        }))
+        .catch(() => res.status(400).json({
+          'message': messages.badRequest,
+          'view': messages.danger
+        }));
 
     eventId && guestsCreate() ||
     User.findOne({
@@ -116,18 +134,27 @@ module.exports = {
   },
 
   update(req, res) {
-    const assignUser = Object.assign({}, req.body.newPassword, {id: req.decoded.id});
-    console.log('dddddd------', req.decoded.id);
-    console.log('passss------', req.body.oldPassword);
-    console.log('newwww------', req.body.newPassword);
+    const assignUser = Object.assign({}, {password: req.body.newPassword}, {id: req.decoded.id});
+    (!hasPassword(assignUser)) && res.status(400).json({
+      'message': messages.invalidPassword,
+      'view': messages.danger
+    });
     User.findById(req.decoded.id)
     .then(user => {
-      console.log('user------', user);
       validUser(req.body.oldPassword, user) &&
-      user.updateAttributes(assignUser) && res.status(205).json({ }) ||
-      res.status(478).json({});
+      user.updateAttributes(assignUser) &&
+      res.status(200).json({
+        'message': messages.updatePassword,
+        'view': messages.success
+      }) || res.status(400).json({
+        'message': messages.invalidUpdate,
+        'view': messages.danger
+      });
     })
-    .catch(error => res.status(444).send(error));
+    .catch(() => res.status(404).json({
+      'message': messages.userNotFound,
+      'view': messages.danger
+    }));
   },
 
   retrieve(req, res) {
@@ -162,14 +189,29 @@ module.exports = {
     .then(isOwner => {
       isOwner && User.findById(userId)
       .then(user => !user.is_activate && user.destroy() || deleteGuest(userId, eventId))
-      .then(() => res.status(200).json({'message': messages.guestDeleted}))
-      .catch(() => res.status(404).json({'message': messages.guestNotFound})) ||
-        res.status(403).json({'message': messages.accessDenied});
+      .then(() => res.status(200).json({
+        'message': messages.guestDeleted,
+        'view': messages.success
+      }))
+      .catch(() => res.status(404).json({
+        'message': messages.guestNotFound,
+        'view': messages.danger
+      })) ||
+        res.status(403).json({
+        'message': messages.accessDenied,
+        'view': messages.danger
+      });
     }) ||
 
     User.findById(userId)
     .then(user => user && user.destroy())
-    .then(() => res.status(200).json({'message': messages.userDeleted}))
-    .catch(() => res.status(404).json({'message': messages.userNotFound}));
+    .then(() => res.status(200).json({
+      'message': messages.userDeleted,
+      'view': messages.success
+    }))
+    .catch(() => res.status(404).json({
+      'message': messages.userNotFound,
+      'view': messages.danger
+    }));
   }
 };

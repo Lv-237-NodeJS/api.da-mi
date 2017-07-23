@@ -88,8 +88,10 @@ module.exports = {
       }
     })
     .then(comment =>
-      !comment && res.status(404).json({'message': messages.commentNotFound}) ||
-      comment.updateAttributes(Object.assign({}, req.body))
+      !comment && res.status(404).json({
+        'message': messages.commentNotFound,
+        'view': messages.danger
+      }) || comment.updateAttributes(Object.assign({}, req.body))
       .then(comment => res.status(200).send(comment))
       .catch(error => res.status(400).send(error))
     )
@@ -104,7 +106,10 @@ module.exports = {
       }
     })
     .then(comment =>
-      !comment && res.status(404).json({'message': messages.commentNotFound}) ||
+      !comment && res.status(404).json({
+        'message': messages.commentNotFound,
+        'view': messages.danger
+      }) ||
       Comment.findAll({
         where: {
           gift_id: req.params.gift_id
@@ -124,7 +129,10 @@ module.exports = {
         data.map(comment => comment.destroy());
         comment.destroy();
       })
-      .then(() => res.status(200).json({'message': messages.commentDeleted}))
+      .then(() => res.status(200).json({
+        'message': messages.commentDeleted,
+        'view': messages.danger
+      }))
       .catch(error => res.status(400).send(error))
     );
   }
