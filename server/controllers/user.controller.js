@@ -25,7 +25,7 @@ const findOrCreateGuest = (eventId, user) => {
   });
 };
 
-const hasPassword = (assignUser) => {
+const hasPassword = assignUser => {
   if (assignUser.password) {
     if (!assignUser.password.match(patterns.password)) {
       return false;
