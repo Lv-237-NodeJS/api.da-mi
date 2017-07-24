@@ -50,13 +50,15 @@ module.exports = {
           event_id: eventId,
           user_id: userId
         }
-      }).then(guest =>
-        event && (guest || event.owner === userId) &&
-        res.status(200).send({event, status: guest.status}) ||
+      }).then(guest => {
+        const status = guest && guest.status;
+        return event && (guest || event.owner === userId) &&
+        res.status(200).send({event, status}) ||
         res.status(400).json({
           'message': messages.eventNotFound,
           'view': messages.danger
-        }))
+        });
+      })
     )
     .catch(error => res.status(400).json({
       'error': error,
