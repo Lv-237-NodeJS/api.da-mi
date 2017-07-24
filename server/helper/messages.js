@@ -29,7 +29,7 @@ module.exports = {
   invalidPassword: 'Invalid password! Please, try again.',
   success: 'success',
   danger: 'danger',
-  updatePassword: 'Password update successfully',
+  resetPassword: 'Password reset successfully',
   invalidUpdate: 'Invalid update password. Password is not correct',
   profileUpdate: 'Profile is update successfully',
   updateEvent: 'Event is update successfully',
