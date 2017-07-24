@@ -17,7 +17,7 @@ module.exports = {
     });
 
     describe('Invite guests', () => {
-      it('returns status code 200 and array of objects', () => {
+      it('returns status code 200 and message', () => {
         frisby.create()
           .post(`${baseUrl}/api/event/1/guest/invite`, {owner: 1})
           .expectStatus(200)
