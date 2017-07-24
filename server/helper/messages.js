@@ -33,7 +33,7 @@ module.exports = {
   invalidUpdate: 'Invalid update password. Password is not correct',
   profileUpdate: 'Profile is update successfully',
   updateEvent: 'Event is update successfully',
-  createEnent: 'Event is create successfully',
+  createEvent: 'Event is create successfully',
   eventNotCreate: 'Event is not create! Try again!',
   eventNotUpdate: 'Event is not update! Try again!',
   eventNotDeleted: 'Event is not delete! Try again!',

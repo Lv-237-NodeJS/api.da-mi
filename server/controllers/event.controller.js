@@ -9,7 +9,7 @@ module.exports = {
     Event.create(assignEvent)
       .then(event => res.status(201).json({
         'event': event,
-        'message': messages.createEnent,
+        'message': messages.createEvent,
         'view': messages.success}
       ))
       .catch(error => res.status(400).json({
