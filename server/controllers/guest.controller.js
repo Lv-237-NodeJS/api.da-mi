@@ -42,7 +42,7 @@ module.exports = {
           const route = guest.User.is_invited && '/signup' || '/';
 
           const data = Object.assign(invitation, {
-            host: constants.BACKEND_URL,
+            host: constants.FRONTEND_URL,
             route,
             firstName,
             lastName,
@@ -56,9 +56,15 @@ module.exports = {
 
           mailer(data, templates.invitation);
         });
-      }) || res.status(403).json({'message': messages.accessDenied});
+      }) || res.status(403).json({
+        'message': messages.accessDenied,
+        'view': messages.danger
+      });
     })
-    .then(() => res.status(200).json({'message': messages.invitationsSended}))
+    .then(() => res.status(200).json({
+      'message': messages.invitationsSent,
+      'view': messages.success
+    }))
     .catch(error => res.status(400).send(error));
   },
 

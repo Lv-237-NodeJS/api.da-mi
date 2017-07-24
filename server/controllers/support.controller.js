@@ -12,6 +12,9 @@ module.exports = {
       text: req.body.textarea
     });
     mailer(data, templates.support);
-    res.status(200).json({'message': messages.sendMessage});
+    res.status(200).json({
+      'message': messages.sendMessage,
+      'view': messages.success
+    });
   }
 };

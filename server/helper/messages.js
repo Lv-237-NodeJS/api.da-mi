@@ -26,5 +26,20 @@ module.exports = {
   eventDeleted: 'Event is successfully deleted!',
   commentNotFound: 'Comment not found!',
   commentDeleted: 'Comment deleted!',
-  invalidPassword: 'Invalid password! Please, try again.'
+  invalidPassword: 'Invalid password! Please, try again.',
+  success: 'success',
+  danger: 'danger',
+  resetPassword: 'Password reset successfully',
+  invalidUpdate: 'Invalid update password. Password is not correct',
+  profileUpdate: 'Profile is update successfully',
+  updateEvent: 'Event is update successfully',
+  createEvent: 'Event is create successfully',
+  eventNotCreate: 'Event is not create! Try again!',
+  eventNotUpdate: 'Event is not update! Try again!',
+  eventNotDeleted: 'Event is not delete! Try again!',
+  eventNotRetrieve: 'Event is not retrieve! Try again!',
+  guestAdd: 'You add a guest',
+  createGift: 'Gift is create successfully',
+  updateGift: 'Gift is update successfully',
+  deleteGift: 'Gift is successfully deleted!'
 };
