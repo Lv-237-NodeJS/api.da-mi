@@ -12,8 +12,8 @@ module.exports = {
         'message': messages.createEnent,
         'view': messages.success}
       ))
-      .catch(eror => res.status(400).json({
-        'eror': error,
+      .catch(error => res.status(400).json({
+        'error': error,
         'message': messages.eventNotCreate,
         'view': messages.danger
       }));
@@ -59,7 +59,7 @@ module.exports = {
         }))
     )
     .catch(error => res.status(400).json({
-      'eror': error,
+      'error': error,
       'message': messages.eventNotFound,
       'view': messages.danger
     }));
@@ -81,13 +81,13 @@ module.exports = {
         'view': messages.success
       }))
       .catch(error => res.status(400).json({
-        'eror': error,
+        'error': error,
         'message': messages.eventNotUpdate,
         'view': messages.danger
       }));
     })
     .catch(error => res.status(400).json({
-      'eror': error,
+      'error': error,
       'message': messages.eventNotFound,
       'view': messages.danger
     }));
@@ -108,13 +108,13 @@ module.exports = {
             'view': messages.success
           }))
           .catch(error => res.status(400).json({
-            'eror': error,
+            'error': error,
             'message': messages.eventNotDeleted,
             'view': messages.danger
           }));
       })
       .catch(error => res.status(400).json({
-        'eror': error,
+        'error': error,
         'message': messages.eventNotFound,
         'view': messages.danger
       }));
