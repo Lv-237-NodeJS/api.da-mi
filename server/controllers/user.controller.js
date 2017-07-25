@@ -144,7 +144,7 @@ module.exports = {
       validUser(req.body.oldPassword, user) &&
       user.updateAttributes(assignUser) &&
       res.status(200).json({
-        'message': messages.updatePassword,
+        'message': messages.resetPassword,
         'view': messages.success
       }) || res.status(400).json({
         'message': messages.invalidUpdate,
