@@ -83,7 +83,7 @@ module.exports = {
             findOrCreateGuest(eventId, user),
             {id: user.id, email: user.email}
           ))
-        ))) || 
+        ))) ||
         res.status(403).json({
           'message': messages.accessDenied,
           'view': messages.danger
@@ -193,8 +193,11 @@ module.exports = {
     eventId &&
     checkEventOwner(eventId, req.decoded.id)
     .then(isOwner => {
-      isOwner && User.findById(userId)
-      .then(user => !user.is_activate && user.destroy() || deleteGuest(userId, eventId))
+      isOwner && 
+      eventIsDraft(eventId).then(out => !!out &&
+      User.findById(userId)
+      .then(user => 
+      !user.is_activate && user.destroy() || deleteGuest(userId, eventId))
       .then(() => res.status(200).json({
         'message': messages.guestDeleted,
         'view': messages.success
@@ -206,7 +209,7 @@ module.exports = {
         res.status(403).json({
         'message': messages.accessDenied,
         'view': messages.danger
-      });
+      }));
     }) ||
 
     User.findById(userId)
