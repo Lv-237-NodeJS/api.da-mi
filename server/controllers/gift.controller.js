@@ -26,7 +26,9 @@ module.exports = {
     let giftParams = Object.assign({}, req.body, {event_id: req.params.id});
     let gift = Gift.build(giftParams);
     isEventOwner(req.params.id, req.decoded.id, gift)
-      .then(out => out && Gift.create(giftParams).then(gift => res.status(201).json({
+      .then(out => out &&
+      eventIsDraft(req.params.id).then(out => !!out &&
+      Gift.create(giftParams).then(gift => res.status(201).json({
         'gift': gift,
         'message': messages.createGift,
         'view': messages.success
@@ -34,7 +36,7 @@ module.exports = {
         res.status(403).json({
           'message': messages.accessDenied,
           'view': messages.danger
-        }))
+        })))
     .catch(() => res.status(400).json({
       'message': messages.badRequest,
       'view': messages.danger
