@@ -3,6 +3,10 @@
 const { User, Event, Guest } = require('../../config/db');
 const { messages } = require('./../helper');
 
+const eventIsDraft = eventId =>
+  Event.findOne({where: {id: parseInt(eventId, 10), status_event: 'draft'}})
+  .then(event => !!event);
+
 module.exports = {
   create(req, res) {
     const assignEvent = Object.assign({}, req.body, {owner: req.decoded.id});
@@ -76,6 +80,7 @@ module.exports = {
         });
       }
       const updatedEvent = Object.assign({}, req.body);
+      eventIsDraft(req.params.id).then(out => !!out &&
       event.updateAttributes(updatedEvent)
       .then(event => res.status(200).json({
         'event': event,
@@ -86,7 +91,10 @@ module.exports = {
         'error': error,
         'message': messages.eventNotUpdate,
         'view': messages.danger
-      }));
+      })) || res.status(403).json({
+          'message': messages.accessDenied,
+          'view': messages.danger
+        }))
     })
     .catch(error => res.status(400).json({
       'error': error,
@@ -103,8 +111,8 @@ module.exports = {
             'view': messages.danger
           });
         }
-        return event
-          .destroy()
+        eventIsDraft(req.params.id).then(out => !!out &&
+          event.destroy()
           .then(() => res.status(200).json({
             'message': messages.eventDeleted,
             'view': messages.success
@@ -113,7 +121,10 @@ module.exports = {
             'error': error,
             'message': messages.eventNotDeleted,
             'view': messages.danger
-          }));
+          })) || res.status(403).json({
+              'message': messages.accessDenied,
+              'view': messages.danger
+             }))
       })
       .catch(error => res.status(400).json({
         'error': error,
