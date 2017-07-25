@@ -94,7 +94,7 @@ module.exports = {
       })) || res.status(403).json({
           'message': messages.accessDenied,
           'view': messages.danger
-        }))
+        }));
     })
     .catch(error => res.status(400).json({
       'error': error,
@@ -121,10 +121,11 @@ module.exports = {
             'error': error,
             'message': messages.eventNotDeleted,
             'view': messages.danger
-          })) || res.status(403).json({
-              'message': messages.accessDenied,
-              'view': messages.danger
-             }))
+          })) ||
+          res.status(403).json({
+            'message': messages.accessDenied,
+            'view': messages.danger
+          }));
       })
       .catch(error => res.status(400).json({
         'error': error,

@@ -104,7 +104,7 @@ module.exports = {
             .catch(() => res.status(400).json({
               'message': messages.badRequest,
               'view': messages.danger
-            })) || 
+            })) ||
             res.status(403).json({
               'message': messages.accessDenied,
               'view': messages.danger
