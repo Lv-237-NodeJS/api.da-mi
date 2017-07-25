@@ -10,6 +10,10 @@ const patterns = {
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-]).{6,20}$/
 };
 
+const eventIsDraft = eventId =>
+  Event.findOne({where: {id: parseInt(eventId, 10), status_event: 'draft'}})
+  .then(event => !!event);
+
 const checkEventOwner = (eventId, reqOwner) =>
   Event.findById(eventId)
     .then(event => event.owner === reqOwner);
@@ -70,6 +74,7 @@ module.exports = {
     });
 
     const guestsCreate = () =>
+      eventIsDraft(eventId).then(out => !!out &&
       checkEventOwner(eventId, req.decoded.id)
       .then(isOwner => isOwner &&
         Promise.all(req.body.emails.map(email =>
@@ -78,7 +83,8 @@ module.exports = {
             findOrCreateGuest(eventId, user),
             {id: user.id, email: user.email}
           ))
-        )) || res.status(403).json({
+        ))) || 
+        res.status(403).json({
           'message': messages.accessDenied,
           'view': messages.danger
         }))
