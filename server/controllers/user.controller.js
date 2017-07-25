@@ -193,10 +193,10 @@ module.exports = {
     eventId &&
     checkEventOwner(eventId, req.decoded.id)
     .then(isOwner => {
-      isOwner && 
+      isOwner &&
       eventIsDraft(eventId).then(out => !!out &&
       User.findById(userId)
-      .then(user => 
+      .then(user =>
       !user.is_activate && user.destroy() || deleteGuest(userId, eventId))
       .then(() => res.status(200).json({
         'message': messages.guestDeleted,
@@ -206,7 +206,7 @@ module.exports = {
         'message': messages.guestNotFound,
         'view': messages.danger
       })) ||
-        res.status(403).json({
+      res.status(403).json({
         'message': messages.accessDenied,
         'view': messages.danger
       }));
