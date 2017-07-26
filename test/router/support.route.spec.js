@@ -1,6 +1,7 @@
 const server = require('../../server');
 const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
+const { messages } = require('./../../server/helper');
 
 describe('Test Support Route', () => {
   describe('POST /', () => {
@@ -9,7 +10,8 @@ describe('Test Support Route', () => {
         .post(`${baseUrl}/api/support`)
         .expectStatus(200)
         .expectJSON({
-          message: 'Your message is sent'
+          message: messages.sendMessage,
+          view: messages.success
         })
         .toss();
     });

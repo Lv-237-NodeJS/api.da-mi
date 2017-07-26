@@ -1,5 +1,6 @@
 const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
+const { messages } = require('./../../server/helper');
 
 const randomInt = require('./../helper/test_helpers');
 const testUserNumber = randomInt(10000, 99999).toString();
@@ -27,7 +28,8 @@ describe('Test User Controller', () => {
             is_activate: false,
             is_invited: false,
           },
-          message: 'You have successfully signed up! For confirmation please visit your e-mail'
+          message: messages.successSignup,
+          view: messages.success
         })
         .expectJSONTypes({
           user: {
