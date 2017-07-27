@@ -22,6 +22,26 @@ module.exports = {
         country: 'Ukraine',
         createdAt: Date.now(),
         updatedAt: Date.now()
+      },
+      {
+        first_name: 'Taras',
+        last_name: 'Kolo',
+        birth_date: '1996-12-30',
+        address: 'Nova street, 5',
+        city: 'Kyiv',
+        country: 'Ukraine',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
+      },
+      {
+        first_name: 'Pavlo',
+        last_name: 'Kryk',
+        birth_date: '1996-06-25',
+        address: 'Nova street, 9',
+        city: 'Novyi Rozdil',
+        country: 'Ukraine',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
       }
     ]),
   down: (queryInterface, Sequelize) =>

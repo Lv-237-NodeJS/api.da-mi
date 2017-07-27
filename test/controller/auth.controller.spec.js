@@ -2,6 +2,8 @@ const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
 const { testGuest } = require('./guest.controller.spec');
 const { testComment } = require('./comment.controller.spec');
+const { testResetPassword } = require('./resetPassword.controller.spec');
+const { testResetPasswordRoute } = require('../router/userResetPassword.route.spec');
 
 describe('Login user and run tests', () => {
   it('returns status code 200, 201', () => {
@@ -23,6 +25,8 @@ describe('Login user and run tests', () => {
         });
         testGuest();
         testComment();
+        testResetPassword();
+        testResetPasswordRoute();
       })
     .toss();
   });

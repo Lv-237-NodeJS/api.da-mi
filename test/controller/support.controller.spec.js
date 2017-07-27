@@ -1,5 +1,6 @@
 const frisby = require('frisby');
 const baseUrl = 'http://localhost:8082';
+const { messages } = require('./../../server/helper');
 
 const randomInt = require('./../helper/test_helpers');
 const testUserNumber = randomInt(10000, 99999).toString();
@@ -21,7 +22,8 @@ describe('Test Support Controller', () => {
         .expectHeader('Content-Type', 'application/json; charset=utf-8')
         .expectHeaderContains('content-type', 'application/json')
         .expectJSON({
-          message: 'Your message is sent'
+          message: messages.sendMessage,
+          view: messages.success
         })
         .expectJSONTypes({
           message: String

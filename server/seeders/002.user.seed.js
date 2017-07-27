@@ -22,6 +22,24 @@ module.exports = {
         createdAt: Date.now(),
         updatedAt: Date.now(),
         is_invited: false
+      },
+      {
+        email: 'taras@gmail.com',
+        password: passwordHash.generate('13DDss@3'),
+        is_activate: false,
+        profile_id: 3,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        is_invited: true
+      },
+      {
+        email: 'pavlo@gmail.com',
+        password: passwordHash.generate('13DDss@4'),
+        is_activate: true,
+        profile_id: 4,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        is_invited: true
       }
     ]),
   down: (queryInterface, Sequelize) =>
