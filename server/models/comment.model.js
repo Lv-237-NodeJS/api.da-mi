@@ -1,6 +1,19 @@
 'use strict';
 
+
+/*const p = require.resolve('./../helper');
+console.log("FFF", p);
+const t = require("C:/Users/Ivan/Desktop/B-E/api.da-mi/server/helper/index.js");
+console.log("FFF", t);*/
+
 const { hooks } = require('./../helper');
+
+//console.log("comment");
+// console.log(__filename);
+// console.log(__dirname);
+// console.log(hooks);
+// console.log(require(require.resolve('./../helper')));
+//console.log("comment");
 
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
