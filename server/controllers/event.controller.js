@@ -76,6 +76,7 @@ module.exports = {
         });
       }
       const updatedEvent = Object.assign({}, req.body);
+      (event.status_event === 'draft') &&
       event.updateAttributes(updatedEvent)
       .then(event => res.status(200).json({
         'event': event,
@@ -86,7 +87,10 @@ module.exports = {
         'error': error,
         'message': messages.eventNotUpdate,
         'view': messages.danger
-      }));
+      })) || res.status(403).json({
+          'message': messages.accessDenied,
+          'view': messages.danger
+        });
     })
     .catch(error => res.status(400).json({
       'error': error,
@@ -103,8 +107,8 @@ module.exports = {
             'view': messages.danger
           });
         }
-        return event
-          .destroy()
+        (event.status_event === 'draft') &&
+          event.destroy()
           .then(() => res.status(200).json({
             'message': messages.eventDeleted,
             'view': messages.success
@@ -113,7 +117,11 @@ module.exports = {
             'error': error,
             'message': messages.eventNotDeleted,
             'view': messages.danger
-          }));
+          })) ||
+          res.status(403).json({
+            'message': messages.accessDenied,
+            'view': messages.danger
+          });
       })
       .catch(error => res.status(400).json({
         'error': error,
