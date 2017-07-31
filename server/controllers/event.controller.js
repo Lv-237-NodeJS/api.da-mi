@@ -78,8 +78,8 @@ module.exports = {
       const updatedEvent = Object.assign({}, req.body);
       (event.status_event === 'draft') &&
       event.updateAttributes(updatedEvent)
-      .then(event => 
-      (event.status_event === 'public') && 
+      .then(event =>
+      (event.status_event === 'public') &&
       res.status(200).json({
         'event': event,
         'message': messages.publishEvent,
