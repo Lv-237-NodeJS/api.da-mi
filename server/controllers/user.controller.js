@@ -152,7 +152,8 @@ module.exports = {
       res.status(200).json({
         'message': messages.resetPassword,
         'view': messages.success
-      }) || res.status(400).json({
+      }) ||
+      res.status(400).json({
         'message': messages.invalidUpdate,
         'view': messages.danger
       });
