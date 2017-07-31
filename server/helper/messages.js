@@ -41,5 +41,6 @@ module.exports = {
   guestAdd: 'Guest is successfully added',
   createGift: 'Gift is successfully created',
   updateGift: 'Gift is successfully updated',
-  deleteGift: 'Gift is successfully deleted!'
+  deleteGift: 'Gift is successfully deleted!',
+  publishEvent: 'Event is successfully published!'
 };
